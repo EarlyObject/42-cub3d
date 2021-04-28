@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 16:44:02 by asydykna          #+#    #+#             */
-/*   Updated: 2021/04/28 15:20:57 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/04/28 16:35:13 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,10 @@ struct Ray {
 	int wallHitContent;
 } rays[NUM_RAYS];
 
+Uint32 *colorBuffer = NULL;
+
+SDL_Texture *colorBufferTexture;
+
 SDL_Window *window = NULL;
 SDL_Renderer *renderer = NULL;
 int isGameRunning = FALSE;
@@ -96,6 +100,8 @@ int initializeWindow()
 void
 	destroyWindow()
 {
+	free(colorBuffer);
+	SDL_DestroyTexture(colorBufferTexture);
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
@@ -114,6 +120,17 @@ void
 	player.rotationAngle = PI / 2;
 	player.walkSpeed = 100;
 	player.turnSpeed = 45 * PI / 180;
+
+	colorBuffer = (Uint32 *)malloc(sizeof(Uint32) * (Uint32)WINDOW_WIDTH * (Uint32)WINDOW_HEIGHT);
+
+	//create SDL_Texture to display the colorbuffer
+	colorBufferTexture = SDL_CreateTexture(
+		renderer,
+		SDL_PIXELFORMAT_ARGB8888,
+		SDL_TEXTUREACCESS_STREAMING,
+		WINDOW_WIDTH,
+		WINDOW_HEIGHT
+	);
 }
 
 int
@@ -437,11 +454,40 @@ void
 }
 
 void
+	clearColorBuffer(Uint32 color)
+{
+	for (int x = 0; x < WINDOW_WIDTH; x++)
+		for (int y = 0; y < WINDOW_HEIGHT; y++)
+		{
+			colorBuffer[(WINDOW_WIDTH * y) + x] = color;
+		}
+}
+
+void
+	renderColorBuffer()
+{
+	SDL_UpdateTexture(
+		colorBufferTexture, 
+		NULL, colorBuffer, 
+		(int)((Uint32)WINDOW_WIDTH * sizeof(Uint32))
+	);
+	SDL_RenderCopy(renderer, colorBufferTexture, NULL, NULL);
+}
+
+void
 	render()
 {
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
 
+	renderColorBuffer();
+
+	//clear the color buffer
+	//clearColorBuffer(0xFF000000);
+	clearColorBuffer(0xFF00EE30);
+
+	
+	//display the minimap
 	renderMap();
 	renderRays();
 	renderPlayer();

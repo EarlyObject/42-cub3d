@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 16:44:32 by asydykna          #+#    #+#             */
-/*   Updated: 2021/04/28 11:32:06 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/04/28 16:30:38 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #define MAP_NUM_ROWS 13
 #define MAP_NUM_COLS 20
 
-#define MINIMAP_SCALE_FACTOR 1
+#define MINIMAP_SCALE_FACTOR 0.2
 
 #define WINDOW_WIDTH (MAP_NUM_COLS * TILE_SIZE)
 #define WINDOW_HEIGHT (MAP_NUM_ROWS * TILE_SIZE)
