@@ -6,11 +6,12 @@
 #    By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/27 16:44:54 by asydykna          #+#    #+#              #
-#    Updated: 2021/04/27 18:20:09 by asydykna         ###   ########.fr        #
+#    Updated: 2021/04/29 11:42:58 by asydykna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC = src/main.c
+SRC = src/*.c\
+	
 
 #OBJ = 
 

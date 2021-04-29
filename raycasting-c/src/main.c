@@ -6,30 +6,31 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 16:44:02 by asydykna          #+#    #+#             */
-/*   Updated: 2021/04/29 09:03:02 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/04/29 13:19:43 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <stdint.h>
 #include <SDL2/SDL.h>
 #include <limits.h>
 #include "constants.h"
-
+#include "textures.h"
 
 const int map[MAP_NUM_ROWS][MAP_NUM_COLS] = {
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1, 1, 1, 1, 1, 1, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 1},
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-    {1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+    {1, 0, 0, 0, 2, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 0, 0, 0, 0, 1},
+    {1, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 5},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 5},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 5},
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 5, 5, 5, 5}
 };
 
 struct Player 
@@ -58,9 +59,11 @@ struct Ray {
 	int wallHitContent;
 } rays[NUM_RAYS];
 
-Uint32 *colorBuffer = NULL;
+uint32_t *colorBuffer = NULL;
 
 SDL_Texture *colorBufferTexture;
+
+uint32_t *textures[NUM_TEXTURES];
 
 SDL_Window *window = NULL;
 SDL_Renderer *renderer = NULL;
@@ -100,6 +103,7 @@ int initializeWindow()
 void
 	destroyWindow()
 {
+	freeWallTextures();
 	free(colorBuffer);
 	SDL_DestroyTexture(colorBufferTexture);
 	SDL_DestroyRenderer(renderer);
@@ -121,16 +125,18 @@ void
 	player.walkSpeed = 100;
 	player.turnSpeed = 45 * PI / 180;
 
-	colorBuffer = (Uint32 *)malloc(sizeof(Uint32) * (Uint32)WINDOW_WIDTH * (Uint32)WINDOW_HEIGHT);
+	colorBuffer = (uint32_t *)malloc(sizeof(uint32_t) * (uint32_t)WINDOW_WIDTH * (uint32_t)WINDOW_HEIGHT);
 
 	//create SDL_Texture to display the colorbuffer
 	colorBufferTexture = SDL_CreateTexture(
 		renderer,
-		SDL_PIXELFORMAT_ARGB8888,
+		SDL_PIXELFORMAT_RGBA32,
 		SDL_TEXTUREACCESS_STREAMING,
 		WINDOW_WIDTH,
 		WINDOW_HEIGHT
 	);
+	//Asks uPNG library to decode all PNG files and loads the wallTextures array
+	loadWallTextures();
 }
 
 int
@@ -346,13 +352,12 @@ void
 void
 	castAllRays()
 {
-	//start first ray subtracting half of our FOV
-	float rayAngle = player.rotationAngle - (FOV_ANGLE / 2);
 
-	for (int stripId = 0; stripId < NUM_RAYS; stripId++)
+	for (int col = 0; col < NUM_RAYS; col++)
 	{
-		castRay(rayAngle, stripId);
-		rayAngle += FOV_ANGLE / NUM_RAYS;
+		
+		float rayAngle = player.rotationAngle + atan((col - NUM_RAYS / 2) / DIST_PROJ_PLANE);
+		castRay(rayAngle, col);
 	}
 }
 
@@ -459,8 +464,7 @@ void
 	for (int i = 0; i < NUM_RAYS; i++)
 	{
 		float perpDistance = rays[i].distance * cos(rays[i].rayAngle - player.rotationAngle);
-		float distanceProjPlane = (WINDOW_WIDTH / 2) / tan(FOV_ANGLE / 2);
-		float projectedWallHeight = (TILE_SIZE / perpDistance) * distanceProjPlane;
+		float projectedWallHeight = (TILE_SIZE / perpDistance) * DIST_PROJ_PLANE;
 
 		int wallStripHeight = (int)projectedWallHeight;
 		int wallTopPixel = (WINDOW_HEIGHT / 2) - (wallStripHeight / 2);
@@ -474,10 +478,32 @@ void
 		{
 			colorBuffer[(WINDOW_WIDTH * y) + i] = 0xFF333333;
 		}
+		
+		//calculate textureOffsetX
+		int textureOffsetX;
+		if (rays[i].wasHitVertical)
+			textureOffsetX = (int)rays[i].wallHitY % TILE_SIZE;
+		else
+			textureOffsetX = (int)rays[i].wallHitX % TILE_SIZE;
+		
+		//get the correct texture id number form the map content
+		int texNum = rays[i].wallHitContent - 1;
+
+		int texture_width = wallTextures[texNum].width;
+		int texture_height = wallTextures[texNum].height;
+
+
 		//render the wall from wallTopPixel to wallBottomPixel
 		for (int y = wallTopPixel; y < wallBottomPixel; y++)
 		{
-			colorBuffer[(WINDOW_WIDTH * y) + i] = rays[i].wasHitVertical ? 0xFFFFFFFF : 0xFFCCCCCC;
+			int distanceFromTop = (y + (wallStripHeight / 2) - (WINDOW_HEIGHT / 2));
+			
+			//calculate textureOffsetY
+			int textureOffsetY = distanceFromTop * ((float)texture_height / wallStripHeight);
+			
+			//set the color of the wall based on the color from the texture
+			uint32_t texelColor = wallTextures[texNum].texture_buffer[(texture_width * textureOffsetY) + textureOffsetX];
+			colorBuffer[(WINDOW_WIDTH * y) + i] = texelColor;
 		}
 		//set the color off the floor
 		for (int y = wallBottomPixel; y < WINDOW_HEIGHT; y++)
@@ -488,7 +514,7 @@ void
 }
 
 void
-	clearColorBuffer(Uint32 color)
+	clearColorBuffer(uint32_t color)
 {
 	for (int x = 0; x < WINDOW_WIDTH; x++)
 		for (int y = 0; y < WINDOW_HEIGHT; y++)
@@ -503,7 +529,7 @@ void
 	SDL_UpdateTexture(
 		colorBufferTexture, 
 		NULL, colorBuffer, 
-		(int)((Uint32)WINDOW_WIDTH * sizeof(Uint32))
+		(int)((uint32_t)WINDOW_WIDTH * sizeof(uint32_t))
 	);
 	SDL_RenderCopy(renderer, colorBufferTexture, NULL, NULL);
 }
