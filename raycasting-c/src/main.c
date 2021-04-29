@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 16:44:02 by asydykna          #+#    #+#             */
-/*   Updated: 2021/04/28 16:35:13 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/04/29 09:03:02 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -454,6 +454,40 @@ void
 }
 
 void
+	generate3DProjection()
+{
+	for (int i = 0; i < NUM_RAYS; i++)
+	{
+		float perpDistance = rays[i].distance * cos(rays[i].rayAngle - player.rotationAngle);
+		float distanceProjPlane = (WINDOW_WIDTH / 2) / tan(FOV_ANGLE / 2);
+		float projectedWallHeight = (TILE_SIZE / perpDistance) * distanceProjPlane;
+
+		int wallStripHeight = (int)projectedWallHeight;
+		int wallTopPixel = (WINDOW_HEIGHT / 2) - (wallStripHeight / 2);
+		wallTopPixel = wallTopPixel < 0 ? 0 : wallTopPixel;
+		
+		int wallBottomPixel = (WINDOW_HEIGHT / 2) + (wallStripHeight / 2);
+		wallBottomPixel = wallBottomPixel > WINDOW_HEIGHT ? WINDOW_HEIGHT : wallBottomPixel;
+		
+		//set the color off the ceiling
+		for (int y = 0; y < wallTopPixel; y++)
+		{
+			colorBuffer[(WINDOW_WIDTH * y) + i] = 0xFF333333;
+		}
+		//render the wall from wallTopPixel to wallBottomPixel
+		for (int y = wallTopPixel; y < wallBottomPixel; y++)
+		{
+			colorBuffer[(WINDOW_WIDTH * y) + i] = rays[i].wasHitVertical ? 0xFFFFFFFF : 0xFFCCCCCC;
+		}
+		//set the color off the floor
+		for (int y = wallBottomPixel; y < WINDOW_HEIGHT; y++)
+		{
+			colorBuffer[(WINDOW_WIDTH * y) + i] = 0xFF777777;
+		}
+	}
+}
+
+void
 	clearColorBuffer(Uint32 color)
 {
 	for (int x = 0; x < WINDOW_WIDTH; x++)
@@ -480,11 +514,12 @@ void
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
 
+	generate3DProjection();
+
 	renderColorBuffer();
 
 	//clear the color buffer
-	//clearColorBuffer(0xFF000000);
-	clearColorBuffer(0xFF00EE30);
+	clearColorBuffer(0xFF000000);
 
 	
 	//display the minimap
