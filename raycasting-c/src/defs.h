@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 16:44:32 by asydykna          #+#    #+#             */
-/*   Updated: 2021/04/29 18:40:29 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/04/30 12:03:25 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 #define PI 3.14159265
 #define TWO_PI 6.28318530
 #define TILE_SIZE 64
-#define NUM_TEXTURES 8
 #define MINIMAP_SCALE_FACTOR 0.2
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 800

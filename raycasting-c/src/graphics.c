@@ -85,7 +85,8 @@ void
 void
 	drawPixel(int x, int y, uint32_t color)
 {
-	colorBuffer[(WINDOW_WIDTH * y) + x] = color;
+	if (x >= 0 && x < WINDOW_WIDTH && y >= 0 && y < WINDOW_HEIGHT)
+		colorBuffer[(WINDOW_WIDTH * y) + x] = color;
 }
 
 void
@@ -112,8 +113,8 @@ void
 
 	for (int i = 0; i < longestSideLength; i++)
 	{
-		drawPixel(round(currentX), round(currentY), color);
-		currentX += xIncrement;
-		currentY += yIncrement;
+			drawPixel(round(currentX), round(currentY), color);
+			currentX += xIncrement;
+			currentY += yIncrement;
 	}
 }

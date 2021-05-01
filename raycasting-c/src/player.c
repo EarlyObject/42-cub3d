@@ -1,4 +1,5 @@
 #include "player.h"
+#include "utils.h"
 
 player_t player = {
 	.x = WINDOW_WIDTH / 2,
@@ -16,6 +17,7 @@ void
 	movePlayer(float deltaTime)
 {
 	player.rotationAngle += player.turnDirection * player.turnSpeed * deltaTime;
+	normalizeAngle(&player.rotationAngle);
 	float moveStep = player.walkDirection * player.walkSpeed * deltaTime;
 	float newPlayerX = player.x + cos(player.rotationAngle) * moveStep;
 	float newPlayerY = player.y + sin(player.rotationAngle) * moveStep;
@@ -28,7 +30,7 @@ void
 	}
 }
 void
-	renderPlayer(void)
+	renderMapPlayer(void)
 {
 	drawRect(
 		player.x * MINIMAP_SCALE_FACTOR,

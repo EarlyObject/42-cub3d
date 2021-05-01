@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 16:44:02 by asydykna          #+#    #+#             */
-/*   Updated: 2021/04/30 10:02:14 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/04/30 12:42:25 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include "player.h"
 #include "ray.h"
 #include "wall.h"
+#include "sprite.h"
 #include "textures.h"
 
 bool isGameRunning = false;
@@ -28,7 +29,7 @@ void
 	setup(void)
 {
 	//Asks uPNG library to decode all PNG files and loads the wallTextures array
-	loadWallTextures();
+	loadTextures();
 }
 
 void
@@ -95,19 +96,23 @@ void
 	render()
 {
 	clearColorBuffer(0xFF000000);
+	//Render the wall and sprites
 	renderWallProjection();
+	renderSpriteProjection();
 
 	//display the minimap
-	renderMap();
-	renderRays();
-	renderPlayer();
+	renderMapGrid();
+	renderMapRays();
+	renderMapPlayer();
+	renderMapSprites();
+
 	renderColorBuffer();
 }
 
 void
 	releaseResources(void)
 {
-	freeWallTextures();
+	freeTextures();
 	destroyWindow();
 }
 
