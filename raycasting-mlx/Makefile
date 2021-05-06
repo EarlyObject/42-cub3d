@@ -6,7 +6,7 @@
 #    By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/27 16:44:54 by asydykna          #+#    #+#              #
-#    Updated: 2021/05/05 18:23:50 by asydykna         ###   ########.fr        #
+#    Updated: 2021/05/06 13:27:13 by asydykna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ INCLUDES = ./includes
 all: $(NAME)
 
 $(NAME): $(MLX_NAME) $(OBJ) #build
-	$(CC) -lSDL2 -o raycast $(OBJ) $(MLX_LINK $(MLX_PATH)/$(MLX_NAME)
+	$(CC) -lSDL2 -o raycast $(OBJ) $(MLX_LINK) $(MLX_PATH)/$(MLX_NAME)
 
 $(MLX_NAME):
 	$(MAKE) -C $(MLX_PATH)
