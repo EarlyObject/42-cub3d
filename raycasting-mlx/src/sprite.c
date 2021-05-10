@@ -14,11 +14,12 @@ static sprite_t sprites[NUM_SPRITES] = {
 };
 
 void
-	renderMapSprites(void)
+	renderMapSprites(t_cub3d *cub3d)
 {
 	for (int i = 0; i < NUM_SPRITES; i++)
 	{
 		drawRect(
+			cub3d,
 			sprites[i].x * MINIMAP_SCALE_FACTOR,
 			sprites[i].y * MINIMAP_SCALE_FACTOR,
 			2,
@@ -28,7 +29,7 @@ void
 }
 
 void
-	renderSpriteProjection(void)
+	renderSpriteProjection(t_cub3d *cub3d)
 {
 	sprite_t visibleSprites[NUM_SPRITES];
 	int numVisibleSprites = 0;
@@ -36,7 +37,7 @@ void
 	//Find sprites that are visible (inside the FOV)
 	for (int i = 0; i < NUM_SPRITES; i++)
 	{
-		float angleSpritePlayer = player.rotationAngle - atan2(sprites[i].y - player.y, sprites[i].x - player.x);
+		float angleSpritePlayer = cub3d->player.rotationAngle - atan2(sprites[i].y - cub3d->player.y, sprites[i].x - cub3d->player.x);
 
 		//Make sure the angle is always between 0 and 180 degrees
 		if(angleSpritePlayer > PI)
@@ -51,7 +52,7 @@ void
 		{
 			sprites[i].visible = true;
 			sprites[i].angle = angleSpritePlayer;
-			sprites[i].distance = distanceBetweenPoints(sprites[i].x, sprites[i].y, player.x, player.y);
+			sprites[i].distance = distanceBetweenPoints(sprites[i].x, sprites[i].y,cub3d->player.x, cub3d->player.y);
 			visibleSprites[numVisibleSprites] = sprites[i];
 			numVisibleSprites++;
 		}
@@ -94,7 +95,7 @@ void
 			spriteBottomY = (spriteBottomY > WINDOW_HEIGHT) ? WINDOW_HEIGHT : spriteBottomY;
 
 			//Calculate the sprite X position in the projection plane
-			float spriteAngle = atan2(sprite.y - player.y, sprite.x - player.x) - player.rotationAngle;
+			float spriteAngle = atan2(sprite.y - cub3d->player.y, sprite.x - cub3d->player.x) - cub3d->player.rotationAngle;
 			float spriteScreenPosX = tan(spriteAngle) * DIST_PROJ_PLANE;
 
 			//Sprite left x
@@ -124,7 +125,11 @@ void
 						uint32_t *spriteTextureBuffer = (uint32_t *)upng_get_buffer(textures[sprite.texture]);
 						uint32_t texelColor = spriteTextureBuffer[(textureWidth * textureOffsetY) + textureOffsetX];
 						if (sprite.distance < rays[x].distance && texelColor != 0xFFFF00FF)
-							drawPixel(x, y, texelColor);
+						{
+							//разкомментить
+								//drawPixel(x, y, texelColor);
+						}
+						
 					}
 				}
 			}

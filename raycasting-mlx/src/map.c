@@ -1,4 +1,5 @@
 #include "map.h"
+#include "structs.h"
 
 static const int map[MAP_NUM_ROWS][MAP_NUM_COLS] = {
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1, 1, 1, 1, 1, 1, 1},
@@ -40,15 +41,18 @@ int
 }
 
 void
-	renderMapGrid(void)
+	renderMapGrid(t_cub3d *cub3d)
 {
 	for (int i = 0; i < MAP_NUM_ROWS; i++) {
 		for (int j = 0; j < MAP_NUM_COLS; j++) {
 			int tileX = j * TILE_SIZE;
 			int tileY = i * TILE_SIZE;
-			uint32_t tileColor = map[i][j] != 0 ? 0xFFFFFFFF : 0x00000000;
+			uint32_t tileColor = map[i][j] != 0 ? WHITE : BLACK;
+			//uint32_t tileColor = map[i][j] != 0 ? 255 : 0;
+
 
 			drawRect(
+				cub3d,
 				tileX * MINIMAP_SCALE_FACTOR,
 				tileY * MINIMAP_SCALE_FACTOR,
 				TILE_SIZE * MINIMAP_SCALE_FACTOR,

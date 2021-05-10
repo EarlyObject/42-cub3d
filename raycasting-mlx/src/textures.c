@@ -1,34 +1,40 @@
 #include "textures.h"
 #include <stdio.h>
+#include "structs.h"
+#include "../mlx/mlx.h"
 
 static char *textureFileNames[NUM_TEXTURES] = {
-	"./images/redbrick.png", //[0]
-	"./images/purplestone.png",
-	"./images/mossystone.png",
-	"./images/graystone.png",
-	"./images/colorstone.png",
-	"./images/bluestone.png",
-	"./images/wood.png",
-	"./images/eagle.png",
-	"./images/barrel.png", //[8]
-	"./images/light.png", //[9]
-	"./images/table.png", //[10]
-	"./images/guard.png", //[11]
-	"./images/armor.png" //[12]
+	"./images/redbrick.xpm", //[0]
+	"./images/purplestone.xpm",
+	"./images/mossystone.xpm",
+	"./images/graystone.xpm",
+	"./images/colorstone.xpm",
+	"./images/bluestone.xpm",
+	"./images/wood.xpm",
+	"./images/eagle.xpm",
+	"./images/barrel.xpm", //[8]
+	"./images/light.xpm", //[9]
+	"./images/table.xpm", //[10]
+	"./images/guard.xpm", //[11]
+	"./images/armor.xpm" //[12]
 };
 
 void
-	loadTextures()
+	loadTextures(t_cub3d *cub3d)
 {
 	for (int i = 0; i < NUM_TEXTURES; i++) {
-		upng_t* upng = upng_new_from_file(textureFileNames[i]);
-		if (upng != NULL)
+		void	*img;
+		int		img_width;
+		int		img_height;
+
+		img_width = WINDOW_WIDTH;
+		img_height = WINDOW_HEIGHT;
+
+		img = (upng_t *)mlx_xpm_file_to_image(cub3d->mlx.mlx, textureFileNames[i], &img_width, &img_height);
+		if (img != NULL)
 		{
-			upng_decode(upng);
-			if (upng_get_error(upng) == UPNG_EOK)
-				textures[i] = upng;
-			else
-				printf("Error decoding texture file %s\n", textureFileNames[i]);
+			textures[i] = img;
+			printf("Loaded texture %d\n", i);
 		}
 		else
 		{

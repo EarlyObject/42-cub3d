@@ -28,7 +28,7 @@ bool
 }
 
 void
-	castRay(float rayAngle, int stripId)
+	castRay(t_cub3d *cub3d, float rayAngle, int stripId)
 {
 	normalizeAngle(&rayAngle);
 	
@@ -44,11 +44,11 @@ void
 	int horzWallTexture = 0;
 
 	//Find the y-coordinate of the closest horizontal grid intersection
-	yintercept = floor(player.y / TILE_SIZE) * TILE_SIZE;
+	yintercept = floor(cub3d->player.y / TILE_SIZE) * TILE_SIZE;
 	yintercept += isRayFacingDown(rayAngle) ? TILE_SIZE : 0;
 
 	//Find the x-coordinate of the closest horizontal grid intersection
-	xintercept = player.x + (yintercept - player.y) / tan(rayAngle);
+	xintercept = cub3d->player.x + (yintercept - cub3d->player.y) / tan(rayAngle);
 
 	//Calculate the increment xstep and ystep
 	ystep = TILE_SIZE;
@@ -92,11 +92,11 @@ void
 	int vertWallTexture = 0;
 
 	//Find the x-coordinate of the closest horizontal grid intersection
-	xintercept = floor(player.x / TILE_SIZE) * TILE_SIZE;
+	xintercept = floor(cub3d->player.x / TILE_SIZE) * TILE_SIZE;
 	xintercept += isRayFacingRight(rayAngle) ? TILE_SIZE : 0;
 
 	//Find the y-coordinate of the closest horizontal grid intersection
-	yintercept = player.y + (xintercept - player.x) * tan(rayAngle);
+	yintercept = cub3d->player.y + (xintercept - cub3d->player.x) * tan(rayAngle);
 
 	//Calculate the increment xstep and ystep
 	xstep = TILE_SIZE;
@@ -132,9 +132,9 @@ void
 	}
 
 	//Calculate both horizontal and vertical hit distances and choose the smallest one
-	float horzHitDistance = foundHorzWallHit ? distanceBetweenPoints(player.x, player.y, horzWallHitX, horzWallHitY)
+	float horzHitDistance = foundHorzWallHit ? distanceBetweenPoints(cub3d->player.x, cub3d->player.y, horzWallHitX, horzWallHitY)
 	: FLT_MAX;
-	float vertHitDistance = foundVertWallHit ? distanceBetweenPoints(player.x, player.y, vertWallHitX, vertWallHitY)
+	float vertHitDistance = foundVertWallHit ? distanceBetweenPoints(cub3d->player.x, cub3d->player.y, vertWallHitX, vertWallHitY)
 	: FLT_MAX;
 
 	if(vertHitDistance < horzHitDistance)
@@ -158,24 +158,25 @@ void
 }
 
 void
-	castAllRays(void)
+	castAllRays(t_cub3d *cub3d)
 {
 
 	for (int col = 0; col < NUM_RAYS; col++)
 	{
-		float rayAngle = player.rotationAngle + atan((col - NUM_RAYS / 2) / DIST_PROJ_PLANE);
-		castRay(rayAngle, col);
+		float rayAngle = cub3d->player.rotationAngle + atan((col - NUM_RAYS / 2) / DIST_PROJ_PLANE);
+		castRay(cub3d, rayAngle, col);
 	}
 }
 
 void
-	renderMapRays(void)
+	renderMapRays(t_cub3d *cub3d)
 {
 	for (int i = 0; i < NUM_RAYS; i++)
 	{
 		drawLine(
-			player.x * MINIMAP_SCALE_FACTOR,
-			player.y * MINIMAP_SCALE_FACTOR,
+			cub3d,
+			cub3d->player.x * MINIMAP_SCALE_FACTOR,
+			cub3d->player.y * MINIMAP_SCALE_FACTOR,
 			rays[i].wallHitX * MINIMAP_SCALE_FACTOR,
 			rays[i].wallHitY * MINIMAP_SCALE_FACTOR,
 			0xFF0000FF

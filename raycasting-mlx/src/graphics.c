@@ -2,103 +2,90 @@
 #include <stdint.h>
 #include "graphics.h"
 #include "defs.h"
+#include "structs.h"
+#include "../mlx/mlx.h"
 
 static SDL_Window *window = NULL;
 static SDL_Renderer *renderer = NULL;
-static uint32_t *colorBuffer = NULL;
+//static uint32_t *colorBuffer = NULL;
+//static char *colorBuffer = NULL;
+
+//static t_cub3d *cub3d;
+
 static SDL_Texture *colorBufferTexture;
 
-bool
-	initializeWindow(void)
+int
+	initializeWindow(t_cub3d *cub3d)
 {
-	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
-	{
-		fprintf(stderr, "Error initializing SDL.\n");
-		return (false);
-	}
-	/* SDL_DisplayMode display_mode;
-	SDL_GetCurrentDisplayMode(0, &display_mode);
-	int fullScreenWidth = display_mode.w;
-	int fullScreenHeight = display_mode.h; */
-	window = SDL_CreateWindow(
-		NULL,
-		SDL_WINDOWPOS_CENTERED,
-		SDL_WINDOWPOS_CENTERED,
-		WINDOW_WIDTH, // fullScreenWidth,
-		WINDOW_HEIGHT, //fullScreenHeight,
-		SDL_WINDOW_BORDERLESS);
-	if(!window)
-	{
-		fprintf(stderr, "Error creating SDL window.\n");
-		return (false);
-	}
-	renderer = SDL_CreateRenderer(window, -1, 0);
-	if (!renderer)
-	{
-		fprintf(stderr, "Error creating SDL renderer.\n");
-		return (false);
-	}
-	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
-	colorBuffer = (uint32_t *)malloc(sizeof(uint32_t) * (uint32_t)WINDOW_WIDTH * (uint32_t)WINDOW_HEIGHT);
+	void	*mlx;
+	void	*win;
 
-	//create SDL_Texture to display the colorbuffer
-	colorBufferTexture = SDL_CreateTexture(
-		renderer,
-		SDL_PIXELFORMAT_RGBA32,
-		SDL_TEXTUREACCESS_STREAMING,
-		WINDOW_WIDTH,
-		WINDOW_HEIGHT
-	);
-	return (true);
+	if (!(mlx = mlx_init()))
+	{
+		printf("MLX_INIT ERROR!!!");
+		exit(1);
+	}
+	if (!(win = mlx_new_window(mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "cub3d")))
+	{
+		printf("MLX_NEW_WINDOW ERROR!!!");
+		exit(1);
+	}
+	cub3d->mlx.mlx = mlx;
+	cub3d->win = win;
+	cub3d->image.img_ptr = mlx_new_image(mlx, WINDOW_WIDTH, WINDOW_HEIGHT); //check for leak
+	cub3d->image.addr = (uint32_t *)mlx_get_data_addr(cub3d->image.img_ptr, &cub3d->image.bits_per_pixel, &cub3d->image.line_length, &cub3d->image.endian);
+	printf("OK\n");
+	return (0);
 }
 
 void
 	destroyWindow(void)
 {
 	free(colorBuffer);
-	SDL_DestroyTexture(colorBufferTexture);
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(window);
-	SDL_Quit();
+	//SDL_DestroyTexture(colorBufferTexture);
+	//SDL_DestroyRenderer(renderer);
+	//SDL_DestroyWindow(window);
+	//SDL_Quit();
 }
 
-void
-	clearColorBuffer(uint32_t color)
+int
+	clearColorBuffer(t_cub3d *cub3d, uint32_t color)
 {
 	for (int i = 0; i < WINDOW_WIDTH * WINDOW_HEIGHT; i++)
-		colorBuffer[i] = color;
+		cub3d->image.addr[i] = WHITE;
+	return (0);
 }
 
 void
 	renderColorBuffer()
 {
-	SDL_UpdateTexture(
+	/* SDL_UpdateTexture(
 		colorBufferTexture, 
 		NULL, colorBuffer, 
 		(int)((uint32_t)WINDOW_WIDTH * sizeof(uint32_t))
 	);
 	SDL_RenderCopy(renderer, colorBufferTexture, NULL, NULL);
-	SDL_RenderPresent(renderer);
+	SDL_RenderPresent(renderer); */
 }
 
 void
-	drawPixel(int x, int y, uint32_t color)
+	drawPixel(t_cub3d *cub3d, int x, int y, uint32_t color)
 {
 	if (x >= 0 && x < WINDOW_WIDTH && y >= 0 && y < WINDOW_HEIGHT)
-		colorBuffer[(WINDOW_WIDTH * y) + x] = color;
+		cub3d->image.addr[(WINDOW_WIDTH * y) + x] = color;
 }
 
 void
-	drawRect(int x, int y, int width, int height, uint32_t color)
+	drawRect(t_cub3d *cub3d, int x, int y, int width, int height, uint32_t color)
 {
 	for (int i = x; i <= (x + width); i++)
 		for (int j = y; j <= (y + height); j++)
-			drawPixel(i, j, color);
+			drawPixel(cub3d, i, j, color);
 }
 
 void
-	drawLine(int x0, int y0, int x1, int y1, uint32_t color)
+	drawLine(t_cub3d *cub3d, int x0, int y0, int x1, int y1, uint32_t color)
 {
 	int deltaX = (x1 - x0);
 	int deltaY = (y1 - y0);
@@ -113,7 +100,7 @@ void
 
 	for (int i = 0; i < longestSideLength; i++)
 	{
-			drawPixel(round(currentX), round(currentY), color);
+			drawPixel(cub3d, round(currentX), round(currentY), color);
 			currentX += xIncrement;
 			currentY += yIncrement;
 	}

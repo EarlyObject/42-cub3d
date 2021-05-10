@@ -7,7 +7,9 @@
 #include "ray.h"
 #include "graphics.h"
 #include "textures.h"
+#include "structs.h"
 
-void renderWallProjection(void);
+
+void renderWallProjection(t_cub3d *cub3d);
 
 #endif

@@ -5,6 +5,7 @@
 #include "graphics.h"
 #include "player.h"
 #include "textures.h"
+#include "structs.h"
 
 typedef struct {
 	float x;
@@ -15,7 +16,7 @@ typedef struct {
 	int texture;
 } sprite_t;
 
-void renderSpriteProjection(void);
-void renderMapSprites(void);
+void renderSpriteProjection(t_cub3d *cub3d);
+void renderMapSprites(t_cub3d *cub3d);
 
 #endif

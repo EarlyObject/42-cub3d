@@ -4,8 +4,11 @@
 #include "defs.h"
 #include "graphics.h"
 #include "map.h"
+#include "structs.h"
+#include "../mlx/mlx.h"
 
-typedef struct Player 
+
+/*typedef struct Player
 {
 	float x;
 	float y;
@@ -16,11 +19,13 @@ typedef struct Player
 	float rotationAngle;
 	float walkSpeed;
 	float turnSpeed;
-}	player_t;
+}	player_t;*/
 
-extern player_t player;
 
-void movePlayer(float deltaTime);
-void renderMapPlayer(void);
+
+//extern player_t player;
+
+void movePlayer(t_cub3d *cub3d, float deltaTime);
+void renderMapPlayer(t_cub3d *cub3d);
 
 #endif

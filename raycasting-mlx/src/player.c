@@ -1,7 +1,8 @@
 #include "player.h"
 #include "utils.h"
+#include "structs.h"
 
-player_t player = {
+/*player_t player = {
 	.x = WINDOW_WIDTH / 2,
 	.y = WINDOW_HEIGHT / 2,
 	.width = 1,
@@ -11,32 +12,33 @@ player_t player = {
 	.rotationAngle = PI / 2,
 	.walkSpeed = 100,
 	.turnSpeed = 45 * (PI / 180)
-};
+};*/
 
 void
-	movePlayer(float deltaTime)
+	movePlayer(t_cub3d *cub3d, float deltaTime)
 {
-	player.rotationAngle += player.turnDirection * player.turnSpeed * deltaTime;
-	normalizeAngle(&player.rotationAngle);
-	float moveStep = player.walkDirection * player.walkSpeed * deltaTime;
-	float newPlayerX = player.x + cos(player.rotationAngle) * moveStep;
-	float newPlayerY = player.y + sin(player.rotationAngle) * moveStep;
+	cub3d->player.rotationAngle += cub3d->player.turnDirection * cub3d->player.turnSpeed * deltaTime;
+	normalizeAngle(&cub3d->player.rotationAngle);
+	float moveStep = cub3d->player.walkDirection * cub3d->player.walkSpeed * deltaTime;
+	float newPlayerX = cub3d->player.x + cos(cub3d->player.rotationAngle) * moveStep;
+	float newPlayerY = cub3d->player.y + sin(cub3d->player.rotationAngle) * moveStep;
 
 	//perform wall collision
 	if (!mapHasWallAt(newPlayerX, newPlayerY))
 	{
-		player.x = newPlayerX;
-		player.y = newPlayerY;
+		cub3d->player.x = newPlayerX;
+		cub3d->player.y = newPlayerY;
 	}
 }
 void
-	renderMapPlayer(void)
+	renderMapPlayer(t_cub3d *cub3d)
 {
 	drawRect(
-		player.x * MINIMAP_SCALE_FACTOR,
-		player.y * MINIMAP_SCALE_FACTOR,
-		player.width * MINIMAP_SCALE_FACTOR,
-		player.height * MINIMAP_SCALE_FACTOR,
+		cub3d,
+		cub3d->player.x * MINIMAP_SCALE_FACTOR,
+		cub3d->player.y * MINIMAP_SCALE_FACTOR,
+		cub3d->player.width * MINIMAP_SCALE_FACTOR,
+		cub3d->player.height * MINIMAP_SCALE_FACTOR,
 		0xFFFFFFFF
 	);
 }
