@@ -179,7 +179,8 @@ void
 			cub3d->player.y * MINIMAP_SCALE_FACTOR,
 			rays[i].wallHitX * MINIMAP_SCALE_FACTOR,
 			rays[i].wallHitY * MINIMAP_SCALE_FACTOR,
-			0xFF0000FF
+			BLUE
 		);
 	}
+	printf("MapRays rendered\n");
 }

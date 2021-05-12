@@ -10,7 +10,7 @@ uint32_t *colorBuffer;
 # define BLACK	0x00000000
 # define RED	0x00FF0000
 # define GREEN	0x0000FF00
-# define BLUE	0x000000FF
+# define BLUE	0xFF0000FF
 # define YELLOW	0x00FFFF00
 
 # define FAILED						-1
@@ -53,19 +53,12 @@ uint32_t *colorBuffer;
 # define KEY_TAB	48
 # define KEY_MAJ	257
 
-typedef	struct		s_mlx
+	typedef	struct		s_mlx
 	{
 		void			*mlx;
 		void			*window;
 		void			*img;
 	}					t_mlx;
-
-	typedef	struct		s_data {
-		char			*addr;
-		int				bits_per_pixel;
-		int				line_length;
-		int				endian;
-	}					t_data;
 
 	typedef struct s_image
 	{
@@ -96,8 +89,8 @@ typedef	struct		s_mlx
 		t_image 		image;
 		t_player		player;
 		t_mlx			mlx;
-		t_data			data;
 		uint32_t		*colorBuffer;
+		uint32_t		*wallTexture;
 		//t_map			map;
 		//ray_t			rays;
 	} t_cub3d;

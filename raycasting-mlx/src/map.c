@@ -61,4 +61,5 @@ void
 			);
 		}
 	}
+	printf("MapGrid rendered\n");
 }

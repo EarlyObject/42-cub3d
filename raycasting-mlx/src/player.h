@@ -24,8 +24,8 @@
 
 
 //extern player_t player;
-
 void movePlayer(t_cub3d *cub3d, float deltaTime);
+
 void renderMapPlayer(t_cub3d *cub3d);
 
 #endif

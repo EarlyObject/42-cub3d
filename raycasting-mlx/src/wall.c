@@ -11,10 +11,12 @@ void
 	*color = a | (r & 0x00FF0000) | (g & 0x0000FF00) | (b & 0x000000FF);
 }
 
-
 void
 	renderWallProjection(t_cub3d *cub3d)
 {
+	int textureWidth = 64;
+	int textureHeight = 64;
+
 	for (int x = 0; x < NUM_RAYS; x++)
 	{
 		//Calculate the perpendicular distance to avoid the fish-eye distortion
@@ -36,45 +38,47 @@ void
 
 		//Draw the ceiling
 		for (int y = 0; y < wallTopY; y++)
-			drawPixel(cub3d, x, y, 0xFF444444);
-		
+			cub3d->image.addr[(WINDOW_WIDTH * y) + x] = 0x444444;
+
 		//Draw the textured wall
 		int textureOffsetX;
 		if (rays[x].wasHitVertical)
 			textureOffsetX = (int)rays[x].wallHitY % TILE_SIZE;
 		else
 			textureOffsetX = (int)rays[x].wallHitX % TILE_SIZE;
-		
+
+
+		/*
 		//Get the correct texture id number from the map content
 		int texNum = rays[x].texture - 1;
 
 		//Query the texture width and height from the upng
-		//int textureWidth = upng_get_width(textures[texNum]);
-		//int textureHeight = upng_get_height(textures[texNum]);
-		int textureWidth = 64;
-		int textureHeight = 64;
+		int textureWidth = upng_get_width(textures[texNum]);
+		int textureHeight = upng_get_height(textures[texNum]);
+		*/
+
+		//No wall texture
+		for (int y = wallTopY; y < wallBottomY; y++)
+			cub3d->image.addr[(WINDOW_WIDTH * y) + x] = rays[x].wasHitVertical ? WHITE : 0xCCCCCC;
 
 
-		//render the wall from wallTopY to wallBottomY
+		/*//render the wall from wallTopY to wallBottomY
 		for (int y = wallTopY; y < wallBottomY; y++)
 		{
 			int distanceFromTop = (y + (wallHeight / 2) - (WINDOW_HEIGHT / 2));
 			int textureOffsetY = distanceFromTop * ((float)textureHeight / wallHeight);
-			
-			//Set the color of the wall based on the color from the texture
-			//uint32_t *wallTextureBuffer = (uint32_t *)upng_get_buffer(textures[texNum]);
-			//uint32_t *wallTextureBuffer = (uint32_t *)malloc(sizeof(uint32_t) * (uint32_t)textureWidth * (uint32_t)textureHeight);//(representing textures 7.50)
-			//перенес в setup;
 
-			uint32_t texelColor = cub3d->colorBuffer[(textureWidth * textureOffsetY) + textureOffsetX];
+			//Set the color of the wall based on the color from the texture
+			uint32_t texelColor = cub3d->wallTexture[(textureWidth * textureOffsetY) + textureOffsetX];
 
 			//Make the pixel color darker if the ray hit was vertical
-			//if (rays[x].wasHitVertical)
-			//	changeColorIntensity(&texelColor, 0.7);
+		//	if (rays[x].wasHitVertical)
+		//		changeColorIntensity(&texelColor, 0.7);
 			drawPixel(cub3d, x, y, texelColor);
-		}
+			//cub3d->image.addr[(WINDOW_WIDTH * y) + x] = texelColor;
+		}*/
 		//Draw the floor
 		for (int y = wallBottomY; y < WINDOW_HEIGHT; y++)
-			drawPixel(cub3d, x, y, 0xFF888888);
+			cub3d->image.addr[(WINDOW_WIDTH * y) + x] = 0x777777;
 	}
 }

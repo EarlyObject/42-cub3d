@@ -1,6 +1,7 @@
 #include "player.h"
 #include "utils.h"
 #include "structs.h"
+#include <time.h>
 
 /*player_t player = {
 	.x = WINDOW_WIDTH / 2,
@@ -30,6 +31,7 @@ void
 		cub3d->player.y = newPlayerY;
 	}
 }
+
 void
 	renderMapPlayer(t_cub3d *cub3d)
 {
@@ -41,4 +43,5 @@ void
 		cub3d->player.height * MINIMAP_SCALE_FACTOR,
 		0xFFFFFFFF
 	);
+	printf("MapPlayer rendered\n");
 }

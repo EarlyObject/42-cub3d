@@ -21,6 +21,12 @@ int
 	void	*mlx;
 	void	*win;
 
+	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
+	{
+		fprintf(stderr, "Error initializing SDL.\n");
+		return (false);
+	}
+
 	if (!(mlx = mlx_init()))
 	{
 		printf("MLX_INIT ERROR!!!");
@@ -53,7 +59,7 @@ int
 	clearColorBuffer(t_cub3d *cub3d, uint32_t color)
 {
 	for (int i = 0; i < WINDOW_WIDTH * WINDOW_HEIGHT; i++)
-		cub3d->image.addr[i] = WHITE;
+		cub3d->image.addr[i] = color;
 	return (0);
 }
 
