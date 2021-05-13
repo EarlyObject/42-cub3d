@@ -1,19 +1,5 @@
-#include "player.h"
-#include "utils.h"
 #include "structs.h"
-#include <time.h>
-
-/*player_t player = {
-	.x = WINDOW_WIDTH / 2,
-	.y = WINDOW_HEIGHT / 2,
-	.width = 1,
-	.height = 1,
-	.turnDirection = 0,
-	.walkDirection = 0,
-	.rotationAngle = PI / 2,
-	.walkSpeed = 100,
-	.turnSpeed = 45 * (PI / 180)
-};*/
+#include "defs.h"
 
 void
 	movePlayer(t_cub3d *cub3d, float deltaTime)
@@ -43,5 +29,12 @@ void
 		cub3d->player.height * MINIMAP_SCALE_FACTOR,
 		0xFFFFFFFF
 	);
-	printf("MapPlayer rendered\n");
+	drawLine(
+			cub3d,
+			MINIMAP_SCALE_FACTOR * cub3d->player.x,
+			MINIMAP_SCALE_FACTOR * cub3d->player.y,
+			MINIMAP_SCALE_FACTOR * cub3d->player.x + cos(cub3d->player.rotationAngle) * 40,
+			MINIMAP_SCALE_FACTOR * cub3d->player.y + sin(cub3d->player.rotationAngle) * 40,
+			RED
+	);
 }

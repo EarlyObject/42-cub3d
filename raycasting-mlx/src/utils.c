@@ -1,5 +1,4 @@
-#include <math.h>
-#include "utils.h"
+#include "structs.h"
 #include "defs.h"
 
 void

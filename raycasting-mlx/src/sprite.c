@@ -1,6 +1,5 @@
-#include "sprite.h"
-#include "utils.h"
-#include "ray.h"
+#include "structs.h"
+#include "defs.h"
 
 #define NUM_SPRITES 6
 
@@ -105,8 +104,10 @@ void
 			float spriteRightX = spriteLeftX + spriteWidth;
 
 			//Query the width and height of the texture
-			int textureWidth = upng_get_width(textures[sprite.texture]);
-			int textureHeight = upng_get_height(textures[sprite.texture]);
+			//int textureWidth = upng_get_width(textures[sprite.texture]);
+			//int textureHeight = upng_get_height(textures[sprite.texture]);
+			int textureWidth = 64;
+			int textureHeight = 64;
 
 			//loop all the x values
 			for (int x = spriteLeftX; x < spriteRightX; x++)
@@ -122,13 +123,13 @@ void
 						int distanceFromTop = y + (spriteHeight / 2) - (WINDOW_HEIGHT / 2);
 						int textureOffsetY = distanceFromTop * (textureHeight / spriteHeight);
 
-						uint32_t *spriteTextureBuffer = (uint32_t *)upng_get_buffer(textures[sprite.texture]);
-						uint32_t texelColor = spriteTextureBuffer[(textureWidth * textureOffsetY) + textureOffsetX];
-						if (sprite.distance < rays[x].distance && texelColor != 0xFFFF00FF)
+					//	uint32_t *spriteTextureBuffer = (uint32_t *)upng_get_buffer(textures[sprite.texture]);
+					//	uint32_t texelColor = spriteTextureBuffer[(textureWidth * textureOffsetY) + textureOffsetX];
+						/*if (sprite.distance < rays[x].distance && texelColor != 0xFFFF00FF)
 						{
 							//разкомментить
 								//drawPixel(x, y, texelColor);
-						}
+						}*/
 						
 					}
 				}

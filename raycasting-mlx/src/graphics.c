@@ -1,23 +1,11 @@
-#include <stdbool.h>
-#include <stdint.h>
-#include "graphics.h"
 #include "defs.h"
 #include "structs.h"
-#include "../mlx/mlx.h"
 
-static SDL_Window *window = NULL;
-static SDL_Renderer *renderer = NULL;
-//static uint32_t *colorBuffer = NULL;
-//static char *colorBuffer = NULL;
-
-//static t_cub3d *cub3d;
-
-static SDL_Texture *colorBufferTexture;
+static	SDL_Texture *colorBufferTexture;
 
 int
 	initializeWindow(t_cub3d *cub3d)
 {
-
 	void	*mlx;
 	void	*win;
 
@@ -64,7 +52,7 @@ int
 }
 
 void
-	renderColorBuffer()
+	renderColorBuffer(void)
 {
 	/* SDL_UpdateTexture(
 		colorBufferTexture, 
@@ -93,8 +81,8 @@ void
 void
 	drawLine(t_cub3d *cub3d, int x0, int y0, int x1, int y1, uint32_t color)
 {
-	int deltaX = (x1 - x0);
-	int deltaY = (y1 - y0);
+	int	deltaX = (x1 - x0);
+	int	deltaY = (y1 - y0);
 
 	int longestSideLength = (abs(deltaX) >= abs(deltaY) ? abs(deltaX) : abs(deltaY));
 
@@ -106,8 +94,8 @@ void
 
 	for (int i = 0; i < longestSideLength; i++)
 	{
-			drawPixel(cub3d, round(currentX), round(currentY), color);
-			currentX += xIncrement;
-			currentY += yIncrement;
+		drawPixel(cub3d, round(currentX), round(currentY), color);
+		currentX += xIncrement;
+		currentY += yIncrement;
 	}
 }

@@ -6,7 +6,7 @@
 #    By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/27 16:44:54 by asydykna          #+#    #+#              #
-#    Updated: 2021/05/10 11:03:38 by asydykna         ###   ########.fr        #
+#    Updated: 2021/05/13 17:46:55 by asydykna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ INCLUDES = ./includes
 
 all: $(MLX_NAME) $(OBJ)
 	gcc  src/main.c src/graphics.c src/map.c src/player.c src/ray.c src/sprite.c \
-        src/textures.c src/upng.c src/utils.c src/wall.c -o program -Lmlx -lmlx -framework OpenGL -framework AppKit $(MLX_PATH)/$(MLX_NAME)
+        src/textures.c src/upng.c src/utils.c src/wall.c -o program -lSDL2 -Lmlx -lmlx -framework OpenGL -framework AppKit $(MLX_PATH)/$(MLX_NAME)
 
 
 $(NAME): $(MLX_NAME) $(OBJ)

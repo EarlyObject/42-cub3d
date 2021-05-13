@@ -1,5 +1,5 @@
-#include "map.h"
 #include "structs.h"
+#include "defs.h"
 
 static const int map[MAP_NUM_ROWS][MAP_NUM_COLS] = {
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1, 1, 1, 1, 1, 1, 1},
@@ -61,5 +61,4 @@ void
 			);
 		}
 	}
-	printf("MapGrid rendered\n");
 }

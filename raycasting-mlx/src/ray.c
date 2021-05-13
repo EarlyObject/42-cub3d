@@ -1,5 +1,5 @@
-#include "ray.h"
-#include "utils.h"
+#include "structs.h"
+#include "defs.h"
 
 ray_t rays[NUM_RAYS];
 
@@ -182,5 +182,4 @@ void
 			BLUE
 		);
 	}
-	printf("MapRays rendered\n");
 }
