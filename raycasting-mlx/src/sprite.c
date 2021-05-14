@@ -1,4 +1,15 @@
-#include "structs.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sprite.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/14 14:00:58 by asydykna          #+#    #+#             */
+/*   Updated: 2021/05/14 14:00:59 by asydykna         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "defs.h"
 
 #define NUM_SPRITES 6
@@ -36,7 +47,7 @@ void
 	//Find sprites that are visible (inside the FOV)
 	for (int i = 0; i < NUM_SPRITES; i++)
 	{
-		float angleSpritePlayer = cub3d->player.rotationAngle - atan2(sprites[i].y - cub3d->player.y, sprites[i].x - cub3d->player.x);
+		float angleSpritePlayer = cub3d->plr.rotAngle - atan2(sprites[i].y - cub3d->plr.y, sprites[i].x - cub3d->plr.x);
 
 		//Make sure the angle is always between 0 and 180 degrees
 		if(angleSpritePlayer > PI)
@@ -51,7 +62,7 @@ void
 		{
 			sprites[i].visible = true;
 			sprites[i].angle = angleSpritePlayer;
-			sprites[i].distance = distanceBetweenPoints(sprites[i].x, sprites[i].y,cub3d->player.x, cub3d->player.y);
+			sprites[i].distance = distanceBetweenPoints(sprites[i].x, sprites[i].y, cub3d->plr.x, cub3d->plr.y);
 			visibleSprites[numVisibleSprites] = sprites[i];
 			numVisibleSprites++;
 		}
@@ -94,7 +105,7 @@ void
 			spriteBottomY = (spriteBottomY > WINDOW_HEIGHT) ? WINDOW_HEIGHT : spriteBottomY;
 
 			//Calculate the sprite X position in the projection plane
-			float spriteAngle = atan2(sprite.y - cub3d->player.y, sprite.x - cub3d->player.x) - cub3d->player.rotationAngle;
+			float spriteAngle = atan2(sprite.y - cub3d->plr.y, sprite.x - cub3d->plr.x) - cub3d->plr.rotAngle;
 			float spriteScreenPosX = tan(spriteAngle) * DIST_PROJ_PLANE;
 
 			//Sprite left x

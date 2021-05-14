@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "structs.h"
 #include "defs.h"
 #include <SDL2/SDL.h>
 
@@ -18,19 +17,22 @@ int isGameRunning = 0;
 int ticksLastFrame = 0;
 
 void
+	exit_game(t_cub3d **p_d, int i);
+
+void
 	setup(t_cub3d *cub3d)
 {
 	printf("Starting SETUP\n");
 	loadTextures(cub3d);
-	cub3d->player.x = WINDOW_WIDTH / 2;
-	cub3d->player.y = WINDOW_HEIGHT / 2;
-	cub3d->player.width = 1;
-	cub3d->player.height = 1;
-	cub3d->player.turnDirection = 0;
-	cub3d->player.walkDirection = 0;
-	cub3d->player.rotationAngle = PI /2;
-	cub3d->player.walkSpeed = 100;
-	cub3d->player.turnSpeed = 45 * (PI / 180);
+	cub3d->plr.x = WINDOW_WIDTH / 2;
+	cub3d->plr.y = WINDOW_HEIGHT / 2;
+	cub3d->plr.width = 1;
+	cub3d->plr.height = 1;
+	cub3d->plr.turnDrcn = 0;
+	cub3d->plr.walkDrcn = 0;
+	cub3d->plr.rotAngle = PI / 2;
+	cub3d->plr.walkSpeed = 100;
+	cub3d->plr.turnSpeed = 45 * (PI / 180);
 	printf("Finishing SETUP\n"); 
 }
 
@@ -62,26 +64,20 @@ int
 	render(t_cub3d *cub3d)
 {
 	clearColorBuffer(cub3d, GREEN);
-
-	//Render the wall and sprites
 	renderWallProjection(cub3d);
 	//renderSpriteProjection();
-
-	//display the minimap
 	renderMapGrid(cub3d);
 	renderMapRays(cub3d);
 	renderMapPlayer(cub3d);
 	renderMapSprites(cub3d);
-
-	//renderColorBuffer();
 	mlx_put_image_to_window(cub3d->mlx.mlx, cub3d->win, cub3d->image.img_ptr, 0, 0);
 	return (0);
 }
 
 void
-	releaseResources(void)
+	releaseResources(t_cub3d *cub3d)
 {
-	freeTextures();
+	freeTextures(cub3d);
 	destroyWindow();
 }
 
@@ -96,13 +92,13 @@ int
 	}
 
 	if (key_code == KEY_W || key_code == KEY_FORWARD)
-		cub3d->player.walkDirection = +1;
+		cub3d->plr.walkDrcn = +1;
 	if (key_code == KEY_S || key_code == KEY_BACKWARD)
-		cub3d->player.walkDirection = -1;
+		cub3d->plr.walkDrcn = -1;
 	if (key_code == KEY_D || key_code == KEY_RIGHT)
-		cub3d->player.turnDirection = +1;
+		cub3d->plr.turnDrcn = +1;
 	if (key_code == KEY_A || key_code == KEY_LEFT)
-		cub3d->player.turnDirection = -1;
+		cub3d->plr.turnDrcn = -1;
 	return (0);
 }
 
@@ -113,13 +109,13 @@ int
 	printf("Key released - %d\n", key_code);
 
 	if (key_code == KEY_W || key_code == KEY_FORWARD)
-		cub3d->player.walkDirection = 0;
+		cub3d->plr.walkDrcn = 0;
 	if (key_code == KEY_S || key_code == KEY_BACKWARD)
-		cub3d->player.walkDirection = 0;
+		cub3d->plr.walkDrcn = 0;
 	if (key_code == KEY_D || key_code == KEY_RIGHT)
-		cub3d->player.turnDirection = 0;
+		cub3d->plr.turnDrcn = 0;
 	if (key_code == KEY_A || key_code == KEY_LEFT)
-		cub3d->player.turnDirection = 0;
+		cub3d->plr.turnDrcn = 0;
 	return (0);
 }
 
@@ -139,19 +135,25 @@ int
 }
 
 int
-	main(void)
+	main(int argc, char *argv[])
 {
 	t_cub3d	cub3d;
+	bool	save_option;
 
-	isGameRunning = !initializeWindow(&cub3d);
-	setup(&cub3d);
-	mlx_hook(cub3d.win, X_EVENT_KEY_PRESS, 0, &deal_key, &cub3d);
-	mlx_hook(cub3d.win, X_EVENT_KEY_RELEASE, 0, &key_release, &cub3d);
-	mlx_hook(cub3d.win, X_EVENT_KEY_EXIT, 0, &close_win, &cub3d);
-	printf("is running = %d\n", isGameRunning);
-	mlx_loop_hook(cub3d.mlx.mlx, &render, &cub3d);
-	mlx_loop_hook(cub3d.mlx.mlx, &test_loop, &cub3d);
-
-	mlx_loop(cub3d.mlx.mlx);
-	return (0); //EXIT_SUCCESS
+	if(argc == 3)
+		save_option = (argc >= 2 && !ft_strncmp(argv[2], "--save", 6));
+	if(argc == 2 || argc == 3 && save_option)
+	{
+		isGameRunning = !initializeWindow(&cub3d);
+		setup(&cub3d);
+		mlx_hook(cub3d.win, X_EVENT_KEY_PRESS, 0, &deal_key, &cub3d);
+		mlx_hook(cub3d.win, X_EVENT_KEY_RELEASE, 0, &key_release, &cub3d);
+		mlx_hook(cub3d.win, X_EVENT_KEY_EXIT, 0, &close_win, &cub3d);
+		printf("is running = %d\n", isGameRunning);
+		mlx_loop_hook(cub3d.mlx.mlx, &render, &cub3d);
+		mlx_loop_hook(cub3d.mlx.mlx, &test_loop, &cub3d);
+		mlx_loop(cub3d.mlx.mlx);
+		return (EXIT_SUCCESS);
+	}
+	ft_exit_error(&cub3d, "ERROR:NO MAP SPECIFIED.\n");
 }

@@ -1,4 +1,15 @@
-#include "structs.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/14 14:00:27 by asydykna          #+#    #+#             */
+/*   Updated: 2021/05/14 14:00:33 by asydykna         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "defs.h"
 
 static const int map[MAP_NUM_ROWS][MAP_NUM_COLS] = {
@@ -20,18 +31,22 @@ static const int map[MAP_NUM_ROWS][MAP_NUM_COLS] = {
 bool
 	mapHasWallAt(float x, float y)
 {
-	if (x < 0 || x >= MAP_NUM_COLS * TILE_SIZE || y < 0 || y >=  MAP_NUM_ROWS * TILE_SIZE)
-		return true;
-	int mapGridIndexX = floor(x / TILE_SIZE);
-	int  mapGridIndexY = floor(y / TILE_SIZE);
+	int	mapGridIndexX;
+	int	mapGridIndexY;
+
+	if (x < 0 || x >= MAP_NUM_COLS * TILE_SIZE || y < 0
+		|| y >= MAP_NUM_ROWS * TILE_SIZE)
+		return (true);
+	mapGridIndexX = floor(x / TILE_SIZE);
+	mapGridIndexY = floor(y / TILE_SIZE);
 	return (map[mapGridIndexY][mapGridIndexX] != 0);
 }
 
 bool
 	isInsideMap(float x, float y)
 {
-	return (x >= 0 && x <= MAP_NUM_COLS * TILE_SIZE &&
-			y >= 0 && y <= MAP_NUM_ROWS * TILE_SIZE);
+	return (x >= 0 && x <= MAP_NUM_COLS * TILE_SIZE
+		&& y >= 0 && y <= MAP_NUM_ROWS * TILE_SIZE);
 }
 
 int
@@ -43,22 +58,29 @@ int
 void
 	renderMapGrid(t_cub3d *cub3d)
 {
-	for (int i = 0; i < MAP_NUM_ROWS; i++) {
-		for (int j = 0; j < MAP_NUM_COLS; j++) {
-			int tileX = j * TILE_SIZE;
-			int tileY = i * TILE_SIZE;
-			uint32_t tileColor = map[i][j] != 0 ? WHITE : BLACK;
-			//uint32_t tileColor = map[i][j] != 0 ? 255 : 0;
+	int			i;
+	int			j;
+	int			tileX;
+	int			tileY;
+	uint32_t	tileColor;
 
-
-			drawRect(
-				cub3d,
+	i = 0;
+	while (i++ < MAP_NUM_ROWS)
+	{
+		j = 0;
+		while (j++ < MAP_NUM_COLS)
+		{
+			tileX = j * TILE_SIZE;
+			tileY = i * TILE_SIZE;
+			if (map[i][j] != 0)
+				tileColor = WHITE;
+			else
+				tileColor = BLACK;
+			drawRect(cub3d,
 				tileX * MINIMAP_SCALE_FACTOR,
 				tileY * MINIMAP_SCALE_FACTOR,
 				TILE_SIZE * MINIMAP_SCALE_FACTOR,
-				TILE_SIZE * MINIMAP_SCALE_FACTOR,
-				tileColor
-			);
+				TILE_SIZE * MINIMAP_SCALE_FACTOR, tileColor);
 		}
 	}
 }

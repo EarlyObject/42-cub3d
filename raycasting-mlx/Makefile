@@ -17,6 +17,8 @@ OBJ = $(SRC:.c=.o)
 
 NAME = program
 
+LIBFT_PATH = libft
+LIBFT_NAME = libft.a
 MLX_PATH = mlx
 MLX_NAME = libmlx.a
 MLX_LINK = -L$(MLX_PATH) -I includes -lmlx -framework OpenGL -framework AppKit
@@ -34,21 +36,24 @@ INCLUDES = ./includes
 #all: $(MLX_NAME) $(OBJ)
 #	gcc -c -o program $(OBJ)  -Lmlx -I includes -lmlx -framework OpenGL -framework AppKit mlx/libmlx.a
 
-all: $(MLX_NAME) $(OBJ)
-	gcc  src/main.c src/graphics.c src/map.c src/player.c src/ray.c src/sprite.c \
-        src/textures.c src/upng.c src/utils.c src/wall.c -o program -lSDL2 -Lmlx -lmlx -framework OpenGL -framework AppKit $(MLX_PATH)/$(MLX_NAME)
+all: $(LIBFT_NAME) $(MLX_NAME) $(OBJ)
+	gcc   src/main.c src/graphics.c src/map.c src/player.c src/ray.c src/sprite.c \
+        src/textures.c src/upng.c src/utils.c src/wall.c src/errors.c -o program -lSDL2 -Lmlx -lmlx -framework OpenGL -framework AppKit $(MLX_PATH)/$(MLX_NAME) $(LIBFT_PATH)/$(LIBFT_NAME)
 
 
 $(NAME): $(MLX_NAME) $(OBJ)
 	$(CC) -o $(NAME) $(OBJ)  $(MLX_LINK) $(MLX_PATH)/$(MLX_NAME) 
 # -lSDL2
 
+$(LIBFT_NAME):
+	$(MAKE) -C $(LIBFT_PATH)
+
 $(MLX_NAME):
 	$(MAKE) -C $(MLX_PATH)
 
-debug: $(MLX_NAME) $(OBJ)
+debug: $(LIBFT_NAME) $(MLX_NAME) $(OBJ)
 	gcc -g src/main.c -g src/graphics.c -g src/map.c -g src/player.c -g src/ray.c -g src/sprite.c \
-	-g src/textures.c -g src/upng.c -g src/utils.c -g src/wall.c -lSDL2 -o debugapp -L$(MLX_PATH) -lmlx -framework OpenGL -framework AppKit
+	-g src/textures.c -g src/upng.c -g src/utils.c -g src/wall.c src/errors.c -lSDL2 -o debugapp -L$(MLX_PATH) -lmlx -framework OpenGL -framework AppKit $(LIBFT_PATH)/$(LIBFT_NAME)
 
 clean:
 	$(RM) $(OBJ)
