@@ -24,6 +24,7 @@ void
 {
 	printf("Starting SETUP\n");
 	loadTextures(cub3d);
+	//collocate_sprites(cub3d);
 	cub3d->plr.x = WINDOW_WIDTH / 2;
 	cub3d->plr.y = WINDOW_HEIGHT / 2;
 	cub3d->plr.width = 1;
@@ -65,7 +66,7 @@ int
 {
 	clearColorBuffer(cub3d, GREEN);
 	renderWallProjection(cub3d);
-	//renderSpriteProjection();
+	renderSpriteProjection(cub3d);
 	renderMapGrid(cub3d);
 	renderMapRays(cub3d);
 	renderMapPlayer(cub3d);

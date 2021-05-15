@@ -33,6 +33,7 @@
 //#define WINDOW_WIDTH 1280
 //#define WINDOW_HEIGHT 800
 
+
 # define MAP_NUM_ROWS 13
 # define MAP_NUM_COLS 20
 # define WINDOW_WIDTH (MAP_NUM_COLS * TILE_SIZE)
@@ -133,4 +134,5 @@ void	renderWallProjection(t_cub3d *cub3d);
 //errors
 void	ft_exit_error(t_cub3d *cub3d, char const *message);
 
+void	collocate_sprites(t_cub3d *cub3d);
 #endif

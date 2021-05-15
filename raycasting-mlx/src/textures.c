@@ -20,12 +20,12 @@ static char *textureFileNames[NUM_TEXTURES] = {
 	"./images/colorstone.xpm",
 	"./images/bluestone.xpm",
 	"./images/wood.xpm",
-	"./images/eagle.xpm"/*,
+	"./images/eagle.xpm",
 	"./images/barrel.xpm", //[8]
 	"./images/light.xpm", //[9]
 	"./images/table.xpm", //[10]
 	"./images/guard.xpm", //[11]
-	"./images/armor.xpm" //[12]*/
+	"./images/armor.xpm" //[12]
 };
 
 void
