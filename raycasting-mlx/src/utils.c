@@ -25,3 +25,9 @@ float
 {
 	return (sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)));
 }
+
+int
+	get_delta(int x1, int x0)
+{
+	return (x1 - x0);
+}

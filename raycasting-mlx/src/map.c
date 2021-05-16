@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:00:27 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/14 14:00:33 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/05/16 17:13:30 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,11 @@ void
 				tileColor = WHITE;
 			else
 				tileColor = BLACK;
-			drawRect(cub3d,
-				tileX * MINIMAP_SCALE_FACTOR,
-				tileY * MINIMAP_SCALE_FACTOR,
-				TILE_SIZE * MINIMAP_SCALE_FACTOR,
-				TILE_SIZE * MINIMAP_SCALE_FACTOR, tileColor);
+			cub3d->rectangle = (t_rectangle){.x = tileX * MINIMAP_SCALE_FACTOR,
+				.y = tileY * MINIMAP_SCALE_FACTOR,
+				.width = TILE_SIZE * MINIMAP_SCALE_FACTOR,
+				.height = TILE_SIZE * MINIMAP_SCALE_FACTOR};
+			drawRect(cub3d, cub3d->rectangle, tileColor);
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:00:08 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/14 14:00:15 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/05/16 15:25:56 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,53 +58,4 @@ int
 		i++;
 	}
 	return (0);
-}
-
-void
-	drawPixel(t_cub3d *cub3d, int x, int y, uint32_t color)
-{
-	if (x >= 0 && x < WINDOW_WIDTH && y >= 0 && y < WINDOW_HEIGHT)
-		cub3d->image.addr[(WINDOW_WIDTH * y) + x] = color;
-}
-
-void
-	drawRect(t_cub3d *cub3d, int x, int y, int width, int height, uint32_t color)
-{
-	for (int i = x; i <= (x + width); i++)
-		for (int j = y; j <= (y + height); j++)
-			drawPixel(cub3d, i, j, color);
-}
-
-int
-	get_delta(int x1, int x0)
-{
-	return (x1 - x0);
-}
-
-void
-	drawLine(t_cub3d *cub3d, int x0, int y0, int x1, int y1, uint32_t color)
-{
-	int		i;
-	int		longestSideLength;
-	float	xIncrement;
-	float	yIncrement;
-	float	currentX;
-	float	currentY;
-
-	if (abs(get_delta(x1, x0)) >= abs(get_delta(y1, y0)))
-		longestSideLength = abs(get_delta(x1, x0));
-	else
-		longestSideLength = abs(get_delta(y1, y0));
-	xIncrement = get_delta(x1, x0) / (float)longestSideLength;
-	yIncrement = get_delta(y1, y0) / (float)longestSideLength;
-	currentX = x0;
-	currentY = y0;
-	i = 0;
-	while (i < longestSideLength)
-	{
-		drawPixel(cub3d, round(currentX), round(currentY), color);
-		currentX += xIncrement;
-		currentY += yIncrement;
-		i++;
-	}
 }

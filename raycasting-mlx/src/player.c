@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   plr.c                                           :+:      :+:    :+:   */
+/*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:00:43 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/14 14:00:47 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/05/16 17:37:15 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,19 @@ void
 void
 	renderMapPlayer(t_cub3d *cub3d)
 {
-	drawRect
-	(
-		cub3d,
-		cub3d->plr.x * MINIMAP_SCALE_FACTOR,
-		cub3d->plr.y * MINIMAP_SCALE_FACTOR,
-		cub3d->plr.width * MINIMAP_SCALE_FACTOR,
-		cub3d->plr.height * MINIMAP_SCALE_FACTOR,
-		0xFFFFFFFF
-	);
-	drawLine
-	(
-			cub3d,
-			MINIMAP_SCALE_FACTOR * cub3d->plr.x,
-			MINIMAP_SCALE_FACTOR * cub3d->plr.y,
-			MINIMAP_SCALE_FACTOR * cub3d->plr.x + cos(cub3d->plr.rotAngle) * 40,
-			MINIMAP_SCALE_FACTOR * cub3d->plr.y + sin(cub3d->plr.rotAngle) * 40,
-			RED
-	);
+	t_rectangle	rectangle;
+	t_line		line;
+
+	rectangle = (t_rectangle){.x = cub3d->plr.x * MINIMAP_SCALE_FACTOR,
+		.y = cub3d->plr.y * MINIMAP_SCALE_FACTOR,
+		.width = cub3d->plr.width * MINIMAP_SCALE_FACTOR,
+		.height = cub3d->plr.height * MINIMAP_SCALE_FACTOR};
+	drawRect(cub3d, rectangle, 0xFFFFFFFF);
+	line = (t_line){.x0 = MINIMAP_SCALE_FACTOR * cub3d->plr.x,
+		.y0 = MINIMAP_SCALE_FACTOR * cub3d->plr.y,
+		.x1 = MINIMAP_SCALE_FACTOR * cub3d->plr.x
+		+ cos(cub3d->plr.rotAngle) * 40,
+		.y1 = MINIMAP_SCALE_FACTOR * cub3d->plr.y
+		+ sin(cub3d->plr.rotAngle) * 40};
+	drawLine(cub3d, line, RED);
 }

@@ -6,13 +6,13 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:00:52 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/14 14:00:53 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/05/16 17:38:02 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "defs.h"
 
-ray_t rays[NUM_RAYS];
+t_ray rays[NUM_RAYS];
 
 bool
 	isRayFacingDown(float angle)
@@ -182,15 +182,14 @@ void
 void
 	renderMapRays(t_cub3d *cub3d)
 {
+	t_line line;
+
 	for (int i = 0; i < NUM_RAYS; i++)
 	{
-		drawLine(
-			cub3d,
-			cub3d->plr.x * MINIMAP_SCALE_FACTOR,
-			cub3d->plr.y * MINIMAP_SCALE_FACTOR,
-			rays[i].wallHitX * MINIMAP_SCALE_FACTOR,
-			rays[i].wallHitY * MINIMAP_SCALE_FACTOR,
-			BLUE
-		);
+		line = (t_line){.x0 = cub3d->plr.x * MINIMAP_SCALE_FACTOR,
+				.y0 = cub3d->plr.y * MINIMAP_SCALE_FACTOR,
+				.x1 = rays[i].wallHitX * MINIMAP_SCALE_FACTOR,
+				.y1 = rays[i].wallHitY * MINIMAP_SCALE_FACTOR};
+		drawLine(cub3d, line, BLUE);
 	}
 }

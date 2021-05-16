@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 16:44:32 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/14 18:23:08 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/05/16 15:22:55 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 
 # define PI 3.14159265
 # define TWO_PI 6.28318530
+# define EPSILON 0.2
 # define TILE_SIZE 64
 # define TEXTURE_WIDTH  64
 # define TEXTURE_HEIGHT 64
@@ -51,9 +52,9 @@
 # define GREEN	0x0000FF00
 # define BLUE	0x000000FF
 # define YELLOW	0x00FFFF00
-# define FAILED						-1
-# define TEXTURES				4
-# define SUCCESS				1
+# define FAILED	-1
+# define TEXTURES	4
+# define SUCCESS	1
 # define Y		0
 # define X_EVENT_KEY_PRESS		2
 # define X_EVENT_KEY_RELEASE		3
@@ -87,7 +88,7 @@
 # define KEY_MAJ	257
 
 //ray
-extern ray_t	rays[NUM_RAYS];
+extern t_ray	rays[NUM_RAYS];
 
 //graphics
 int		initializeWindow(t_cub3d *cub3d);
@@ -95,15 +96,14 @@ void	destroyWindow(void);
 int		clearColorBuffer(t_cub3d *cub3d, uint32_t color);
 void	renderColorBuffer(void);
 void	drawPixel(t_cub3d *cub3d, int x, int y, uint32_t color);
-void	drawRect(t_cub3d *cub3d, int x, int y, int width, int height, uint32_t color);
-void	drawLine(t_cub3d *cub3d, int x0, int y0, int x1, int y1, uint32_t color);
+void	drawRect(t_cub3d *cub3d, t_rectangle rectangle, uint32_t color);
+void	drawLine(t_cub3d *cub3d, t_line line, uint32_t color);
 
 //map
 bool	mapHasWallAt(float x, float y);
 bool	isInsideMap(float x, float y);
 void	renderMapGrid(t_cub3d *cub3d);
 int		getMapAt(int i, int j);
-
 //plr
 void	movePlayer(t_cub3d *cub3d, float dTime);
 void	renderMapPlayer(t_cub3d *cub3d);
@@ -115,24 +115,24 @@ bool	isRayFacingRight(float angle);
 void	castRay(t_cub3d *cub3d, float rayAngle, int stripId);
 void	castAllRays(t_cub3d *cub3d);
 void	renderMapRays(t_cub3d *cub3d);
-
-//sprite
-void	renderSpriteProjection(t_cub3d *cub3d);
-void	renderMapSprites(t_cub3d *cub3d);
-
 //textures
 void	loadTextures(t_cub3d *cub3d);
 void	freeTextures(t_cub3d *cub3d);
-
 //utils
 void	normalizeAngle(float *angle);
 float	distanceBetweenPoints(float x1, float y1, float x2, float y2);
-
+int		get_delta(int x1, int x0);
 //wall
 void	renderWallProjection(t_cub3d *cub3d);
-
 //errors
 void	ft_exit_error(t_cub3d *cub3d, char const *message);
-
+//sprite
+void	renderSpriteProjection(t_cub3d *cub3d);
+void	renderMapSprites(t_cub3d *cub3d);
 void	collocate_sprites(t_cub3d *cub3d);
+void	render_vsbl_sprites(t_cub3d *cub3d, t_sprite *vsbl_sprites, int i);
+void	draw_sprite(t_cub3d *cub3d, t_sprite *sprite, int x);
+int		find_visible_sprites(t_cub3d *cub3d, t_sprite *vsblSprites);
 #endif
+
+/* ************************************************************************** */

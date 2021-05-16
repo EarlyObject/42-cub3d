@@ -32,23 +32,31 @@ typedef struct		s_mlx
 	void			*img;
 }					t_mlx;
 
-typedef struct {
-	float	rayAngle;
-	float	wallHitX;
-	float	wallHitY;
-	float	distance;
-	bool	wasHitVertical;
-	int		texture;
-} ray_t;
+typedef struct s_ray{
+	float		rayAngle;
+	float		wallHitX;
+	float		wallHitY;
+	float		distance;
+	bool		wasHitVertical;
+	int			texture;
+} t_ray;
 
-typedef struct {
+typedef struct s_sprite {
 	float		x;
 	float		y;
 	float		distance;
+	float		height;
+	float 		width;
+	float 		top_y;
+	float		bottom_y;
 	float		angle;
+	float		left_x;
+	float		right_x;
 	bool		visible;
 	int			texture;
-} sprite_t;
+	int			texture_offset_y;
+	int			texture_offset_x;
+} t_sprite;
 
 typedef struct s_image
 {
@@ -61,22 +69,16 @@ typedef struct s_image
 
 typedef struct s_player
 {
-	float	x;
-	float	y;
-	float	width;
-	float	height;
-	int		turnDrcn; //-1 for left, +1 for right
-	int		walkDrcn; //-1 for back, +1 for front
-	float	rotAngle;
-	float	walkSpeed;
-	float	turnSpeed;
+	float		x;
+	float		y;
+	float		width;
+	float		height;
+	int			turnDrcn; //-1 for left, +1 for right
+	int			walkDrcn; //-1 for back, +1 for front
+	float		rotAngle;
+	float		walkSpeed;
+	float		turnSpeed;
 } t_player;
-
-typedef  struct	s_texture
-{
-	int		textureWidth;
-	int		textureHeight;
-}	t_texture;
 
 typedef  struct	s_wall
 {
@@ -87,6 +89,23 @@ typedef  struct	s_wall
 	int		textureOffsetX;
 }	t_wall;
 
+typedef  struct	s_rectangle
+{
+	int			x;
+	int 		y;
+	int			width;
+	int			height;
+} t_rectangle;
+
+typedef  struct	s_line
+{
+	int			x0;
+	int 		y0;
+	int			x1;
+	int			y1;
+	int			longestSideLength;
+} t_line;
+
 typedef	struct		s_cub3d
 {
 	void		*win;
@@ -94,10 +113,10 @@ typedef	struct		s_cub3d
 	t_player	plr;
 	t_mlx		mlx;
 	t_image		*wallTexture[NUM_TEXTURES];
-	t_texture	texture;
 	t_wall 		wall;
-	sprite_t 	*sprites[6];
-
+	t_sprite 	*sprites[NUM_SPRITES];
+	t_rectangle rectangle;
+	t_line 		line;
 }	t_cub3d;
 
 #endif
