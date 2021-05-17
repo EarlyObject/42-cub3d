@@ -24,7 +24,7 @@ void
 	moveStep = cub3d->plr.walkDrcn * cub3d->plr.walkSpeed * dTime;
 	newPlayerX = cub3d->plr.x + cos(cub3d->plr.rotAngle) * moveStep;
 	newPlayerY = cub3d->plr.y + sin(cub3d->plr.rotAngle) * moveStep;
-	if (!mapHasWallAt(newPlayerX, newPlayerY))
+	if (!mapHasWallAt(cub3d->config, newPlayerX, newPlayerY))
 	{
 		cub3d->plr.x = newPlayerX;
 		cub3d->plr.y = newPlayerY;

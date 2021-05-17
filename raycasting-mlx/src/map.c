@@ -12,47 +12,40 @@
 
 #include "defs.h"
 
-static const int map[MAP_NUM_ROWS][MAP_NUM_COLS] = {
-    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1, 1, 1, 1, 1, 1, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-    {1, 0, 0, 0, 2, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 0, 0, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 1},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 5},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 5},
-    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 5},
-    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 5, 5, 5, 5}
-};
-
 bool
-	mapHasWallAt(float x, float y)
+	mapHasWallAt(t_config *config, float x, float y)
 {
 	int	mapGridIndexX;
 	int	mapGridIndexY;
+	int z;
 
-	if (x < 0 || x >= MAP_NUM_COLS * TILE_SIZE || y < 0
-		|| y >= MAP_NUM_ROWS * TILE_SIZE)
+	if (x < 0 || x >= config->columns * TILE_SIZE || y < 0
+		|| y >= config->rows * TILE_SIZE)
 		return (true);
 	mapGridIndexX = floor(x / TILE_SIZE);
 	mapGridIndexY = floor(y / TILE_SIZE);
-	return (map[mapGridIndexY][mapGridIndexX] != 0);
+	z = config->map[mapGridIndexX + mapGridIndexY * config->columns] - 48;
+	if (z == 30 || z == 35 || z == 39 || z == 21)
+		z = 0;
+	return (z != 0);
 }
 
 bool
-	isInsideMap(float x, float y)
+	isInsideMap(t_config *config, float x, float y)
 {
-	return (x >= 0 && x <= MAP_NUM_COLS * TILE_SIZE
-		&& y >= 0 && y <= MAP_NUM_ROWS * TILE_SIZE);
+	return (x >= 0 && x <= config->columns * TILE_SIZE
+		&& y >= 0 && y <= config->rows * TILE_SIZE);
 }
 
 int
-	getMapAt(int i, int j)
+	getMapAt(t_config *config, int i, int j)
 {
-	return (map[i][j]);
+	int	x;
+
+	x = config->map[j + i * config->columns] - 48;
+	if (x == 30 || x == 35 || x == 39 || x == 21)
+		x = 0;
+	return (x);
 }
 
 void
@@ -64,16 +57,19 @@ void
 	int			tileY;
 	uint32_t	tileColor;
 
-	i = 0;
-	while (i++ < MAP_NUM_ROWS)
+	i = -1;
+	while (i++ < cub3d->config->rows - 1)
 	{
-		j = 0;
-		while (j++ < MAP_NUM_COLS)
+		j = -1;
+		while (j++ < cub3d->config->columns - 1)
 		{
 			tileX = j * TILE_SIZE;
 			tileY = i * TILE_SIZE;
-			if (map[i][j] != 0)
-				tileColor = WHITE;
+			int x = cub3d->config->map[j + i * cub3d->config->columns] - 48;
+			if (x == 30 || x == 35 || x == 39 || x == 21)
+				x = 0;
+			if (x != 0)
+					tileColor = WHITE;
 			else
 				tileColor = BLACK;
 			cub3d->rectangle = (t_rectangle){.x = tileX * MINIMAP_SCALE_FACTOR,

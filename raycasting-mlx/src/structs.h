@@ -23,7 +23,14 @@
 # define NUM_TEXTURES 13
 //# define NUM_TEXTURES 8
 # define NUM_SPRITES 6
+# define TEXTURES			9
+# define C_LAST				9
 
+typedef struct	s_str
+{
+	char			*content;
+	struct s_str	*next;
+}				t_str;
 
 typedef struct		s_mlx
 {
@@ -106,6 +113,23 @@ typedef  struct	s_line
 	int			longestSideLength;
 } t_line;
 
+typedef struct	s_config
+{
+	int			requested_height;
+	int			requested_width;
+	int			*map;
+	int			rows;
+	int			columns;
+	int			save_arg;
+	double		rotate_speed;
+	double		move_speed;
+	float		dist_proj_plane;
+	char		*tex_path[TEXTURES];
+	unsigned	c[TEXTURES];
+	int			set[C_LAST];
+	double		fov;
+}				t_config;
+
 typedef	struct		s_cub3d
 {
 	void		*win;
@@ -117,6 +141,8 @@ typedef	struct		s_cub3d
 	t_sprite 	*sprites[NUM_SPRITES];
 	t_rectangle rectangle;
 	t_line 		line;
+	t_config	*config;
+	t_ray		*rays;
 }	t_cub3d;
 
 #endif

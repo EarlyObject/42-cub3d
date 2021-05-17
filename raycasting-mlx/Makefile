@@ -38,7 +38,9 @@ INCLUDES = ./includes
 
 all: $(LIBFT_NAME) $(MLX_NAME) $(OBJ)
 	gcc   src/main.c src/graphics.c src/map.c src/player.c src/ray.c src/sprite.c \
-        src/textures.c src/upng.c src/utils.c src/wall.c src/errors.c src/draw_sprites.c src/draw.c -o program -lSDL2 -Lmlx -lmlx -framework OpenGL -framework AppKit $(MLX_PATH)/$(MLX_NAME) $(LIBFT_PATH)/$(LIBFT_NAME)
+        src/textures.c src/upng.c src/utils.c src/wall.c src/errors.c src/draw_sprites.c src/draw.c \
+        src/params_parse.c src/parse.c gnl/get_next_line.c gnl/get_next_line_utils.c src/str_parse.c src/utils_parse.c src/map_parse.c -o program \
+        -lSDL2 -Lmlx -lmlx -framework OpenGL -framework AppKit $(MLX_PATH)/$(MLX_NAME) $(LIBFT_PATH)/$(LIBFT_NAME)
 
 
 $(NAME): $(MLX_NAME) $(OBJ)
@@ -53,7 +55,9 @@ $(MLX_NAME):
 
 debug: $(LIBFT_NAME) $(MLX_NAME) $(OBJ)
 	gcc -g src/main.c -g src/graphics.c -g src/map.c -g src/player.c -g src/ray.c -g src/sprite.c \
-	-g src/textures.c -g src/upng.c -g src/utils.c -g src/wall.c src/errors.c src/draw_sprites.c src/draw.c -lSDL2 -o debugapp -L$(MLX_PATH) -lmlx -framework OpenGL -framework AppKit $(LIBFT_PATH)/$(LIBFT_NAME)
+	-g src/textures.c -g src/upng.c -g src/utils.c -g -g src/wall.c -g src/errors.c -g src/draw_sprites.c -g src/draw.c \
+	 -g src/params_parse.c -g src/parse.c -g gnl/get_next_line.c -g gnl/get_next_line_utils.c -g src/str_parse.c -g src/utils_parse.c -g src/map_parse.c\
+	   -lSDL2 -o debugapp -L$(MLX_PATH) -lmlx -framework OpenGL -framework AppKit $(LIBFT_PATH)/$(LIBFT_NAME)
 
 clean:
 	$(RM) $(OBJ)

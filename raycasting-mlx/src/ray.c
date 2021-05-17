@@ -12,7 +12,7 @@
 
 #include "defs.h"
 
-t_ray rays[NUM_RAYS];
+//t_ray rays[NUM_RAYS];
 
 bool
 	isRayFacingDown(float angle)
@@ -73,17 +73,17 @@ void
 	float nextHorzTouchY = yintercept;
 
 	//Increment xstep and ystep until we find a wall
-	while (isInsideMap(nextHorzTouchX, nextHorzTouchY))
+	while (isInsideMap(cub3d->config, nextHorzTouchX, nextHorzTouchY))
 	{
 		float xToCheck = nextHorzTouchX;
 		float yToCheck = nextHorzTouchY + (isRayFacingUp(rayAngle) ? -1 : 0);
 
-		if (mapHasWallAt(xToCheck, yToCheck))
+		if (mapHasWallAt(cub3d->config, xToCheck, yToCheck))
 		{
 			//found a wall hit
 			horzWallHitX = nextHorzTouchX;
 			horzWallHitY = nextHorzTouchY;
-			horzWallTexture = getMapAt((int)floor(yToCheck / TILE_SIZE), (int)floor(xToCheck / TILE_SIZE));
+			horzWallTexture = getMapAt(cub3d->config, (int)floor(yToCheck / TILE_SIZE), (int)floor(xToCheck / TILE_SIZE));
 			foundHorzWallHit = true;
 			break;
 		}
@@ -121,17 +121,17 @@ void
 	float nextVertTouchY = yintercept;
 
 	//Increment xstep and ystep until we find a wall
-	while (isInsideMap(nextVertTouchX, nextVertTouchY))
+	while (isInsideMap(cub3d->config, nextVertTouchX, nextVertTouchY))
 	{
 		float xToCheck = nextVertTouchX + (isRayFacingLeft(rayAngle) ? -1 : 0);
 		float yToCheck = nextVertTouchY;
 
-		if (mapHasWallAt(xToCheck, yToCheck))
+		if (mapHasWallAt(cub3d->config, xToCheck, yToCheck))
 		{
 			//found a wall hit
 			vertWallHitX = nextVertTouchX;
 			vertWallHitY = nextVertTouchY;
-			vertWallTexture = getMapAt((int)floor(yToCheck / TILE_SIZE), (int)floor(xToCheck / TILE_SIZE));
+			vertWallTexture = getMapAt(cub3d->config,(int)floor(yToCheck / TILE_SIZE), (int)floor(xToCheck / TILE_SIZE));
 			foundVertWallHit = true;
 			break;
 		}
@@ -150,32 +150,34 @@ void
 
 	if(vertHitDistance < horzHitDistance)
 	{
-		rays[stripId].distance = vertHitDistance;
-		rays[stripId].wallHitX = vertWallHitX;
-		rays[stripId].wallHitY = vertWallHitY;
-		rays[stripId].texture = vertWallTexture;
-		rays[stripId].wasHitVertical = true;
-		rays[stripId].rayAngle = rayAngle;
+		cub3d->rays[stripId].distance = vertHitDistance;
+		cub3d->rays[stripId].wallHitX = vertWallHitX;
+		cub3d->rays[stripId].wallHitY = vertWallHitY;
+		cub3d->rays[stripId].texture = vertWallTexture;
+		cub3d->rays[stripId].wasHitVertical = true;
+		cub3d->rays[stripId].rayAngle = rayAngle;
 	}
 	else
 	{
-		rays[stripId].distance = horzHitDistance;
-		rays[stripId].wallHitX = horzWallHitX;
-		rays[stripId].wallHitY = horzWallHitY;
-		rays[stripId].texture = horzWallTexture;
-		rays[stripId].wasHitVertical = false;
-		rays[stripId].rayAngle = rayAngle;
+		cub3d->rays[stripId].distance = horzHitDistance;
+		cub3d->rays[stripId].wallHitX = horzWallHitX;
+		cub3d->rays[stripId].wallHitY = horzWallHitY;
+		cub3d->rays[stripId].texture = horzWallTexture;
+		cub3d->rays[stripId].rayAngle = rayAngle;
+		cub3d->rays[stripId].wasHitVertical = false;
 	}
 }
 
 void
 	castAllRays(t_cub3d *cub3d)
 {
+	int num_rays;
 
-	for (int col = 0; col < NUM_RAYS; col++)
-	{
-		float rayAngle = cub3d->plr.rotAngle + atan((col - NUM_RAYS / 2) / DIST_PROJ_PLANE);
-		castRay(cub3d, rayAngle, col);
+	num_rays = cub3d->config->requested_width;
+	for (int col = 0; col < num_rays; col++)
+		{
+		float rayAngle = cub3d->plr.rotAngle + atan((col - num_rays / 2) / cub3d->config->dist_proj_plane);
+			castRay(cub3d, rayAngle, col);
 	}
 }
 
@@ -183,13 +185,15 @@ void
 	renderMapRays(t_cub3d *cub3d)
 {
 	t_line line;
+	int 	num_rays;
 
-	for (int i = 0; i < NUM_RAYS; i++)
-	{
+	num_rays = cub3d->config->requested_width;
+	for (int i = 0; i < num_rays; i++)
+		{
 		line = (t_line){.x0 = cub3d->plr.x * MINIMAP_SCALE_FACTOR,
 				.y0 = cub3d->plr.y * MINIMAP_SCALE_FACTOR,
-				.x1 = rays[i].wallHitX * MINIMAP_SCALE_FACTOR,
-				.y1 = rays[i].wallHitY * MINIMAP_SCALE_FACTOR};
+				.x1 = cub3d->rays[i].wallHitX * MINIMAP_SCALE_FACTOR,
+				.y1 = cub3d->rays[i].wallHitY * MINIMAP_SCALE_FACTOR};
 		drawLine(cub3d, line, BLUE);
 	}
 }

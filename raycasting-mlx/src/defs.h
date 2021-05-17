@@ -17,6 +17,7 @@
 # include <stdbool.h>
 # include <stdint.h>
 # include <stdlib.h>
+# include <fcntl.h>
 # include <SDL2/SDL.h>
 # include <limits.h>
 # include "structs.h"
@@ -31,18 +32,8 @@
 # define TEXTURE_WIDTH  64
 # define TEXTURE_HEIGHT 64
 # define MINIMAP_SCALE_FACTOR 0.2
-//#define WINDOW_WIDTH 1280
-//#define WINDOW_HEIGHT 800
-
-
-# define MAP_NUM_ROWS 13
-# define MAP_NUM_COLS 20
-# define WINDOW_WIDTH (MAP_NUM_COLS * TILE_SIZE)
-# define WINDOW_HEIGHT (MAP_NUM_ROWS * TILE_SIZE)
 
 # define FOV_ANGLE (60 * (PI / 180))
-# define NUM_RAYS WINDOW_WIDTH
-# define DIST_PROJ_PLANE ((WINDOW_WIDTH / 2) / tan(FOV_ANGLE / 2))
 # define FPS 30
 # define FRAME_TIME_LENGTH (1000 / FPS)
 
@@ -53,7 +44,6 @@
 # define BLUE	0x000000FF
 # define YELLOW	0x00FFFF00
 # define FAILED	-1
-# define TEXTURES	4
 # define SUCCESS	1
 # define Y		0
 # define X_EVENT_KEY_PRESS		2
@@ -87,8 +77,29 @@
 # define KEY_TAB	48
 # define KEY_MAJ	257
 
-//ray
-extern t_ray	rays[NUM_RAYS];
+# define C_R				0
+# define C_NO				1
+# define C_SO				2
+# define C_WE				3
+# define C_EA				4
+# define C_S				5
+# define C_F				6
+# define C_C				7
+# define C_MAP				8
+
+# define DIRECTIONS "NSEW"
+# define VALID_MAP_CHARACTERS " 01234NSEW"
+
+# define TEX_NORTH			0
+# define TEX_SOUTH			1
+# define TEX_WEST			2
+# define TEX_EAST			3
+# define TEX_SKY			4
+# define TEX_FLOOR			5
+# define TEX_SPRITE			6
+# define TEX_SPRITE_UP		7
+# define TEX_SPRITE_C		8
+# define PTR_CAST(a)	(void*)((uintptr_t)(a))
 
 //graphics
 int		initializeWindow(t_cub3d *cub3d);
@@ -100,10 +111,10 @@ void	drawRect(t_cub3d *cub3d, t_rectangle rectangle, uint32_t color);
 void	drawLine(t_cub3d *cub3d, t_line line, uint32_t color);
 
 //map
-bool	mapHasWallAt(float x, float y);
-bool	isInsideMap(float x, float y);
+bool	mapHasWallAt(t_config *config, float x, float y);
+bool	isInsideMap(t_config *config, float x, float y);
 void	renderMapGrid(t_cub3d *cub3d);
-int		getMapAt(int i, int j);
+int		getMapAt(t_config *config, int i, int j);
 //plr
 void	movePlayer(t_cub3d *cub3d, float dTime);
 void	renderMapPlayer(t_cub3d *cub3d);
@@ -133,6 +144,30 @@ void	collocate_sprites(t_cub3d *cub3d);
 void	render_vsbl_sprites(t_cub3d *cub3d, t_sprite *vsbl_sprites, int i);
 void	draw_sprite(t_cub3d *cub3d, t_sprite *sprite, int x);
 int		find_visible_sprites(t_cub3d *cub3d, t_sprite *vsblSprites);
+
+//parse
+int		parse_color(t_config *config, int key, char const *line);
+int		parse_dimensions(t_config *config, char const *line);
+int		parse_line(t_config *config, char const *line, t_str **map_buffer);
+int		str_length(t_str *str);
+t_str	*str_add_back(t_str **str, char *content);
+int		parse_config(t_config *config, char const *conf_path);
+int		str_clear(t_str **list);
+int		ft_in_set(char c, char const *set);
+int		get_next_line(int fd, char **line);
+int		parse_texture(t_config *config, int key, char const *line);
+int		check_valid(t_config *config, t_str *map_buffer);
+t_str	*ft_split_new(char const *org, char sep);
+int		check_top_bottom_borders(t_str *map_buffer);
+int		check_left_right_borders(t_str *map_buffer);
+int		copy_map(t_config *config, t_str *map_buffer, int *map);
+static char	*path_from_line(int start, char const *line);
+static int	config_key(char const *line);
+static int	str_to_color(t_str *str);
+static int	texture_index(int key);
+int		ft_endwith(char const *str, char const *end);
+t_str	*str_last(t_str *str);
+
 #endif
 
 /* ************************************************************************** */

@@ -18,19 +18,25 @@ void
 	t_sprite	sprite;
 	int			x;
 
+	//DIST_PROJ_PLANE ((WINDOW_WIDTH / 2) / tan(FOV_ANGLE / 2))
 	sprite = vsbl_sprites[i];
-	sprite.height = (TILE_SIZE / sprite.distance) * DIST_PROJ_PLANE;
+	sprite.height = (TILE_SIZE / sprite.distance) * cub3d->config->dist_proj_plane;
 	sprite.width = sprite.height;
-	sprite.top_y = (WINDOW_HEIGHT / 2) - (sprite.height / 2);
+	//sprite.top_y = (WINDOW_HEIGHT / 2) - (sprite.height / 2);
+	sprite.top_y = (cub3d->config->requested_height / 2) - (sprite.height / 2);
 	if (sprite.top_y < 0)
 		sprite.top_y = 0;
-	sprite.bottom_y = (WINDOW_HEIGHT / 2) + (sprite.height / 2);
-	if (sprite.bottom_y > WINDOW_HEIGHT)
-		sprite.bottom_y = WINDOW_HEIGHT;
+	//sprite.bottom_y = (WINDOW_HEIGHT / 2) + (sprite.height / 2);
+	//if (sprite.bottom_y > WINDOW_HEIGHT)
+	//	sprite.bottom_y = WINDOW_HEIGHT;
+	sprite.bottom_y = (cub3d->config->requested_height / 2) + (sprite.height / 2);
+	if (sprite.bottom_y > cub3d->config->requested_height)
+		sprite.bottom_y = cub3d->config->requested_height;
 	sprite.angle = atan2(sprite.y - cub3d->plr.y, sprite.x - cub3d->plr.x)
 		- cub3d->plr.rotAngle;
-	sprite.x = tan(sprite.angle) * DIST_PROJ_PLANE;
-	sprite.left_x = (WINDOW_WIDTH / 2) + sprite.x - (sprite.width / 2);
+	sprite.x = tan(sprite.angle) * cub3d->config->dist_proj_plane;
+	//sprite.left_x = (WINDOW_WIDTH / 2) + sprite.x - (sprite.width / 2);
+	sprite.left_x = (cub3d->config->requested_width / 2) + sprite.x - (sprite.width / 2);
 	sprite.right_x = sprite.left_x + sprite.width;
 	x = sprite.left_x;
 	while (x < sprite.right_x)

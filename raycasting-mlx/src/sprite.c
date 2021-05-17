@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:00:58 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/16 17:15:26 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/05/16 22:28:30 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,17 +98,18 @@ void
 	y = sprite->top_y;
 	while (y < sprite->bottom_y)
 	{
-		if (x > 0 && x < WINDOW_WIDTH && y > 0 && y < WINDOW_HEIGHT)
+		if (x > 0 && x < cub3d->config->requested_width && y > 0 && y < cub3d->config->requested_height)
 		{
 			distanceFromTop
-				= y + (sprite->height / 2) - (WINDOW_HEIGHT / 2);
+					= y + (sprite->height / 2) - (cub3d->config->requested_height / 2);
 			sprite->texture_offset_y
-				= distanceFromTop * (TEXTURE_HEIGHT / sprite->height);
+					= distanceFromTop * (TEXTURE_HEIGHT / sprite->height);
 			texelColor = cub3d->wallTexture[sprite->texture]
-				->addr[(TEXTURE_WIDTH * sprite->texture_offset_y)
-				+ sprite->texture_offset_x];
-			if (sprite->distance < rays[x].distance && texelColor != 0x00FF00FF)
-				drawPixel(cub3d, x, y, texelColor);
+					->addr[(TEXTURE_WIDTH * sprite->texture_offset_y)
+						   + sprite->texture_offset_x];
+			if (sprite->distance < cub3d->rays[x].distance && texelColor != 0x00FF00FF)
+
+					drawPixel(cub3d, x, y, texelColor);
 		}
 		y++;
 	}
