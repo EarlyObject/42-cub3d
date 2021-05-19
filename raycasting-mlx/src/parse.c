@@ -121,7 +121,7 @@ int
 
 	i = 1;
 	while (line[i])
-		if (!ft_in_set(line[i++], " ,0123456789"))
+		if (!ft_in_set(config, line[i++], " ,0123456789"))
 			return (0);
 	str[0] = NULL;
 	str[1] = NULL;

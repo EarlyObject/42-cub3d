@@ -93,11 +93,11 @@ int
 {
 	clearColorBuffer(cub3d, GREEN);
 	renderWallProjection(cub3d);
-	renderSpriteProjection(cub3d);
+	//renderSpriteProjection(cub3d);
 	renderMapGrid(cub3d);
 	renderMapRays(cub3d);
 	renderMapPlayer(cub3d);
-	renderMapSprites(cub3d);
+	//renderMapSprites(cub3d);
 	mlx_put_image_to_window(cub3d->mlx.mlx, cub3d->win, cub3d->image.img_ptr, 0, 0);
 	return (0);
 }

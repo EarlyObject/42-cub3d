@@ -63,7 +63,7 @@ int
 }
 
 int
-	ft_in_set(char c, char const *set)
+	ft_in_set(t_config *config, char c, char const *set)
 {
 	int	i;
 
@@ -71,7 +71,10 @@ int
 	while (set[i])
 	{
 		if (c == set[i])
+		{
+			config->direction = c;
 			return (c);
+		}
 		i++;
 	}
 	return (0);

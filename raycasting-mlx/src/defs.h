@@ -90,6 +90,7 @@
 # define DIRECTIONS "NSEW"
 # define VALID_MAP_CHARACTERS " 01234NSEW"
 
+# define TEXTURES			7
 # define TEX_NORTH			0
 # define TEX_SOUTH			1
 # define TEX_WEST			2
@@ -97,8 +98,7 @@
 # define TEX_SKY			4
 # define TEX_FLOOR			5
 # define TEX_SPRITE			6
-# define TEX_SPRITE_UP		7
-# define TEX_SPRITE_C		8
+
 # define PTR_CAST(a)	(void*)((uintptr_t)(a))
 
 //graphics
@@ -153,7 +153,7 @@ int		str_length(t_str *str);
 t_str	*str_add_back(t_str **str, char *content);
 int		parse_config(t_config *config, char const *conf_path);
 int		str_clear(t_str **list);
-int		ft_in_set(char c, char const *set);
+int		ft_in_set(t_config *config, char c, char const *set);
 int		get_next_line(int fd, char **line);
 int		parse_texture(t_config *config, int key, char const *line);
 int		check_valid(t_config *config, t_str *map_buffer);

@@ -36,31 +36,33 @@ void
 	uint32_t	*walTextrBuf;
 	uint32_t	texelColor;
 
-	/*if (rays[x].wasHitVertical)
-		cub3d->wall.textureOffsetX = (int) rays[x].wallHitY % TILE_SIZE;
-	else
-		cub3d->wall.textureOffsetX = (int) rays[x].wallHitX % TILE_SIZE;
-	texNum = rays[x].texture - 1;*/
 	if (cub3d->rays[x].wasHitVertical)
+	{
 		cub3d->wall.textureOffsetX = (int) cub3d->rays[x].wallHitY % TILE_SIZE;
+		texNum = cub3d->rays[x].texture - 1; //REDBRICK
+		if (cub3d->rays[x].rayAngle   > PI /2 && cub3d->rays[x].rayAngle   < (PI +  PI /2) )
+			texNum = cub3d->rays[x].texture; //WOOD
+	}
 	else
+	{
 		cub3d->wall.textureOffsetX = (int) cub3d->rays[x].wallHitX % TILE_SIZE;
-	texNum = cub3d->rays[x].texture - 1;
+		if (cub3d->rays[x].rayAngle   < PI )
+			texNum = cub3d->rays[x].texture + 1; //COLORSTONEe
+		else if (cub3d->rays[x].rayAngle   > PI)
+			texNum = cub3d->rays[x].texture + 2; //EAGLE
+	}
 	y = cub3d->wall.wallTopY - 1;
 	while (y++ < cub3d->wall.wallBottomY)
 	{
-		//distanceFromTop = (y + (cub3d->wall.wallHeight / 2)
-		//		- (WINDOW_HEIGHT / 2));
 		distanceFromTop = (y + (cub3d->wall.wallHeight / 2)
 						   - (cub3d->config->requested_height / 2));
 		cub3d->wall.textureOffsetY = distanceFromTop
-			* ((float) TEXTURE_HEIGHT / cub3d->wall.wallHeight);
+									 * ((float) TEXTURE_HEIGHT / cub3d->wall.wallHeight);
 		walTextrBuf = (uint32_t *) cub3d->wallTexture[texNum]->addr;
 		texelColor = walTextrBuf[(TEXTURE_WIDTH * cub3d->wall.textureOffsetY)
-			+ cub3d->wall.textureOffsetX];
-		//if (rays[x].wasHitVertical)
+								 + cub3d->wall.textureOffsetX];
 		if (cub3d->rays[x].wasHitVertical)
-				changeColorIntensity(&texelColor, 0.7);
+			changeColorIntensity(&texelColor, 0.7);
 		drawPixel(cub3d, x, y, texelColor);
 	}
 }
@@ -104,9 +106,7 @@ void
 		}
 		draw_wall(cub3d, x);
 		y = cub3d->wall.wallBottomY;
-		//while (y < WINDOW_HEIGHT)
 		while (y < cub3d->config->requested_height)
-
 			{
 			drawPixel(cub3d, x, y, 0x777777);
 			y++;

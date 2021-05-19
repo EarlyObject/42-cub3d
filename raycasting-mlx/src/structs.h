@@ -23,7 +23,7 @@
 # define NUM_TEXTURES 13
 //# define NUM_TEXTURES 8
 # define NUM_SPRITES 6
-# define TEXTURES			9
+# define TEXTURES			7
 # define C_LAST				9
 
 typedef struct	s_str
@@ -124,6 +124,7 @@ typedef struct	s_config
 	double		rotate_speed;
 	double		move_speed;
 	float		dist_proj_plane;
+	char 		direction;
 	char		*tex_path[TEXTURES];
 	unsigned	c[TEXTURES];
 	int			set[C_LAST];
