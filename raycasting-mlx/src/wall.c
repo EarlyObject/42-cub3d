@@ -39,17 +39,17 @@ void
 	if (cub3d->rays[x].wasHitVertical)
 	{
 		cub3d->wall.textureOffsetX = (int) cub3d->rays[x].wallHitY % TILE_SIZE;
-		texNum = cub3d->rays[x].texture - 1; //REDBRICK
+		texNum = cub3d->rays[x].texture + 1; //COLORSTONE (right)
 		if (cub3d->rays[x].rayAngle   > PI /2 && cub3d->rays[x].rayAngle   < (PI +  PI /2) )
-			texNum = cub3d->rays[x].texture; //WOOD
+			texNum = cub3d->rays[x].texture + 2; //EAGLE (left)
 	}
 	else
 	{
 		cub3d->wall.textureOffsetX = (int) cub3d->rays[x].wallHitX % TILE_SIZE;
 		if (cub3d->rays[x].rayAngle   < PI )
-			texNum = cub3d->rays[x].texture + 1; //COLORSTONEe
+			texNum = cub3d->rays[x].texture; //WOOD (south)
 		else if (cub3d->rays[x].rayAngle   > PI)
-			texNum = cub3d->rays[x].texture + 2; //EAGLE
+			texNum = cub3d->rays[x].texture - 1; //REDBRICK (north)
 	}
 	y = cub3d->wall.wallTopY - 1;
 	while (y++ < cub3d->wall.wallBottomY)

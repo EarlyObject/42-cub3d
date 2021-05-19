@@ -145,6 +145,9 @@ void	render_vsbl_sprites(t_cub3d *cub3d, t_sprite *vsbl_sprites, int i);
 void	draw_sprite(t_cub3d *cub3d, t_sprite *sprite, int x);
 int		find_visible_sprites(t_cub3d *cub3d, t_sprite *vsblSprites);
 
+void	find_sprites(t_cub3d *cub3d, t_config *config);
+
+
 //parse
 int		parse_color(t_config *config, int key, char const *line);
 int		parse_dimensions(t_config *config, char const *line);

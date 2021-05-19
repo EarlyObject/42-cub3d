@@ -22,7 +22,7 @@
 
 # define NUM_TEXTURES 13
 //# define NUM_TEXTURES 8
-# define NUM_SPRITES 6
+# define NUM_SPRITES 3
 # define TEXTURES			7
 # define C_LAST				9
 
@@ -129,6 +129,7 @@ typedef struct	s_config
 	unsigned	c[TEXTURES];
 	int			set[C_LAST];
 	double		fov;
+	t_sprite 	*sprites[NUM_SPRITES];
 }				t_config;
 
 typedef	struct		s_cub3d

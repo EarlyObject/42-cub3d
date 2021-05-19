@@ -54,6 +54,36 @@ void
 	visibleSprites[j] = (*temp);
 }
 
+/*void
+	renderSpriteProjection(t_cub3d *cub3d)
+{
+	t_sprite	visibleSprites[NUM_SPRITES];
+	t_sprite	temp;
+	int			numVisibleSprites;
+	int			i;
+	int			j;
+
+	numVisibleSprites = find_visible_sprites(cub3d, visibleSprites);
+	i = 0;
+	while (i < numVisibleSprites - 1)
+	{
+		j = 1;
+		while (j < numVisibleSprites)
+		{
+			if (visibleSprites[i].distance < visibleSprites[j].distance)
+				swap_sprites(visibleSprites, &temp, i, j);
+			j++;
+		}
+		i++;
+	}
+	i = 0;
+	while (i < numVisibleSprites)
+	{
+		render_vsbl_sprites(cub3d, visibleSprites, i);
+		i++;
+	}
+}*/
+
 void
 	renderSpriteProjection(t_cub3d *cub3d)
 {

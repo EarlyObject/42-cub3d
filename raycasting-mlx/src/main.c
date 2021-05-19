@@ -62,6 +62,7 @@ void
 	cub3d->plr.rotAngle = PI / 2;
 	cub3d->plr.walkSpeed = 100;
 	cub3d->plr.turnSpeed = 45 * (PI / 180);
+
 }
 
 
@@ -93,11 +94,11 @@ int
 {
 	clearColorBuffer(cub3d, GREEN);
 	renderWallProjection(cub3d);
-	//renderSpriteProjection(cub3d);
+	renderSpriteProjection(cub3d);
 	renderMapGrid(cub3d);
 	renderMapRays(cub3d);
 	renderMapPlayer(cub3d);
-	//renderMapSprites(cub3d);
+	renderMapSprites(cub3d);
 	mlx_put_image_to_window(cub3d->mlx.mlx, cub3d->win, cub3d->image.img_ptr, 0, 0);
 	return (0);
 }
@@ -182,10 +183,10 @@ int
 		setup(&cub3d, &config);
 		cub3d.rays = (t_ray *)malloc(sizeof(t_ray) * (config.requested_width));
 
-
-
 		isGameRunning = !initializeWindow(&cub3d);
 		loadTextures(&cub3d);
+		find_sprites(&cub3d, cub3d.config);
+
 
 		mlx_hook(cub3d.win, X_EVENT_KEY_PRESS, 0, &deal_key, &cub3d);
 		mlx_hook(cub3d.win, X_EVENT_KEY_RELEASE, 0, &key_release, &cub3d);

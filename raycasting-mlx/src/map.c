@@ -25,9 +25,10 @@ bool
 	mapGridIndexX = floor(x / TILE_SIZE);
 	mapGridIndexY = floor(y / TILE_SIZE);
 	z = config->map[mapGridIndexX + mapGridIndexY * config->columns] - 48;
-	if (z == 30 || z == 35 || z == 39 || z == 21)
-		z = 0;
-	return (z != 0);
+	//можно убрать?
+	/*if (z == 30 || z == 35 || z == 39 || z == 21)
+		z = 0;*/
+	return (z == 1);
 }
 
 bool
@@ -68,7 +69,7 @@ void
 			int x = cub3d->config->map[j + i * cub3d->config->columns] - 48;
 			if (x == 30 || x == 35 || x == 39 || x == 21)
 				x = 0;
-			if (x != 0)
+			if (x == 1)
 					tileColor = WHITE;
 			else
 				tileColor = BLACK;
