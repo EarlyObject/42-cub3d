@@ -39,23 +39,23 @@ void
 	if (cub3d->rays[x].wasHitVertical)
 	{
 		cub3d->wall.textureOffsetX = (int) cub3d->rays[x].wallHitY % TILE_SIZE;
-		texNum = cub3d->rays[x].texture + 1; //COLORSTONE (right)
+		texNum = cub3d->rays[x].texture + 2;
 		if (cub3d->rays[x].rayAngle   > PI /2 && cub3d->rays[x].rayAngle   < (PI +  PI /2) )
-			texNum = cub3d->rays[x].texture + 2; //EAGLE (left)
+			texNum = cub3d->rays[x].texture + 1;
 	}
 	else
 	{
 		cub3d->wall.textureOffsetX = (int) cub3d->rays[x].wallHitX % TILE_SIZE;
 		if (cub3d->rays[x].rayAngle   < PI )
-			texNum = cub3d->rays[x].texture; //WOOD (south)
+			texNum = cub3d->rays[x].texture;
 		else if (cub3d->rays[x].rayAngle   > PI)
-			texNum = cub3d->rays[x].texture - 1; //REDBRICK (north)
+			texNum = cub3d->rays[x].texture - 1;
 	}
 	y = cub3d->wall.wallTopY - 1;
 	while (y++ < cub3d->wall.wallBottomY)
 	{
 		distanceFromTop = (y + (cub3d->wall.wallHeight / 2)
-						   - (cub3d->config->requested_height / 2));
+						   - (cub3d->config->height / 2));
 		cub3d->wall.textureOffsetY = distanceFromTop
 									 * ((float) TEXTURE_HEIGHT / cub3d->wall.wallHeight);
 		walTextrBuf = (uint32_t *) cub3d->wallTexture[texNum]->addr;
@@ -75,13 +75,13 @@ void
 	perpDistance = cub3d->rays[x].distance
 				   * cos(cub3d->rays[x].rayAngle - cub3d->plr.rotAngle);
 	cub3d->wall.wallHeight = (TILE_SIZE / perpDistance) * cub3d->config->dist_proj_plane;
-	cub3d->wall.wallTopY = (cub3d->config->requested_height / 2) - (cub3d->wall.wallHeight / 2);
+	cub3d->wall.wallTopY = (cub3d->config->height / 2) - (cub3d->wall.wallHeight / 2);
 	if (cub3d->wall.wallTopY < 0)
 		cub3d->wall.wallTopY = 0;
-	cub3d->wall.wallBottomY = (cub3d->config->requested_height / 2)
+	cub3d->wall.wallBottomY = (cub3d->config->height / 2)
 							  + (cub3d->wall.wallHeight / 2);
-	if (cub3d->wall.wallBottomY > cub3d->config->requested_height)
-		cub3d->wall.wallBottomY = cub3d->config->requested_height;
+	if (cub3d->wall.wallBottomY > cub3d->config->height)
+		cub3d->wall.wallBottomY = cub3d->config->height;
 	if (cub3d->wall.wallBottomY < 0)
 		cub3d->wall.wallBottomY = 0;
 }
@@ -93,7 +93,7 @@ void
 	int		y;
 	int num_rays;
 
-	num_rays = cub3d->config->requested_width;
+	num_rays = cub3d->config->width;
 	x = 0;
 	while (x < num_rays)
 	{
@@ -101,15 +101,17 @@ void
 		y = 0;
 		while (y < cub3d->wall.wallTopY)
 		{
-			drawPixel(cub3d, x, y, 0x444444);
+			//drawPixel(cub3d, x, y, 0x444444);
+			drawPixel(cub3d, x, y, cub3d->config->c[TEX_SKY]);
 			y++;
 		}
 		draw_wall(cub3d, x);
 		y = cub3d->wall.wallBottomY;
-		while (y < cub3d->config->requested_height)
-			{
-			drawPixel(cub3d, x, y, 0x777777);
-			y++;
+		while (y < cub3d->config->height)
+		{
+			//drawPixel(cub3d, x, y, 0x777777);
+			drawPixel(cub3d, x, y, cub3d->config->c[TEX_FLOOR]);
+				y++;
 		}
 		x++;
 	}

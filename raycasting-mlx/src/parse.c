@@ -73,12 +73,12 @@ int
 	tmp = ft_atoi(param->content);
 	if (tmp <= 1)
 		return (str_clear(&str));
-	config->requested_width = tmp;
+	config->width = tmp;
 	param = param->next;
 	tmp = ft_atoi(param->content);
 	if (tmp <= 1)
 		return (str_clear(&str));
-	config->requested_height = tmp;
+	config->height = tmp;
 	return (str_clear(&str) | 1);
 }
 

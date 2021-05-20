@@ -12,7 +12,7 @@
 
 #include "defs.h"
 
-void
+int
 	exit_game(t_cub3d *cub3d, int code)
 {
 	//clear_config(&game->config);

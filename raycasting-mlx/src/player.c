@@ -24,10 +24,27 @@ void
 	moveStep = cub3d->plr.walkDrcn * cub3d->plr.walkSpeed * dTime;
 	newPlayerX = cub3d->plr.x + cos(cub3d->plr.rotAngle) * moveStep;
 	newPlayerY = cub3d->plr.y + sin(cub3d->plr.rotAngle) * moveStep;
+
 	if (!mapHasWallAt(cub3d->config, newPlayerX, newPlayerY))
 	{
 		cub3d->plr.x = newPlayerX;
 		cub3d->plr.y = newPlayerY;
+	}
+	if(cub3d->plr.rotAngle >0 && cub3d->plr.rotAngle < PI /2)
+	{
+		printf("> 0 && < PI\n");
+	}
+	if(cub3d->plr.rotAngle > (PI / 2) && cub3d->plr.rotAngle < PI)
+	{
+		printf("> PI/2 && < PI\n");
+	}
+	if(cub3d->plr.rotAngle > PI && cub3d->plr.rotAngle < (PI + PI /2))
+	{
+		printf("> PI && < PI +  PI/2\n");
+	}
+	else
+	{
+		printf("> PI + PI/2 && < 2PI\n");
 	}
 }
 
@@ -45,8 +62,8 @@ void
 	line = (t_line){.x0 = MINIMAP_SCALE_FACTOR * cub3d->plr.x,
 		.y0 = MINIMAP_SCALE_FACTOR * cub3d->plr.y,
 		.x1 = MINIMAP_SCALE_FACTOR * cub3d->plr.x
-		+ cos(cub3d->plr.rotAngle) * 40,
+		+ cos(cub3d->plr.rotAngle) * 30,
 		.y1 = MINIMAP_SCALE_FACTOR * cub3d->plr.y
-		+ sin(cub3d->plr.rotAngle) * 40};
+		+ sin(cub3d->plr.rotAngle) * 30};
 	drawLine(cub3d, line, RED);
 }

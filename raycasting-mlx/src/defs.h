@@ -23,7 +23,6 @@
 # include "structs.h"
 # include "../mlx/mlx.h"
 # include "../libft/libft.h"
-# include "upng.h"
 
 # define PI 3.14159265
 # define TWO_PI 6.28318530
@@ -50,32 +49,14 @@
 # define X_EVENT_KEY_RELEASE		3
 # define X_EVENT_KEY_EXIT		17 //Exit program key code
 # define KEY_ESC			53
-# define KEY_Q			12
 # define KEY_W			13
-# define KEY_E			14
-# define KEY_R			15
 # define KEY_A			0
 # define KEY_S			1
 # define KEY_D			2
-# define KEY_1			18
-# define KEY_2			19
-# define KEY_3			20
-# define KEY_4			21
-# define KEY_Q			12
-# define KEY_E			14
-# define KEY_R			15
-# define KEY_I			34
-# define KEY_O			31
-# define KEY_P			35
-# define KEY_J			38
-# define KEY_K			40
-# define KEY_L			37
 # define KEY_LEFT		123
 # define KEY_RIGHT		124
 # define KEY_FORWARD 	126
 # define KEY_BACKWARD	125
-# define KEY_TAB	48
-# define KEY_MAJ	257
 
 # define C_R				0
 # define C_NO				1
@@ -170,6 +151,16 @@ static int	str_to_color(t_str *str);
 static int	texture_index(int key);
 int		ft_endwith(char const *str, char const *end);
 t_str	*str_last(t_str *str);
+
+void		screenshot(t_cub3d *cub3d);
+int			render(t_cub3d *cub3d);
+int			exit_game(t_cub3d *cub3d, int code);
+void		update(t_cub3d *cub3d);
+void		bmp_builder(t_cub3d * cub3d, char *file_name);
+void		init_config(t_config *config);
+void		init_player(t_cub3d *cub3d);
+void		setup(t_cub3d *cub3d, t_config *config, int save_option, char *conf_path);
+
 
 #endif
 

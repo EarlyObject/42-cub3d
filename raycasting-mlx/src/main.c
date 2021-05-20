@@ -13,58 +13,7 @@
 #include "defs.h"
 #include <SDL2/SDL.h>
 
-int isGameRunning = 0;
 int ticksLastFrame = 0;
-
-void
-	exit_game(t_cub3d **p_d, int i);
-
-void
-	init_config(t_config *config)
-{
-	int	i;
-
-	config->requested_width = 848;
-	config->requested_height = 480;
-	i = 0;
-	while (i < TEXTURES)
-		config->tex_path[i++] = NULL;
-	config->c[TEX_NORTH] = 0xFFFFFF;
-	config->c[TEX_SOUTH] = 0xCCCCCC;
-	config->c[TEX_WEST] = 0xFF44FF;
-	config->c[TEX_EAST] = 0x44FF44;
-	config->c[TEX_SKY] = 0x33C6E3;
-	config->c[TEX_FLOOR] = 0xA0764C;
-	config->map = NULL;
-	config->rows = 0;
-	config->columns = 0;
-	config->save_arg = 0;
-	config->rotate_speed = .11;
-	config->move_speed = .11;
-	config->fov = .66;
-	config->dist_proj_plane = ((config->requested_width / 2) / tan(FOV_ANGLE / 2));
-	i = 0;
-	while (i < C_LAST)
-		config->set[i++] = 0;
-}
-
-void
-	setup(t_cub3d *cub3d, t_config *config)
-{
-	printf("Starting SETUP\n");
-	//collocate_sprites(cub3d);
-	cub3d->plr.x = cub3d->config->requested_width / 2;
-	cub3d->plr.y = cub3d->config->requested_height / 2;
-	cub3d->plr.width = 1;
-	cub3d->plr.height = 1;
-	cub3d->plr.turnDrcn = 0;
-	cub3d->plr.walkDrcn = 0;
-	cub3d->plr.rotAngle = PI / 2;
-	cub3d->plr.walkSpeed = 100;
-	cub3d->plr.turnSpeed = 45 * (PI / 180);
-
-}
-
 
 void
 	update(t_cub3d *cub3d)
@@ -94,7 +43,7 @@ int
 {
 	clearColorBuffer(cub3d, GREEN);
 	renderWallProjection(cub3d);
-	renderSpriteProjection(cub3d);
+	//renderSpriteProjection(cub3d);
 	renderMapGrid(cub3d);
 	renderMapRays(cub3d);
 	renderMapPlayer(cub3d);
@@ -115,7 +64,6 @@ int
 {
 	if (key_code == KEY_ESC)
 	{
-		isGameRunning = 0;
 		exit(0);
 	}
 
@@ -123,10 +71,14 @@ int
 		cub3d->plr.walkDrcn = +1;
 	if (key_code == KEY_S || key_code == KEY_BACKWARD)
 		cub3d->plr.walkDrcn = -1;
-	if (key_code == KEY_D || key_code == KEY_RIGHT)
+	if (key_code == KEY_RIGHT)
 		cub3d->plr.turnDrcn = +1;
-	if (key_code == KEY_A || key_code == KEY_LEFT)
+	if (key_code == KEY_LEFT)
 		cub3d->plr.turnDrcn = -1;
+	if (key_code == KEY_D)
+		cub3d->plr.moveSide = -1;
+	if (key_code == KEY_A)
+		cub3d->plr.moveSide = +1;
 	return (0);
 }
 
@@ -137,65 +89,55 @@ int
 		cub3d->plr.walkDrcn = 0;
 	if (key_code == KEY_S || key_code == KEY_BACKWARD)
 		cub3d->plr.walkDrcn = 0;
-	if (key_code == KEY_D || key_code == KEY_RIGHT)
+	if (key_code == KEY_RIGHT)
 		cub3d->plr.turnDrcn = 0;
-	if (key_code == KEY_A || key_code == KEY_LEFT)
+	if (key_code == KEY_LEFT)
 		cub3d->plr.turnDrcn = 0;
+	if (key_code == KEY_D)
+		cub3d->plr.moveSide = 0;
+	if (key_code == KEY_A)
+		cub3d->plr.moveSide = 0;
 	return (0);
 }
 
 int
 	close_win()
 {
-	isGameRunning = 0;
 	exit(0);
 }
 
 int
-	test_loop(t_cub3d *cub3d)
+	main_loop(t_cub3d *cub3d)
 {
 	update(cub3d);
 	render(cub3d);
 	return (0);
 }
-
+void ft_run(t_cub3d cub3d)
+{
+	mlx_hook(cub3d.win, X_EVENT_KEY_PRESS, 0, &deal_key, &cub3d);
+	mlx_hook(cub3d.win, X_EVENT_KEY_RELEASE, 0, &key_release, &cub3d);
+	mlx_hook(cub3d.win, X_EVENT_KEY_EXIT, 0, &close_win,&cub3d);
+	mlx_loop_hook(cub3d.mlx.mlx, &main_loop, &cub3d);
+	mlx_loop(cub3d.mlx.mlx);
+}
 int
 	main(int argc, char *argv[])
 {
-	t_cub3d	cub3d;
-	t_config config;
-	int	save_option;
+	t_cub3d		cub3d;
+	t_config	config;
+	int			save_option;
 
+	save_option = 0;
 	if(argc == 3)
-		save_option = (argc >= 2 && !ft_strncmp(argv[2], "--save", 6));
-	if(argc == 2 || argc == 3 && save_option)
+		save_option = (!ft_strncmp(argv[2], "--save", 6));
+	if(argc == 2 || (argc == 3 && save_option))
 	{
-		init_config(&config);
-		if (!parse_config(&config, argv[1]))
-		{
-			printf("ERROR: INVALID MAP PARAMETERS.\n");
-			exit(EXIT_FAILURE);
-			//продумать выход с ошибкой
-			//ft_exit_error(&cub3d, "ERROR: INVALID MAP PARAMETERS.\n");
-		}
-		cub3d.config = &config;
-
-		setup(&cub3d, &config);
-		cub3d.rays = (t_ray *)malloc(sizeof(t_ray) * (config.requested_width));
-
-		isGameRunning = !initializeWindow(&cub3d);
-		loadTextures(&cub3d);
-		find_sprites(&cub3d, cub3d.config);
-
-
-		mlx_hook(cub3d.win, X_EVENT_KEY_PRESS, 0, &deal_key, &cub3d);
-		mlx_hook(cub3d.win, X_EVENT_KEY_RELEASE, 0, &key_release, &cub3d);
-		mlx_hook(cub3d.win, X_EVENT_KEY_EXIT, 0, &close_win,&cub3d);
-		printf("is running = %d\n", isGameRunning);
-		mlx_loop_hook(cub3d.mlx.mlx, &render, &cub3d);
-		mlx_loop_hook(cub3d.mlx.mlx, &test_loop, &cub3d);
-		mlx_loop(cub3d.mlx.mlx);
+		setup(&cub3d, &config, save_option, argv[1]);
+		if (save_option)
+			screenshot(&cub3d);
+		ft_run(cub3d);
 		return (EXIT_SUCCESS);
 	}
-	ft_exit_error(&cub3d, "ERROR:NO MAP SPECIFIED.\n");
+	ft_exit_error(&cub3d, "ERROR: WRONG NUMBER OF ARGUMENTS.\n");
 }

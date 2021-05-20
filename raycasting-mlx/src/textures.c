@@ -12,22 +12,6 @@
 
 #include "defs.h"
 
-static char *textureFileNames[NUM_TEXTURES] = {
-	"./textures/redbrick.xpm", //[0]
-	"./textures/purplestone.xpm",
-	"./textures/mossystone.xpm",
-	"./textures/graystone.xpm",
-	"./textures/colorstone.xpm",
-	"./textures/bluestone.xpm",
-	"./textures/wood.xpm",
-	"./textures/eagle.xpm",
-	"./textures/barrel.xpm", //[8]
-	"./textures/light.xpm", //[9]
-	"./textures/table.xpm", //[10]
-	"./textures/guard.xpm", //[11]
-	"./textures/armor.xpm" //[12]
-};
-
 void
 	loadTextures(t_cub3d *cub3d)
 {

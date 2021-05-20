@@ -31,8 +31,8 @@ void
 	int			x;
 	uint32_t	color;
 	t_rectangle	rectangle;
-	int w = cub3d->config->requested_width / cub3d->config->columns;
-	int h = cub3d->config->requested_height / cub3d->config->rows;
+	int w = cub3d->config->width / cub3d->config->columns;
+	int h = cub3d->config->height / cub3d->config->rows;
 
 	i = -1;
 	while (i++ < cub3d->config->rows - 1)
@@ -137,10 +137,10 @@ void
 	y = sprite->top_y;
 	while (y < sprite->bottom_y)
 	{
-		if (x > 0 && x < cub3d->config->requested_width && y > 0 && y < cub3d->config->requested_height)
+		if (x > 0 && x < cub3d->config->width && y > 0 && y < cub3d->config->height)
 		{
 			distanceFromTop
-					= y + (sprite->height / 2) - (cub3d->config->requested_height / 2);
+					= y + (sprite->height / 2) - (cub3d->config->height / 2);
 			sprite->texture_offset_y
 					= distanceFromTop * (TEXTURE_HEIGHT / sprite->height);
 			texelColor = cub3d->wallTexture[sprite->texture]

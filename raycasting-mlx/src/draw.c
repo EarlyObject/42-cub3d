@@ -63,6 +63,6 @@ void
 {
 	/*if (x >= 0 && x <  WINDOW_WIDTH && y >= 0 && y < WINDOW_HEIGHT)
 		cub3d->image.addr[(WINDOW_WIDTH * y) + x] = color;*/
-	if (x >= 0 && x <  cub3d->config->requested_width && y >= 0 && y < cub3d->config->requested_height)
-		cub3d->image.addr[(cub3d->config->requested_width * y) + x] = color;
+	if (x >= 0 && x <  cub3d->config->width && y >= 0 && y < cub3d->config->height)
+		cub3d->image.addr[(cub3d->config->width * y) + x] = color;
 }
