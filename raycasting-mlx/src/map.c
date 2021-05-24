@@ -19,15 +19,14 @@ bool
 	int	mapGridIndexY;
 	int z;
 
-	if (x < 0 || x >= config->columns * TILE_SIZE || y < 0
-		|| y >= config->rows * TILE_SIZE)
+/*	if (x < 0 || x >= config->columns * TILE_SIZE || y < 0
+		|| y >= config->rows * TILE_SIZE)*/
+	if (x < 0 || x >= config->width || y < 0
+		|| y >= config->height)
 		return (true);
 	mapGridIndexX = floor(x / TILE_SIZE);
 	mapGridIndexY = floor(y / TILE_SIZE);
 	z = config->map[mapGridIndexX + mapGridIndexY * config->columns] - 48;
-	//можно убрать?
-	/*if (z == 30 || z == 35 || z == 39 || z == 21)
-		z = 0;*/
 	return (z == 1);
 }
 
@@ -42,8 +41,12 @@ int
 	getMapAt(t_config *config, int i, int j)
 {
 	int	x;
+	int addr;
 
-	x = config->map[j + i * config->columns] - 48;
+	addr = j + i * config->columns;
+	if (addr >= config->width * config->height)
+		addr = config->width * config->height - 1;
+	x = config->map[addr] - 48;
 	if (x == 30 || x == 35 || x == 39 || x == 21)
 		x = 0;
 	return (x);

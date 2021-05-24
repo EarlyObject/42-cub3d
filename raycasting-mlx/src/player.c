@@ -18,33 +18,45 @@ void
 	float	moveStep;
 	float	newPlayerX;
 	float	newPlayerY;
+	float	stepY;
+	float	stepX;
 
 	cub3d->plr.rotAngle += cub3d->plr.turnDrcn * cub3d->plr.turnSpeed * dTime;
-	normalizeAngle(&cub3d->plr.rotAngle);
 	moveStep = cub3d->plr.walkDrcn * cub3d->plr.walkSpeed * dTime;
-	newPlayerX = cub3d->plr.x + cos(cub3d->plr.rotAngle) * moveStep;
-	newPlayerY = cub3d->plr.y + sin(cub3d->plr.rotAngle) * moveStep;
-
+	if (cub3d->plr.moveSide)
+	{
+		float ang;
+		if (cub3d->plr.rotAngle >= 0 && cub3d->plr.rotAngle <= PI / 2)
+			ang = TWO_PI - cub3d->plr.rotAngle;
+		else if (cub3d->plr.rotAngle > PI / 2 && cub3d->plr.rotAngle < PI)
+			ang = cub3d->plr.rotAngle;
+		else if (cub3d->plr.rotAngle >= PI && cub3d->plr.rotAngle < (PI + PI /2))
+			ang = cub3d->plr.rotAngle;
+		else
+			ang = TWO_PI-cub3d->plr.rotAngle;
+		stepY = cos(ang) * 2;
+		stepX = sin(ang) * stepY;
+		if (cub3d->plr.moveSide > 0)
+		{
+			newPlayerX = cub3d->plr.x + stepX;
+			newPlayerY = cub3d->plr.y + stepY;
+		}
+		else
+		{
+			newPlayerX = cub3d->plr.x - stepX;
+			newPlayerY = cub3d->plr.y - stepY;
+		}
+	}
+	else
+	{
+		normalizeAngle(&cub3d->plr.rotAngle);
+		newPlayerX = cub3d->plr.x + cos(cub3d->plr.rotAngle) * moveStep;
+		newPlayerY = cub3d->plr.y + sin(cub3d->plr.rotAngle) * moveStep;
+	}
 	if (!mapHasWallAt(cub3d->config, newPlayerX, newPlayerY))
 	{
 		cub3d->plr.x = newPlayerX;
 		cub3d->plr.y = newPlayerY;
-	}
-	if(cub3d->plr.rotAngle >0 && cub3d->plr.rotAngle < PI /2)
-	{
-		printf("> 0 && < PI\n");
-	}
-	if(cub3d->plr.rotAngle > (PI / 2) && cub3d->plr.rotAngle < PI)
-	{
-		printf("> PI/2 && < PI\n");
-	}
-	if(cub3d->plr.rotAngle > PI && cub3d->plr.rotAngle < (PI + PI /2))
-	{
-		printf("> PI && < PI +  PI/2\n");
-	}
-	else
-	{
-		printf("> PI + PI/2 && < 2PI\n");
 	}
 }
 
@@ -52,18 +64,10 @@ void
 	renderMapPlayer(t_cub3d *cub3d)
 {
 	t_rectangle	rectangle;
-	t_line		line;
 
 	rectangle = (t_rectangle){.x = cub3d->plr.x * MINIMAP_SCALE_FACTOR,
 		.y = cub3d->plr.y * MINIMAP_SCALE_FACTOR,
 		.width = cub3d->plr.width * MINIMAP_SCALE_FACTOR,
 		.height = cub3d->plr.height * MINIMAP_SCALE_FACTOR};
 	drawRect(cub3d, rectangle, 0xFFFFFFFF);
-	line = (t_line){.x0 = MINIMAP_SCALE_FACTOR * cub3d->plr.x,
-		.y0 = MINIMAP_SCALE_FACTOR * cub3d->plr.y,
-		.x1 = MINIMAP_SCALE_FACTOR * cub3d->plr.x
-		+ cos(cub3d->plr.rotAngle) * 30,
-		.y1 = MINIMAP_SCALE_FACTOR * cub3d->plr.y
-		+ sin(cub3d->plr.rotAngle) * 30};
-	drawLine(cub3d, line, RED);
 }

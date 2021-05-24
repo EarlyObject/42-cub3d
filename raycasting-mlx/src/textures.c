@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   textures.c                                         :+:      :+:    :+:   */
+/*   textures.color                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -24,19 +24,21 @@ void
 	while (i < TEXTURES)
 	{
 		if (cub3d->config->tex_path[i])
+		{
 			img.img_ptr = mlx_xpm_file_to_image(cub3d->mlx.mlx, cub3d->config->tex_path[i], &img_width, &img_height);
-		if (img.img_ptr == NULL)
-			ft_exit_error(cub3d, "ERROR: ERROR CONVERTING TEXTURE");
-		img.addr = (uint32_t *)mlx_get_data_addr(img.img_ptr, &img.bits_per_pixel, &img.line_length, &img.endian);
-		if (img.img_ptr != NULL)
-		{
-			cub3d->wallTexture[i] = img.img_ptr;
-			printf("Loaded texture %d\n", i);
-		}
-		else
-		{
-			printf("ERROR LOADING TEXTURE %s\n", cub3d->config->tex_path[i]);
-			ft_exit_error(cub3d, "ERROR: ERROR LOADING TEXTURE");
+			if (img.img_ptr == NULL)
+				ft_exit_error(cub3d, "ERROR: ERROR CONVERTING TEXTURE");
+			img.addr = (uint32_t *)mlx_get_data_addr(img.img_ptr, &img.bits_per_pixel, &img.line_length, &img.endian);
+			if(img.addr != NULL)
+			{
+				cub3d->wallTexture[i] = img.img_ptr;
+				printf("Loaded texture %d\n", i);
+			}
+			else
+			{
+				printf("ERROR LOADING TEXTURE %s\n", cub3d->config->tex_path[i]);
+				ft_exit_error(cub3d, "ERROR: ERROR LOADING TEXTURE");
+			}
 		}
 		i++;
 	}
@@ -48,7 +50,7 @@ void
 	int	i;
 
 	i = 0;
-	while (i < NUM_TEXTURES)
+	while (i < TEXTURES)
 	{
 		free(cub3d->wallTexture[i]);
 		i++;

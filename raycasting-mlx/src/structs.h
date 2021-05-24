@@ -19,8 +19,6 @@
 # include "defs.h"
 # include "../mlx/mlx.h"
 
-# define NUM_TEXTURES 13
-//# define NUM_TEXTURES 8
 # define NUM_SPRITES 3
 # define TEXTURES			7
 # define C_LAST				9
@@ -140,7 +138,7 @@ typedef struct	s_config
 	float		dist_proj_plane;
 	char 		direction;
 	char		*tex_path[TEXTURES];
-	uint32_t	c[TEXTURES];
+	uint32_t	color[TEXTURES];
 	int			set[C_LAST];
 	t_sprite 	*sprites[NUM_SPRITES];
 }				t_config;
@@ -176,7 +174,7 @@ typedef	struct		s_cub3d
 	t_line 		line;
 	t_config	*config;
 	t_ray		*rays;
-	t_image		*wallTexture[NUM_TEXTURES];
+	t_image		*wallTexture[TEXTURES];
 	t_sprite 	*sprites[NUM_SPRITES];
 }					t_cub3d;
 

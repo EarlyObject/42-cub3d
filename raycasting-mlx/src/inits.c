@@ -21,7 +21,7 @@ void
 	cub3d->plr.height = 1;
 	cub3d->plr.turnDrcn = 0;
 	cub3d->plr.walkDrcn = 0;
-	cub3d->plr.rotAngle = PI / 2;
+	cub3d->plr.rotAngle = -PI / 2;
 	cub3d->plr.walkSpeed = 100;
 	cub3d->plr.turnSpeed = 45 * (PI / 180);
 	cub3d->plr.moveSide = 0;
@@ -43,12 +43,12 @@ void
 	i = 0;
 	while (i < TEXTURES)
 		config->tex_path[i++] = NULL;
-	config->c[TEX_NORTH] = 0xFFFFFF;
-	config->c[TEX_SOUTH] = 0xCCCCCC;
-	config->c[TEX_WEST] = 0xFF44FF;
-	config->c[TEX_EAST] = 0x44FF44;
-	config->c[TEX_SKY] = 0x33C6E3;
-	config->c[TEX_FLOOR] = 0xA0764C;
+	config->color[TEX_NORTH] = 0xFFFFFF;
+	config->color[TEX_SOUTH] = 0xCCCCCC;
+	config->color[TEX_WEST] = 0xFF44FF;
+	config->color[TEX_EAST] = 0x44FF44;
+	config->color[TEX_SKY] = 0x33C6E3;
+	config->color[TEX_FLOOR] = 0xA0764C;
 	i = 0;
 	while (i < C_LAST)
 		config->set[i++] = 0;
@@ -76,7 +76,7 @@ void
 	cub3d->config = NULL;
 	cub3d->rays = NULL;
 	i = 0;
-	while (i < NUM_TEXTURES)
+	while (i < TEXTURES)
 		cub3d->wallTexture[i++] = NULL;
 	i = 0;
 	while (i < NUM_SPRITES)

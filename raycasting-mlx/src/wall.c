@@ -57,10 +57,11 @@ void
 		distanceFromTop = (y + (cub3d->wall.wallHeight / 2)
 						   - (cub3d->config->height / 2));
 		cub3d->wall.textureOffsetY = distanceFromTop
-									 * ((float) TEXTURE_HEIGHT / cub3d->wall.wallHeight);
+									 * (float)(TEXTURE_HEIGHT / cub3d->wall.wallHeight);
+		if (cub3d->wall.textureOffsetY > 63)
+			cub3d->wall.textureOffsetY = 63;
 		walTextrBuf = (uint32_t *) cub3d->wallTexture[texNum]->addr;
-		texelColor = walTextrBuf[(TEXTURE_WIDTH * cub3d->wall.textureOffsetY)
-								 + cub3d->wall.textureOffsetX];
+		texelColor = walTextrBuf[(TEXTURE_WIDTH * cub3d->wall.textureOffsetY + cub3d->wall.textureOffsetX)];
 		if (cub3d->rays[x].wasHitVertical)
 			changeColorIntensity(&texelColor, 0.7);
 		drawPixel(cub3d, x, y, texelColor);
@@ -102,7 +103,7 @@ void
 		while (y < cub3d->wall.wallTopY)
 		{
 			//drawPixel(cub3d, x, y, 0x444444);
-			drawPixel(cub3d, x, y, cub3d->config->c[TEX_SKY]);
+			drawPixel(cub3d, x, y, cub3d->config->color[TEX_SKY]);
 			y++;
 		}
 		draw_wall(cub3d, x);
@@ -110,7 +111,7 @@ void
 		while (y < cub3d->config->height)
 		{
 			//drawPixel(cub3d, x, y, 0x777777);
-			drawPixel(cub3d, x, y, cub3d->config->c[TEX_FLOOR]);
+			drawPixel(cub3d, x, y, cub3d->config->color[TEX_FLOOR]);
 				y++;
 		}
 		x++;

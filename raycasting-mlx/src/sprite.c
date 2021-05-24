@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sprite.c                                           :+:      :+:    :+:   */
+/*   sprite.color                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -86,7 +86,7 @@ void
 			x = cub3d->config->map[j + i * cub3d->config->columns] - 48;
 			if (x == 2)
 			{
-				cub3d->sprites[s] = (t_sprite *) malloc(sizeof(t_sprite*));
+				cub3d->sprites[s] = (t_sprite *) malloc(sizeof(t_sprite));
 				cub3d->sprites[s]->x = j * TILE_SIZE;
 				cub3d->sprites[s]->y = i * TILE_SIZE;
 				cub3d->sprites[s]->texture = 6;

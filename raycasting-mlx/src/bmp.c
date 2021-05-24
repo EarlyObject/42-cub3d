@@ -48,25 +48,21 @@ static void		create_header(t_config *config, t_screenshot *info_bmp_file)
 
 static void		write_header(int fd, t_screenshot info_bmp_file)
 {
-	int			r;
-
-	r = 0;
-	r = write(fd, &info_bmp_file.byte_type, 2);
-	r = write(fd, &info_bmp_file.byte_size, 4);
-	r = write(fd, &info_bmp_file.byte_reserved, 4);
-	r = write(fd, &info_bmp_file.byte_offset, 4);
-	r = write(fd, &info_bmp_file.header_size, 4);
-	r = write(fd, &info_bmp_file.image_width, 4);
-	r = write(fd, &info_bmp_file.image_height, 4);
-	r = write(fd, &info_bmp_file.color_planes, 2);
-	r = write(fd, &info_bmp_file.bpp, 2);
-	r = write(fd, &info_bmp_file.compression, 4);
-	r = write(fd, &info_bmp_file.image_size, 4);
-	r = write(fd, &info_bmp_file.bits_xpels_per_meter, 4);
-	r = write(fd, &info_bmp_file.bits_ypels_per_meter, 4);
-	r = write(fd, &info_bmp_file.total_colors, 4);
-	r = write(fd, &info_bmp_file.important_colors, 4);
-	(void)r;
+	write(fd, &info_bmp_file.byte_type, 2);
+	write(fd, &info_bmp_file.byte_size, 4);
+	write(fd, &info_bmp_file.byte_reserved, 4);
+	write(fd, &info_bmp_file.byte_offset, 4);
+	write(fd, &info_bmp_file.header_size, 4);
+	write(fd, &info_bmp_file.image_width, 4);
+	write(fd, &info_bmp_file.image_height, 4);
+	write(fd, &info_bmp_file.color_planes, 2);
+	write(fd, &info_bmp_file.bpp, 2);
+	write(fd, &info_bmp_file.compression, 4);
+	write(fd, &info_bmp_file.image_size, 4);
+	write(fd, &info_bmp_file.bits_xpels_per_meter, 4);
+	write(fd, &info_bmp_file.bits_ypels_per_meter, 4);
+	write(fd, &info_bmp_file.total_colors, 4);
+	write(fd, &info_bmp_file.important_colors, 4);
 }
 
 static void		write_file(t_cub3d *cub3d, int fd, int imagesize)

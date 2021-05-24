@@ -134,8 +134,8 @@ int
 	if ((int)color < 0)
 		return (str_clear(&str[0]) || str_clear(&str[1]));
 	if (key == C_F)
-		config->c[TEX_FLOOR] = color;
+		config->color[TEX_FLOOR] = color;
 	else
-		config->c[TEX_SKY] = color;
+		config->color[TEX_SKY] = color;
 	return ((str_clear(&str[0]) || str_clear(&str[1])) | 1);
 }

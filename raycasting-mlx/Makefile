@@ -55,7 +55,7 @@ $(MLX_NAME):
 	$(MAKE) -C $(MLX_PATH)
 
 debug: $(LIBFT_NAME) $(MLX_NAME) $(OBJ)
-	gcc -g src/main.c -g src/graphics.c -g src/map.c -g src/player.c -g src/ray.c -g src/sprite.c \
+	gcc -g3 -fsanitize=address -g src/main.c -g src/graphics.c -g src/map.c -g src/player.c -g src/ray.c -g src/sprite.c \
 	-g src/textures.c -g -g src/utils.c -g -g src/wall.c -g src/errors.c -g src/draw_sprites.c -g src/draw.c \
 	 -g src/params_parse.c -g src/parse.c -g gnl/get_next_line.c -g gnl/get_next_line_utils.c \
 	 -g src/str_parse.c -g src/utils_parse.c -g src/map_parse.c -g src/screenshot.c -g -g src/inits.c \

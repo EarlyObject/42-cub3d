@@ -76,9 +76,9 @@ int
 	if (key_code == KEY_LEFT)
 		cub3d->plr.turnDrcn = -1;
 	if (key_code == KEY_D)
-		cub3d->plr.moveSide = -1;
-	if (key_code == KEY_A)
 		cub3d->plr.moveSide = +1;
+	if (key_code == KEY_A)
+		cub3d->plr.moveSide = -1;
 	return (0);
 }
 
