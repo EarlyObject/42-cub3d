@@ -40,7 +40,7 @@ void
 	{
 		cub3d->wall.textureOffsetX = (int) cub3d->rays[x].wallHitY % TILE_SIZE;
 		texNum = cub3d->rays[x].texture + 2;
-		if (cub3d->rays[x].rayAngle   > PI /2 && cub3d->rays[x].rayAngle   < (PI +  PI /2) )
+		if (cub3d->rays[x].rayAngle > PI /2 && cub3d->rays[x].rayAngle < (PI + PI /2))
 			texNum = cub3d->rays[x].texture + 1;
 	}
 	else
@@ -60,8 +60,18 @@ void
 									 * (float)(TEXTURE_HEIGHT / cub3d->wall.wallHeight);
 		if (cub3d->wall.textureOffsetY > 63)
 			cub3d->wall.textureOffsetY = 63;
-		walTextrBuf = (uint32_t *) cub3d->wallTexture[texNum]->addr;
-		texelColor = walTextrBuf[(TEXTURE_WIDTH * cub3d->wall.textureOffsetY + cub3d->wall.textureOffsetX)];
+		/*if (cub3d->wall.textureOffsetX > 63)
+			cub3d->wall.textureOffsetX = 63;*/
+		if(cub3d->config->wallTexture[texNum])
+		{
+			/*if (texNum < 0)
+				texNum = 0;*/
+			//printf("texnum = %d, textureOffsetX = %d, textureOffsetY = %d\n", texNum, cub3d->wall.textureOffsetX, cub3d->wall.textureOffsetY);
+			walTextrBuf = (uint32_t *) cub3d->config->wallTexture[texNum]->addr;
+			texelColor = walTextrBuf[(TEXTURE_WIDTH * cub3d->wall.textureOffsetY + cub3d->wall.textureOffsetX)];
+		}
+		else
+			texelColor = cub3d->config->color[cub3d->rays[x].texture];
 		if (cub3d->rays[x].wasHitVertical)
 			changeColorIntensity(&texelColor, 0.7);
 		drawPixel(cub3d, x, y, texelColor);
@@ -102,7 +112,6 @@ void
 		y = 0;
 		while (y < cub3d->wall.wallTopY)
 		{
-			//drawPixel(cub3d, x, y, 0x444444);
 			drawPixel(cub3d, x, y, cub3d->config->color[TEX_SKY]);
 			y++;
 		}
@@ -110,7 +119,6 @@ void
 		y = cub3d->wall.wallBottomY;
 		while (y < cub3d->config->height)
 		{
-			//drawPixel(cub3d, x, y, 0x777777);
 			drawPixel(cub3d, x, y, cub3d->config->color[TEX_FLOOR]);
 				y++;
 		}

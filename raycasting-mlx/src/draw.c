@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 15:25:01 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/16 16:39:30 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/05/25 21:35:10 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void
 void
 	drawPixel(t_cub3d *cub3d, int x, int y, uint32_t color)
 {
-	if (x >= 0 && x <  cub3d->config->width && y >= 0 && y < cub3d->config->height)
+	if (x >= 0 && x < cub3d->config->width
+		&& y >= 0 && y < cub3d->config->height)
 		cub3d->image.addr[(cub3d->config->width * y) + x] = color;
 }

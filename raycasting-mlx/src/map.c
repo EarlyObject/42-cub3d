@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:00:27 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/16 17:13:30 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/05/25 22:14:23 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ bool
 	int	mapGridIndexY;
 	int z;
 
-/*	if (x < 0 || x >= config->columns * TILE_SIZE || y < 0
-		|| y >= config->rows * TILE_SIZE)*/
 	if (x < 0 || x >= config->width || y < 0
 		|| y >= config->height)
 		return (true);
@@ -41,7 +39,7 @@ int
 	getMapAt(t_config *config, int i, int j)
 {
 	int	x;
-	int addr;
+	int	addr;
 
 	addr = j + i * config->columns;
 	if (addr >= config->width * config->height)
@@ -69,11 +67,8 @@ void
 		{
 			tileX = j * TILE_SIZE;
 			tileY = i * TILE_SIZE;
-			int x = cub3d->config->map[j + i * cub3d->config->columns] - 48;
-			if (x == 30 || x == 35 || x == 39 || x == 21)
-				x = 0;
-			if (x == 1)
-					tileColor = WHITE;
+			if (getMapAt(cub3d->config, i, j) == 1)
+				tileColor = WHITE;
 			else
 				tileColor = BLACK;
 			cub3d->rectangle = (t_rectangle){.x = tileX * MINIMAP_SCALE_FACTOR,

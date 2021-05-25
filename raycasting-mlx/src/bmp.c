@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/21 08:35:01 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/21 08:35:44 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/05/25 21:16:10 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@ static	int
 {
 	int	fd;
 
-	if (!((fd = open(file_name, O_WRONLY | O_CREAT |
-								O_TRUNC, S_IRUSR | S_IWUSR)) > 0))
+	fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+	if (!((fd) > 0))
 	{
-		ft_putstr_fd("Error\nin while creating file bmp\n", 1);
-		//free_all(ERROR);
+		ft_putstr_fd("ERROR: ERROR WHILE CREATING BMB\n", 1);
 	}
 	return (fd);
 }
 
-static void		create_header(t_config *config, t_screenshot *info_bmp_file)
+static void
+	create_header(t_config *config, t_screenshot *info_bmp_file)
 {
 	info_bmp_file->byte_type[0] = 0x42;
 	info_bmp_file->byte_type[1] = 0x4D;
@@ -46,7 +46,8 @@ static void		create_header(t_config *config, t_screenshot *info_bmp_file)
 	info_bmp_file->important_colors = 0;
 }
 
-static void		write_header(int fd, t_screenshot info_bmp_file)
+static void
+	write_header(int fd, t_screenshot info_bmp_file)
 {
 	write(fd, &info_bmp_file.byte_type, 2);
 	write(fd, &info_bmp_file.byte_size, 4);
@@ -65,15 +66,16 @@ static void		write_header(int fd, t_screenshot info_bmp_file)
 	write(fd, &info_bmp_file.important_colors, 4);
 }
 
-static void		write_file(t_cub3d *cub3d, int fd, int imagesize)
+static void
+	write_file(t_cub3d *cub3d, int fd, int imagesize)
 {
-	char 		*pixel_array;
+	char		*pixel_array;
 	int			i;
 	int			j;
 
-	if (!(pixel_array = malloc(sizeof(char) * imagesize * 4)))
-		//free_all(ERROR);
-		printf("ERROR IN WRITE FILE");
+	pixel_array = malloc(sizeof(char) * imagesize * 4);
+	if (!pixel_array)
+		ft_exit_error(cub3d, "ERROR: ERROR IN WRITE FILE.");
 	i = 0;
 	j = 0;
 	imagesize /= 4;

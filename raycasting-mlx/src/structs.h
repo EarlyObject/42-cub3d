@@ -19,7 +19,6 @@
 # include "defs.h"
 # include "../mlx/mlx.h"
 
-# define NUM_SPRITES 3
 # define TEXTURES			7
 # define C_LAST				9
 
@@ -127,22 +126,6 @@ typedef  struct	s_line
 	int			longestSideLength;
 } t_line;
 
-typedef struct	s_config
-{
-	int			width;
-	int			height;
-	int			*map;
-	int			rows;
-	int			columns;
-	int			save_arg;
-	float		dist_proj_plane;
-	char 		direction;
-	char		*tex_path[TEXTURES];
-	uint32_t	color[TEXTURES];
-	int			set[C_LAST];
-	t_sprite 	*sprites[NUM_SPRITES];
-}				t_config;
-
 typedef struct		s_screenshot
 {
 	char			byte_type[2];
@@ -162,6 +145,24 @@ typedef struct		s_screenshot
 	uint32_t		important_colors;
 }					t_screenshot;
 
+typedef struct	s_config
+{
+	int			width;
+	int			height;
+	int			*map;
+	int			rows;
+	int			columns;
+	int 		num_sprites;
+	int			save_arg;
+	float		dist_proj_plane;
+	float 		fov_angle;
+	float 		frame_time_length;
+	char 		direction;
+	char		*tex_path[TEXTURES];
+	t_image		*wallTexture[TEXTURES];
+	uint32_t	color[TEXTURES];
+	int			set[C_LAST];
+}				t_config;
 
 typedef	struct		s_cub3d
 {
@@ -174,8 +175,7 @@ typedef	struct		s_cub3d
 	t_line 		line;
 	t_config	*config;
 	t_ray		*rays;
-	t_image		*wallTexture[TEXTURES];
-	t_sprite 	*sprites[NUM_SPRITES];
+	t_sprite 	*sprites;
 }					t_cub3d;
 
 #endif

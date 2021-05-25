@@ -6,11 +6,40 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:00:43 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/16 17:37:15 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/05/25 22:21:49 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "defs.h"
+
+void
+	calc_side_movement(const t_cub3d *cub3d, float *new_pl_x, float *new_pl_y)
+{
+	float	stepX;
+	float	stepY;
+	float	ang;
+
+	if (cub3d->plr.rotAngle >= 0 && cub3d->plr.rotAngle <= PI / 2)
+		ang = TWO_PI - cub3d->plr.rotAngle;
+	else if (cub3d->plr.rotAngle > PI / 2 && cub3d->plr.rotAngle < PI)
+		ang = cub3d->plr.rotAngle;
+	else if (cub3d->plr.rotAngle >= PI && cub3d->plr.rotAngle < (PI + PI / 2))
+		ang = cub3d->plr.rotAngle;
+	else
+		ang = TWO_PI - cub3d->plr.rotAngle;
+	stepY = cos(ang) * 3;
+	stepX = sin(ang) * stepY * 3;
+	if (cub3d->plr.moveSide > 0)
+	{
+		(*new_pl_x) = cub3d->plr.x + stepX;
+		(*new_pl_y) = cub3d->plr.y + stepY;
+	}
+	else
+	{
+		(*new_pl_x) = cub3d->plr.x - stepX;
+		(*new_pl_y) = cub3d->plr.y - stepY;
+	}
+}
 
 void
 	movePlayer(t_cub3d *cub3d, float dTime)
@@ -18,34 +47,12 @@ void
 	float	moveStep;
 	float	newPlayerX;
 	float	newPlayerY;
-	float	stepY;
-	float	stepX;
 
 	cub3d->plr.rotAngle += cub3d->plr.turnDrcn * cub3d->plr.turnSpeed * dTime;
 	moveStep = cub3d->plr.walkDrcn * cub3d->plr.walkSpeed * dTime;
 	if (cub3d->plr.moveSide)
 	{
-		float ang;
-		if (cub3d->plr.rotAngle >= 0 && cub3d->plr.rotAngle <= PI / 2)
-			ang = TWO_PI - cub3d->plr.rotAngle;
-		else if (cub3d->plr.rotAngle > PI / 2 && cub3d->plr.rotAngle < PI)
-			ang = cub3d->plr.rotAngle;
-		else if (cub3d->plr.rotAngle >= PI && cub3d->plr.rotAngle < (PI + PI /2))
-			ang = cub3d->plr.rotAngle;
-		else
-			ang = TWO_PI-cub3d->plr.rotAngle;
-		stepY = cos(ang) * 2;
-		stepX = sin(ang) * stepY;
-		if (cub3d->plr.moveSide > 0)
-		{
-			newPlayerX = cub3d->plr.x + stepX;
-			newPlayerY = cub3d->plr.y + stepY;
-		}
-		else
-		{
-			newPlayerX = cub3d->plr.x - stepX;
-			newPlayerY = cub3d->plr.y - stepY;
-		}
+		calc_side_movement(cub3d, &newPlayerX, &newPlayerY);
 	}
 	else
 	{

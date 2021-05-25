@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:00:08 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/16 15:25:56 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/05/25 21:36:53 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,17 @@ int
 	mlx = mlx_init();
 	if (!mlx)
 		ft_exit_error(cub3d, "ERROR: MLX_INIT ERROR.");
-	win = mlx_new_window(mlx, cub3d->config->width, cub3d->config->height, "cub3d");
+	win = mlx_new_window(mlx, cub3d->config->width,
+			cub3d->config->height, "cub3d");
 	if (!win)
 		ft_exit_error(cub3d, "ERROR: MLX_NEW_WINDOW ERROR.");
 	cub3d->mlx.mlx = mlx;
 	cub3d->win = win;
-	cub3d->image.img_ptr = mlx_new_image(mlx, cub3d->config->width, cub3d->config->height); //check for leak
-	cub3d->image.addr = (uint32_t *)mlx_get_data_addr(cub3d->image.img_ptr, &cub3d->image.bits_per_pixel, &cub3d->image.line_length, &cub3d->image.endian);
+	cub3d->image.img_ptr = mlx_new_image(mlx, cub3d->config->width,
+			cub3d->config->height); //check for leak
+	cub3d->image.addr = (uint32_t *)mlx_get_data_addr(cub3d->image.img_ptr,
+			&cub3d->image.bits_per_pixel, &cub3d->image.line_length,
+			&cub3d->image.endian);
 	return (1);
 }
 

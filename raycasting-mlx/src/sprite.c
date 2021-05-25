@@ -12,17 +12,6 @@
 
 #include "defs.h"
 
-#define NUM_SPRITES 3
-
-/*t_sprite	sprites[NUM_SPRITES] = {
-	{.x = 640, .y = 630, .texture = 8},
-	{.x = 660, .y = 690, .texture = 8},
-	{.x = 250, .y = 600, .texture = 10},
-	{.x = 250, .y = 600, .texture = 9},
-	{.x = 300, .y = 400, .texture = 11},
-	{.x = 90, .y = 100, .texture = 12}
-	};*/
-
 void
 	renderMapSprites(t_cub3d *cub3d)
 {
@@ -44,8 +33,6 @@ void
 			color = 0xFF00FFFF;
 			if (x == 2)
 			{
-				/*rectangle = (t_rectangle){.x = j * w * MINIMAP_SCALE_FACTOR,
-						.y = i * h * MINIMAP_SCALE_FACTOR, .width = 2, .height = 2};*/
 				rectangle = (t_rectangle){.x = j * w * MINIMAP_SCALE_FACTOR,
 						.y = i * h * MINIMAP_SCALE_FACTOR, .width = 2, .height = 2};
 				drawRect(cub3d, rectangle, color);
@@ -59,7 +46,7 @@ float
 		const t_cub3d *cub3d, int i, float angleSpritePlayer)
 {
 	angleSpritePlayer = cub3d->plr.rotAngle
-		- atan2(cub3d->sprites[i]->y - cub3d->plr.y, cub3d->sprites[i]->x - cub3d->plr.x);
+		- atan2(cub3d->sprites[i].y - cub3d->plr.y, cub3d->sprites[i].x - cub3d->plr.x);
 	if (angleSpritePlayer > PI)
 		angleSpritePlayer -= TWO_PI;
 	if (angleSpritePlayer < -PI)
@@ -69,27 +56,55 @@ float
 }
 
 void
-	find_sprites(t_cub3d *cub3d, t_config *config)
+	count_sprites(t_config *config)
 {
 	int			i;
 	int			j;
 	int			x;
 	int			s;
 
+	i = 0;
+	s = 0;
+	while (i < config->rows)
+	{
+		j = 0;
+		while (j < config->columns)
+		{
+			x = config->map[j + i * config->columns] - 48;
+			if (x == 2)
+				s++;
+			j++;
+		}
+		i++;
+	}
+	config->num_sprites = s;
+}
+
+void
+	find_sprites(t_cub3d *cub3d, t_config *config)
+{
+	int			i;
+	int			j;
+	int			x;
+	int			s;
+	t_sprite	*sprite;
+
 	s = 0;
 	i = -1;
-	while (i++ < cub3d->config->rows - 1)
+	//check -1
+	while (i++ < cub3d->config->rows -1)
 	{
 		j = -1;
-		while (j++ < cub3d->config->columns - 1)
+		//check -1
+		while (j++ < cub3d->config->columns -1)
 		{
 			x = cub3d->config->map[j + i * cub3d->config->columns] - 48;
 			if (x == 2)
 			{
-				cub3d->sprites[s] = (t_sprite *) malloc(sizeof(t_sprite));
-				cub3d->sprites[s]->x = j * TILE_SIZE;
-				cub3d->sprites[s]->y = i * TILE_SIZE;
-				cub3d->sprites[s]->texture = 6;
+				//cub3d->sprites[s] = (t_sprite *)malloc(sizeof(t_sprite));
+				cub3d->sprites[s].x = j * TILE_SIZE + (TILE_SIZE / 2);
+				cub3d->sprites[s].y = i * TILE_SIZE + (TILE_SIZE / 2);
+				cub3d->sprites[s].texture = 6;
 				s++;
 			}
 		}
@@ -105,18 +120,18 @@ int
 
 	numVsblSprites = 0;
 	i = 0;
-	while (i < NUM_SPRITES)
+	while (i < cub3d->config->num_sprites)
 	{
 		angleSpritePlayer = get_angle_sprite_player(
 				cub3d, i, angleSpritePlayer);
-		cub3d->sprites[i]->visible = false;
-		if (angleSpritePlayer < (FOV_ANGLE / 2) + EPSILON)
+		cub3d->sprites[i].visible = false;
+		if (angleSpritePlayer < (cub3d->config->fov_angle / 2) + EPSILON)
 		{
-			cub3d->sprites[i]->visible = true;
-			cub3d->sprites[i]->angle = angleSpritePlayer;
-			cub3d->sprites[i]->distance = distanceBetweenPoints(
-					cub3d->sprites[i]->x, cub3d->sprites[i]->y, cub3d->plr.x, cub3d->plr.y);
-			vsblSprites[numVsblSprites] = *cub3d->sprites[i];
+			cub3d->sprites[i].visible = true;
+			cub3d->sprites[i].angle = angleSpritePlayer;
+			cub3d->sprites[i].distance = distanceBetweenPoints(
+					cub3d->sprites[i].x, cub3d->sprites[i].y, cub3d->plr.x, cub3d->plr.y);
+			vsblSprites[numVsblSprites] = cub3d->sprites[i];
 			numVsblSprites++;
 		}
 		i++;
@@ -143,7 +158,10 @@ void
 					= y + (sprite->height / 2) - (cub3d->config->height / 2);
 			sprite->texture_offset_y
 					= distanceFromTop * (TEXTURE_HEIGHT / sprite->height);
-			texelColor = cub3d->wallTexture[sprite->texture]
+			if (cub3d->wall.textureOffsetX > 63)
+				cub3d->wall.textureOffsetX = 63;
+			//printf("texture = %d, textureOffsetX = %d, textureOffsetY = %d\n", sprite->texture, cub3d->wall.textureOffsetX, cub3d->wall.textureOffsetY);
+			texelColor = cub3d->config->wallTexture[sprite->texture]
 					->addr[(TEXTURE_WIDTH * sprite->texture_offset_y)
 						   + sprite->texture_offset_x];
 			if (sprite->distance < cub3d->rays[x].distance && texelColor != 0x00FF00FF)

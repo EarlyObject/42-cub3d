@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 16:44:02 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/10 16:20:58 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/05/25 22:12:39 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void
 	update(t_cub3d *cub3d)
 {
 	//Compute how long we have until the reach the target frame time in milliseconds
-	int timeToWait = FRAME_TIME_LENGTH - (SDL_GetTicks() - ticksLastFrame);
+	int timeToWait = cub3d->config->frame_time_length - (SDL_GetTicks() - ticksLastFrame);
 
 	//Only delay execution if we are running too fast
-	if (timeToWait > 0 && timeToWait <= FRAME_TIME_LENGTH)
+	if (timeToWait > 0 && timeToWait <= cub3d->config->frame_time_length)
 	{
 		SDL_Delay(timeToWait);
 	}
@@ -43,7 +43,7 @@ int
 {
 	clearColorBuffer(cub3d, GREEN);
 	renderWallProjection(cub3d);
-	//renderSpriteProjection(cub3d);
+	renderSpriteProjection(cub3d);
 	renderMapGrid(cub3d);
 	renderMapRays(cub3d);
 	renderMapPlayer(cub3d);
@@ -59,52 +59,7 @@ void
 	destroyWindow();
 }
 
-int
-	deal_key(int key_code, t_cub3d *cub3d)
-{
-	if (key_code == KEY_ESC)
-	{
-		exit(0);
-	}
 
-	if (key_code == KEY_W || key_code == KEY_FORWARD)
-		cub3d->plr.walkDrcn = +1;
-	if (key_code == KEY_S || key_code == KEY_BACKWARD)
-		cub3d->plr.walkDrcn = -1;
-	if (key_code == KEY_RIGHT)
-		cub3d->plr.turnDrcn = +1;
-	if (key_code == KEY_LEFT)
-		cub3d->plr.turnDrcn = -1;
-	if (key_code == KEY_D)
-		cub3d->plr.moveSide = +1;
-	if (key_code == KEY_A)
-		cub3d->plr.moveSide = -1;
-	return (0);
-}
-
-int
-	key_release(int key_code, t_cub3d *cub3d)
-{
-	if (key_code == KEY_W || key_code == KEY_FORWARD)
-		cub3d->plr.walkDrcn = 0;
-	if (key_code == KEY_S || key_code == KEY_BACKWARD)
-		cub3d->plr.walkDrcn = 0;
-	if (key_code == KEY_RIGHT)
-		cub3d->plr.turnDrcn = 0;
-	if (key_code == KEY_LEFT)
-		cub3d->plr.turnDrcn = 0;
-	if (key_code == KEY_D)
-		cub3d->plr.moveSide = 0;
-	if (key_code == KEY_A)
-		cub3d->plr.moveSide = 0;
-	return (0);
-}
-
-int
-	close_win()
-{
-	exit(0);
-}
 
 int
 	main_loop(t_cub3d *cub3d)
@@ -113,7 +68,8 @@ int
 	render(cub3d);
 	return (0);
 }
-void ft_run(t_cub3d cub3d)
+void
+	ft_run(t_cub3d cub3d)
 {
 	mlx_hook(cub3d.win, X_EVENT_KEY_PRESS, 0, &deal_key, &cub3d);
 	mlx_hook(cub3d.win, X_EVENT_KEY_RELEASE, 0, &key_release, &cub3d);
@@ -121,6 +77,7 @@ void ft_run(t_cub3d cub3d)
 	mlx_loop_hook(cub3d.mlx.mlx, &main_loop, &cub3d);
 	mlx_loop(cub3d.mlx.mlx);
 }
+
 int
 	main(int argc, char *argv[])
 {
@@ -129,9 +86,9 @@ int
 	int			save_option;
 
 	save_option = 0;
-	if(argc == 3)
+	if (argc == 3)
 		save_option = (!ft_strncmp(argv[2], "--save", 6));
-	if(argc == 2 || (argc == 3 && save_option))
+	if (argc == 2 || (argc == 3 && save_option))
 	{
 		setup(&cub3d, &config, save_option, argv[1]);
 		if (save_option)

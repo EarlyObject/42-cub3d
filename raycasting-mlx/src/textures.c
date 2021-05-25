@@ -31,7 +31,7 @@ void
 			img.addr = (uint32_t *)mlx_get_data_addr(img.img_ptr, &img.bits_per_pixel, &img.line_length, &img.endian);
 			if(img.addr != NULL)
 			{
-				cub3d->wallTexture[i] = img.img_ptr;
+				cub3d->config->wallTexture[i] = img.img_ptr;
 				printf("Loaded texture %d\n", i);
 			}
 			else
@@ -52,7 +52,7 @@ void
 	i = 0;
 	while (i < TEXTURES)
 	{
-		free(cub3d->wallTexture[i]);
+		free(cub3d->config->wallTexture[i]);
 		i++;
 	}
 }

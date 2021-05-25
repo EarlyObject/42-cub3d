@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 20:23:44 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/17 21:26:23 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/05/25 22:13:40 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,8 @@ int
 		col = 0;
 		while (map_buffer->content[i])
 		{
-			if (!ft_in_set(config, map_buffer->content[i], VALID_MAP_CHARACTERS))
+			if (!ft_in_set(config, map_buffer->content[i],
+					VALID_MAP_CHARACTERS))
 				return (0);
 			if (map_buffer->content[i++] != ' ')
 				col++;
@@ -122,7 +123,7 @@ int
 			while (map_buffer->content[j] == ' ')
 				j++;
 			map[(i * config->columns) + line++] = map_buffer->content[j];
-			if (ft_in_set(config,map_buffer->content[j], DIRECTIONS))
+			if (ft_in_set(config, map_buffer->content[j], DIRECTIONS))
 				has_camera++;
 			j++;
 		}
