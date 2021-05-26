@@ -13,7 +13,7 @@
 #include "defs.h"
 
 t_str
-	*str_last(t_str *str)
+	*string_last(t_str *str)
 {
 	if (!str)
 		return (NULL);
@@ -23,14 +23,15 @@ t_str
 }
 
 t_str
-	*str_add_back(t_str **str, char *content)
+	*string_add_back(t_str **str, char *content)
 {
 	t_str	*first;
 	t_str	*new;
 
 	if (!content)
 		return (NULL);
-	if (!(new = (t_str*)malloc(sizeof(*new))))
+	new = (t_str *)malloc(sizeof(*new));
+	if (!new)
 		return (0);
 	new->content = content;
 	new->next = NULL;
@@ -48,7 +49,7 @@ t_str
 }
 
 int
-	str_length(t_str *str)
+	string_length(t_str *str)
 {
 	int	i;
 
@@ -62,7 +63,7 @@ int
 }
 
 int
-	str_clear(t_str **list)
+	string_clear(t_str **list)
 {
 	t_str	*tmp;
 

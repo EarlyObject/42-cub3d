@@ -64,6 +64,7 @@ void
 	int		num_rays;
 	int	i;
 
+	i = 0;
 	num_rays = cub3d->config->width;
 	while (i < num_rays)
 	{

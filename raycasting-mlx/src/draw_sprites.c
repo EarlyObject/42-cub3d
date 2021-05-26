@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 14:58:18 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/25 21:33:39 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/05/27 20:09:43 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ void
 	sprite.x = tan(sprite.angle) * cub3d->config->dist_proj_plane;
 	sprite.left_x = (cub3d->config->width / 2) + sprite.x - (sprite.width / 2);
 	sprite.right_x = sprite.left_x + sprite.width;
-	x = sprite.left_x;
+	x = (roundf(sprite.left_x));
+	//printf("x = %d, sprite.left_x = %f, sprite.right_x = %f\n", x, sprite.left_x, sprite.right_x);
 	while (x < sprite.right_x)
 	{
 		draw_sprite(cub3d, &sprite, x);
@@ -50,17 +51,17 @@ void
 }
 
 void
-	renderSpriteProjection(t_cub3d *cub3d)
+	renderSpriteProjection(t_cub3d *cub3d, t_config *config)
 {
-	t_sprite	visibleSprites[cub3d->config->num_sprites];
+	t_sprite	*visibleSprites;
 	t_sprite	temp;
 	int			numVisibleSprites;
 	int			i;
 	int			j;
 
+	visibleSprites = config->visibleSprites;
 	numVisibleSprites = find_visible_sprites(cub3d, visibleSprites);
 	i = 0;
-	//check -1
 	while (i < numVisibleSprites - 1)
 	{
 		j = 1;
@@ -72,10 +73,9 @@ void
 		}
 		i++;
 	}
-	i = 0;
-	while (i < numVisibleSprites)
+	i = -1;
+	while (i++ < numVisibleSprites)
 	{
 		render_vsbl_sprites(cub3d, visibleSprites, i);
-		i++;
 	}
 }

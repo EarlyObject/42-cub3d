@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:00:08 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/25 21:36:53 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/05/27 20:17:08 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,13 @@ int
 	cub3d->mlx.mlx = mlx;
 	cub3d->win = win;
 	cub3d->image.img_ptr = mlx_new_image(mlx, cub3d->config->width,
-			cub3d->config->height); //check for leak
+			cub3d->config->height);
+	if (!cub3d->image.img_ptr)
+		ft_exit_error(cub3d, "ERROR: MLX IMAGE ERROR.");
 	cub3d->image.addr = (uint32_t *)mlx_get_data_addr(cub3d->image.img_ptr,
 			&cub3d->image.bits_per_pixel, &cub3d->image.line_length,
 			&cub3d->image.endian);
 	return (1);
-}
-
-void
-	destroyWindow(void)
-{
-	//free(colorBuffer);
-	//SDL_DestroyTexture(colorBufferTexture);
-	//SDL_DestroyRenderer(renderer);
-	//SDL_DestroyWindow(window);
-	//SDL_Quit();
 }
 
 int

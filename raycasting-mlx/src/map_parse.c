@@ -41,7 +41,7 @@ int
 	if (!map_buffer)
 		return (0);
 	first_line = count_check_columns(map_buffer->content);
-	last = str_last(map_buffer);
+	last = string_last(map_buffer);
 	if (last)
 		last_line = count_check_columns(last->content);
 	else

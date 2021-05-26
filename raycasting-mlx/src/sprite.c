@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sprite.color                                           :+:      :+:    :+:   */
+/*   sprite.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -23,11 +23,11 @@ void
 	int w = cub3d->config->width / cub3d->config->columns;
 	int h = cub3d->config->height / cub3d->config->rows;
 
-	i = -1;
-	while (i++ < cub3d->config->rows - 1)
+	i = 0;
+	while (i < cub3d->config->rows)
 	{
-		j = -1;
-		while (j++ < cub3d->config->columns - 1)
+		j = 0;
+		while (j < cub3d->config->columns)
 		{
 			x = cub3d->config->map[j + i * cub3d->config->columns] - 48;
 			color = 0xFF00FFFF;
@@ -37,7 +37,9 @@ void
 						.y = i * h * MINIMAP_SCALE_FACTOR, .width = 2, .height = 2};
 				drawRect(cub3d, rectangle, color);
 			}
+			j++;
 		}
+		i++;
 	}
 }
 
@@ -87,27 +89,26 @@ void
 	int			j;
 	int			x;
 	int			s;
-	t_sprite	*sprite;
 
 	s = 0;
-	i = -1;
-	//check -1
-	while (i++ < cub3d->config->rows -1)
+	i = 0;
+	while (i < config->rows)
 	{
-		j = -1;
-		//check -1
-		while (j++ < cub3d->config->columns -1)
+		j = 0;
+		while (j < config->columns)
 		{
-			x = cub3d->config->map[j + i * cub3d->config->columns] - 48;
+			x = config->map[j + i * config->columns] - 48;
 			if (x == 2)
 			{
-				//cub3d->sprites[s] = (t_sprite *)malloc(sizeof(t_sprite));
-				cub3d->sprites[s].x = j * TILE_SIZE + (TILE_SIZE / 2);
+				//cub3d->sprites[s].x = j * TILE_SIZE + (TILE_SIZE / 2);
+				cub3d->sprites[s].x = j * TILE_SIZE;
 				cub3d->sprites[s].y = i * TILE_SIZE + (TILE_SIZE / 2);
 				cub3d->sprites[s].texture = 6;
 				s++;
 			}
+			j++;
 		}
+		i++;
 	}
 }
 
@@ -160,12 +161,12 @@ void
 					= distanceFromTop * (TEXTURE_HEIGHT / sprite->height);
 			if (cub3d->wall.textureOffsetX > 63)
 				cub3d->wall.textureOffsetX = 63;
-			//printf("texture = %d, textureOffsetX = %d, textureOffsetY = %d\n", sprite->texture, cub3d->wall.textureOffsetX, cub3d->wall.textureOffsetY);
+			//printf("x = %d, texture = %d, textureOffsetX = %d, textureOffsetY = %d\n", x, sprite->texture, cub3d->wall.textureOffsetX, cub3d->wall.textureOffsetY);
 			texelColor = cub3d->config->wallTexture[sprite->texture]
 					->addr[(TEXTURE_WIDTH * sprite->texture_offset_y)
 						   + sprite->texture_offset_x];
+			//texelColor = RED;
 			if (sprite->distance < cub3d->rays[x].distance && texelColor != 0x00FF00FF)
-
 					drawPixel(cub3d, x, y, texelColor);
 		}
 		y++;
