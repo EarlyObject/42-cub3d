@@ -67,19 +67,19 @@ int
 		if (line[i] != ' ' && line[i] < '0' && line[i] > '9')
 			return (0);
 	str = ft_split_new(line, ' ');
-	if (!str || str_length(str) != 3)
-		return (str_clear(&str));
+	if (!str || string_length(str) != 3)
+		return (string_clear(&str));
 	param = str->next;
 	tmp = ft_atoi(param->content);
 	if (tmp <= 1)
-		return (str_clear(&str));
+		return (string_clear(&str));
 	config->width = tmp;
 	param = param->next;
 	tmp = ft_atoi(param->content);
 	if (tmp <= 1)
-		return (str_clear(&str));
+		return (string_clear(&str));
 	config->height = tmp;
-	return (str_clear(&str) | 1);
+	return (string_clear(&str) | 1);
 }
 
 int
@@ -109,7 +109,7 @@ int
 	config->set[key] = 1;
 	if (empty_in_map)
 		content_after = 1;
-	return (!!str_add_back(map_buffer, ft_strdup(line)));
+	return (!!string_add_back(map_buffer, ft_strdup(line)));
 }
 
 int
@@ -126,16 +126,16 @@ int
 	str[0] = NULL;
 	str[1] = NULL;
 	str[0] = ft_split_new(line, ' ');
-	if (!str || str_length(str[0]) != 2
+	if (string_length(str[0]) != 2
 		|| !(str[1] = ft_split_new(str[0]->next->content, ','))
-		|| str_length(str[1]) != 3)
-		return (str_clear(&str[0]) || str_clear(&str[1]));
+		|| string_length(str[1]) != 3)
+		return (string_clear(&str[0]) || string_clear(&str[1]));
 	color = str_to_color(str[1]);
 	if ((int)color < 0)
-		return (str_clear(&str[0]) || str_clear(&str[1]));
+		return (string_clear(&str[0]) || string_clear(&str[1]));
 	if (key == C_F)
 		config->color[TEX_FLOOR] = color;
 	else
 		config->color[TEX_SKY] = color;
-	return ((str_clear(&str[0]) || str_clear(&str[1])) | 1);
+	return ((string_clear(&str[0]) || string_clear(&str[1])) | 1);
 }

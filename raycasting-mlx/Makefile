@@ -11,43 +11,37 @@
 # **************************************************************************** #
 
 SRC = src/main.c src/graphics.c src/map.c src/player.c src/ray.c src/sprite.c \
-	src/textures.c src/utils.c src/wall.c
+      src/textures.c src/utils.c src/wall.c src/errors.c src/draw_sprites.c \
+      src/draw.c src/params_parse.c src/parse.c gnl/get_next_line.c \
+      gnl/get_next_line_utils.c src/str_parse.c src/utils_parse.c \
+      src/map_parse.c src/screenshot.c src/inits.c src/setups.c src/window.c \
+      src/ray_utils.c src/ray_calculations.c src/memory_mngt.c
 
 OBJ = $(SRC:.c=.o)
 
-NAME = program
+NAME = cub3D
 
-LIBFT_PATH = libft
+LIBFT_LINUX_PATH = libft
+LIBFT_LINUX_NAME = libft.a
+MLX_PATH_LINUX = mlx_linux
+MLX_LINUX_LINK = -lSDL2 -Lmlx_linux -lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
+
+LIBFT_PATH = libft_mac
 LIBFT_NAME = libft.a
 MLX_PATH = mlx
 MLX_NAME = libmlx.a
-MLX_LINK = -L$(MLX_PATH) -I includes -lmlx -framework OpenGL -framework AppKit
+MLX_LINK = -lSDL2 -Lmlx -lmlx -framework OpenGL -framework AppKit $(MLX_PATH)/$(MLX_NAME)
 
 CC = gcc
-CFLAGS = #-Wall  -Werror -Wextra
+CFLAGS = -Wall  -Werror -Wextra
 RM = rm -f
-
-INCLUDES = ./includes
-
-#all: $(NAME)
-
-#$(MLX_LINK) $(MLX_PATH)/$(MLX_NAME)
-
-#all: $(MLX_NAME) $(OBJ)
-#	gcc -c -o program $(OBJ)  -Lmlx -I includes -lmlx -framework OpenGL -framework AppKit mlx/libmlx.a
-
-all: $(LIBFT_NAME) $(MLX_NAME) $(OBJ) #gcc -g3 -fsanitize=address
-	gcc  src/main.c src/graphics.c src/map.c src/player.c src/ray.c src/sprite.c \
-        src/textures.c src/utils.c src/wall.c src/errors.c src/draw_sprites.c src/draw.c \
-        src/params_parse.c src/parse.c gnl/get_next_line.c gnl/get_next_line_utils.c \
-        src/str_parse.c src/utils_parse.c src/map_parse.c src/screenshot.c src/inits.c \
-        src/setups.c src/window.c src/ray_utils.c src/ray_calculations.c -o program \
-        -lSDL2 -Lmlx -lmlx -framework OpenGL -framework AppKit $(MLX_PATH)/$(MLX_NAME) $(LIBFT_PATH)/$(LIBFT_NAME)
-
 
 $(NAME): $(MLX_NAME) $(OBJ)
 	$(CC) -o $(NAME) $(OBJ)  $(MLX_LINK) $(MLX_PATH)/$(MLX_NAME) 
 # -lSDL2
+
+$(LIBFT_LINUX_NAME):
+	$(MAKE) -C $(LIBFT_LINUX_PATH)
 
 $(LIBFT_NAME):
 	$(MAKE) -C $(LIBFT_PATH)
@@ -55,20 +49,26 @@ $(LIBFT_NAME):
 $(MLX_NAME):
 	$(MAKE) -C $(MLX_PATH)
 
+$(MLX_NAME_LINUX):
+	$(MAKE) -C $(MLX_PATH_LINUX)
+
+all: $(LIBFT_NAME) $(MLX_NAME) $(OBJ)
+	gcc $(CFLAGS) $(SRC) $(MLX_LINK) $(LIBFT_PATH)/$(LIBFT_NAME) -o $(NAME)
+
 debug: $(LIBFT_NAME) $(MLX_NAME) $(OBJ)
-	gcc -g3 -fsanitize=address -g src/main.c -g src/graphics.c -g src/map.c -g src/player.c -g src/ray.c -g src/sprite.c \
-	-g src/textures.c -g -g src/utils.c -g -g src/wall.c -g src/errors.c -g src/draw_sprites.c -g src/draw.c \
-	 -g src/params_parse.c -g src/parse.c -g gnl/get_next_line.c -g gnl/get_next_line_utils.c \
-	 -g src/str_parse.c -g src/utils_parse.c -g src/map_parse.c -g src/screenshot.c -g src/inits.c -g \
-	 src/setups.c -g src/window.c -g src/ray_utils.c -g src/ray_calculations.c \
-	   -lSDL2 -o debugapp -L$(MLX_PATH) -lmlx -framework OpenGL -framework AppKit $(LIBFT_PATH)/$(LIBFT_NAME)
+	gcc -fsanitize=address -g3 $(CFLAGS) $(SRC) $(MLX_LINK) $(LIBFT_PATH)/$(LIBFT_NAME) -o $(NAME)
+
+linux: $(LIBFT_LINUX_NAME) $(MLX_NAME_LINUX) $(OBJ)
+	gcc -fsanitize=address -g3 $(CFLAGS) $(SRC) $(LIBFT_LINUX_PATH)/$(LIBFT_LINUX_NAME) $(MLX_LINUX_LINK)
 
 clean:
 	$(RM) $(OBJ)
-	$(RM) $(NAME)
 
 cleanMLX:
 	$(MAKE) clean -C $(MLX_PATH)
+
+cleanMLX_LINUX:
+	$(MAKE) clean -C $(MLX_LINUX_PATH)
 
 fclean: clean cleanMLX
 	$(RM) $(NAME)

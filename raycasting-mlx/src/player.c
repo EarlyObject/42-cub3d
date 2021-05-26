@@ -50,13 +50,13 @@ void
 
 	cub3d->plr.rotAngle += cub3d->plr.turnDrcn * cub3d->plr.turnSpeed * dTime;
 	moveStep = cub3d->plr.walkDrcn * cub3d->plr.walkSpeed * dTime;
+	normalizeAngle(&cub3d->plr.rotAngle);
 	if (cub3d->plr.moveSide)
 	{
 		calc_side_movement(cub3d, &newPlayerX, &newPlayerY);
 	}
 	else
 	{
-		normalizeAngle(&cub3d->plr.rotAngle);
 		newPlayerX = cub3d->plr.x + cos(cub3d->plr.rotAngle) * moveStep;
 		newPlayerY = cub3d->plr.y + sin(cub3d->plr.rotAngle) * moveStep;
 	}

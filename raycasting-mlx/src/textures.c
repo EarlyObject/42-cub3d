@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   textures.color                                         :+:      :+:    :+:   */
+/*   textures.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:01:17 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/17 21:16:52 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/05/27 22:21:33 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,21 @@ void
 	{
 		if (cub3d->config->tex_path[i])
 		{
-			img.img_ptr = mlx_xpm_file_to_image(cub3d->mlx.mlx, cub3d->config->tex_path[i], &img_width, &img_height);
+			img.img_ptr = mlx_xpm_file_to_image(cub3d->mlx.mlx,
+					cub3d->config->tex_path[i], &img_width, &img_height);
 			if (img.img_ptr == NULL)
 				ft_exit_error(cub3d, "ERROR: ERROR CONVERTING TEXTURE");
-			img.addr = (uint32_t *)mlx_get_data_addr(img.img_ptr, &img.bits_per_pixel, &img.line_length, &img.endian);
-			if(img.addr != NULL)
-			{
+			img.addr = (uint32_t *)mlx_get_data_addr(img.img_ptr,
+					&img.bits_per_pixel, &img.line_length, &img.endian);
+			if (img.addr != NULL )
 				cub3d->config->wallTexture[i] = img.img_ptr;
-				printf("Loaded texture %d\n", i);
-			}
 			else
-			{
-				printf("ERROR LOADING TEXTURE %s\n", cub3d->config->tex_path[i]);
 				ft_exit_error(cub3d, "ERROR: ERROR LOADING TEXTURE");
-			}
 		}
 		i++;
 	}
 }
 
-//check the function, ptr or data?
 void
 	freeTextures(t_cub3d *cub3d) {
 	int	i;

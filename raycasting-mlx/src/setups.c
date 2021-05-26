@@ -26,6 +26,25 @@ void
 }
 
 void
+	update(t_cub3d *cub3d)
+{
+	static int	ticksLastFrame = 0;
+	int			timeToWait;
+	float		deltaTime;
+
+	timeToWait = cub3d->config->frame_time_length
+				 - (SDL_GetTicks() - ticksLastFrame);
+	if (timeToWait > 0 && timeToWait <= cub3d->config->frame_time_length)
+	{
+		SDL_Delay(timeToWait);
+	}
+	deltaTime = (SDL_GetTicks() - ticksLastFrame) / 1000.0f;
+	ticksLastFrame = SDL_GetTicks();
+	movePlayer(cub3d, deltaTime);
+	castAllRays(cub3d);
+}
+
+void
 	configurate_sprites(t_cub3d *cub3d)
 {
 	count_sprites(cub3d->config);

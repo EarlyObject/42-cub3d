@@ -15,10 +15,11 @@
 int
 	exit_game(t_cub3d *cub3d, int code)
 {
-	//clear_config(&game->config);
-	//clear_window(&game->window);
-	//clear_textures(game);
+	clear_config(cub3d->config);
+	clear_window(cub3d);
+	clear_textures(cub3d);
 	//clear_sprites(&game->sprites);
+	//free_mmry(cub3d);
 	exit(code);
 }
 

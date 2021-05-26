@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 20:29:12 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/17 21:27:21 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/05/27 22:21:55 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,16 +84,16 @@ t_str
 		if (org[i] == sep)
 		{
 			if (i - start > 0
-				&& !str_add_back(&str, ft_substr(org, start, i - start)))
-				return (PTR_CAST(str_clear(&str)));
+				&& !string_add_back(&str, ft_substr(org, start, i - start)))
+				return ((void *)(uintptr_t)(string_clear(&str)));
 			start = ++i;
 		}
 		else
 			i++;
 	}
 	if (i - start > 0
-		&& !str_add_back(&str, ft_substr(org, start, i - start)))
-		return (PTR_CAST(str_clear(&str)));
+		&& !string_add_back(&str, ft_substr(org, start, i - start)))
+		return ((void *)(uintptr_t)(string_clear(&str)));
 	return (str);
 }
 

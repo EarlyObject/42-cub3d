@@ -26,7 +26,7 @@ static	int
 }
 
 static void
-	create_header(t_config *config, t_screenshot *info_bmp_file)
+	make_header(t_config *config, t_screenshot *info_bmp_file)
 {
 	info_bmp_file->byte_type[0] = 0x42;
 	info_bmp_file->byte_type[1] = 0x4D;
@@ -67,7 +67,7 @@ static void
 }
 
 static void
-	write_file(t_cub3d *cub3d, int fd, int imagesize)
+	write_to_bmp(t_cub3d *cub3d, int fd, int imagesize)
 {
 	char		*pixel_array;
 	int			i;

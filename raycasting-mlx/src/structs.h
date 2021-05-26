@@ -6,12 +6,12 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:01:08 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/14 14:01:09 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/05/27 21:08:25 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
-#define STRUCTS_H
+# define STRUCTS_H
 
 # include <stdint.h>
 # include <stdbool.h>
@@ -22,13 +22,13 @@
 # define TEXTURES			7
 # define C_LAST				9
 
-typedef struct	s_str
+typedef struct s_str
 {
 	char			*content;
 	struct s_str	*next;
 }				t_str;
 
-typedef struct		s_mlx
+typedef struct s_mlx
 {
 	void			*mlx;
 	void			*window;
@@ -58,15 +58,15 @@ typedef struct s_ray{
 	float		nextVertTouchY;
 	float		nextHorzTouchX;
 	float		nextHorzTouchY;
-} t_ray;
+}	t_ray;
 
 typedef struct s_sprite {
 	float		x;
 	float		y;
 	float		distance;
 	float		height;
-	float 		width;
-	float 		top_y;
+	float		width;
+	float		top_y;
 	float		bottom_y;
 	float		angle;
 	float		left_x;
@@ -75,7 +75,7 @@ typedef struct s_sprite {
 	int			texture;
 	int			texture_offset_y;
 	int			texture_offset_x;
-} t_sprite;
+}	t_sprite;
 
 typedef struct s_image
 {
@@ -92,15 +92,15 @@ typedef struct s_player
 	float		y;
 	float		width;
 	float		height;
-	int			turnDrcn; //-1 for left, +1 for right
-	int			walkDrcn; //-1 for back, +1 for front
+	int			turnDrcn;
+	int			walkDrcn;
 	float		rotAngle;
 	float		walkSpeed;
 	float		turnSpeed;
-	int 		moveSide;
-} t_player;
+	int			moveSide;
+}	t_player;
 
-typedef  struct	s_wall
+typedef struct s_wall
 {
 	float	wallHeight;
 	int		wallTopY;
@@ -109,24 +109,24 @@ typedef  struct	s_wall
 	int		textureOffsetX;
 }	t_wall;
 
-typedef  struct	s_rectangle
+typedef struct s_rectangle
 {
 	int			x;
-	int 		y;
+	int			y;
 	int			width;
 	int			height;
-} t_rectangle;
+}	t_rectangle;
 
-typedef  struct	s_line
+typedef struct s_line
 {
 	int			x0;
-	int 		y0;
+	int			y0;
 	int			x1;
 	int			y1;
 	int			longestSideLength;
-} t_line;
+}	t_line;
 
-typedef struct		s_screenshot
+typedef struct s_screenshot
 {
 	char			byte_type[2];
 	uint32_t		byte_size;
@@ -138,44 +138,45 @@ typedef struct		s_screenshot
 	unsigned short	color_planes;
 	unsigned short	bpp;
 	uint32_t		compression;
-	uint32_t 		image_size;
+	uint32_t		image_size;
 	int				bits_xpels_per_meter;
 	int				bits_ypels_per_meter;
 	uint32_t		total_colors;
 	uint32_t		important_colors;
-}					t_screenshot;
+}	t_screenshot;
 
-typedef struct	s_config
+typedef struct s_config
 {
 	int			width;
 	int			height;
 	int			*map;
 	int			rows;
 	int			columns;
-	int 		num_sprites;
+	int			num_sprites;
 	int			save_arg;
 	float		dist_proj_plane;
-	float 		fov_angle;
-	float 		frame_time_length;
-	char 		direction;
+	float		fov_angle;
+	float		frame_time_length;
+	char		direction;
+	t_sprite	*visibleSprites;
 	char		*tex_path[TEXTURES];
 	t_image		*wallTexture[TEXTURES];
 	uint32_t	color[TEXTURES];
 	int			set[C_LAST];
-}				t_config;
+}	t_config;
 
-typedef	struct		s_cub3d
+typedef struct s_cub3d
 {
 	void		*win;
 	t_image		image;
 	t_player	plr;
 	t_mlx		mlx;
-	t_wall 		wall;
-	t_rectangle rectangle;
-	t_line 		line;
+	t_wall		wall;
+	t_rectangle	rectangle;
+	t_line		line;
 	t_config	*config;
 	t_ray		*rays;
-	t_sprite 	*sprites;
-}					t_cub3d;
+	t_sprite	*sprites;
+}	t_cub3d;
 
 #endif

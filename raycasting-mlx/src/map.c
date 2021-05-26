@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:00:27 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/25 22:14:23 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/05/27 20:26:26 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ bool
 {
 	int	mapGridIndexX;
 	int	mapGridIndexY;
-	int z;
+	int	z;
 
 	if (x < 0 || x >= config->width || y < 0
 		|| y >= config->height)

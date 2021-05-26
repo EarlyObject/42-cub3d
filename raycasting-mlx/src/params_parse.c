@@ -53,12 +53,12 @@ int
 		free(line);
 	}
 	if (r && ft_strlen(line) > 0)
-		r = !!str_add_back(&map_buffer, ft_strdup(line));
+		r = !!string_add_back(&map_buffer, ft_strdup(line));
 	free(line);
 	close(c_fd);
 	if (!r || !parse_map(config, map_buffer))
-		return (str_clear(&map_buffer));
-	str_clear(&map_buffer);
+		return (string_clear(&map_buffer));
+	string_clear(&map_buffer);
 	return (1);
 }
 

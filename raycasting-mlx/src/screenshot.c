@@ -68,9 +68,9 @@ static void		write_to_bmp(t_cub3d *cub3d, int fd, int imagesize)
 	int			j;
 
 	if (!(pixel_array = malloc(sizeof(char) * imagesize * 4)))
-		//free_all(ERROR);
-		printf("ERROR IN WRITE FILE");
+		ft_exit_error(cub3d, "ERROR: ERROR WHILE WRITE TO BMP FILE.");
 	i = 0;
+	j = 0;
 	imagesize /= 4;
 	while (i < imagesize)
 	{

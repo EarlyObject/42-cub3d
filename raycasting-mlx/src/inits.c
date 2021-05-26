@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/21 08:34:45 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/25 22:04:26 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/05/27 20:18:44 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void
 	i = 0;
 	while (i < TEXTURES)
 		config->wallTexture[i++] = NULL;
+	config->visibleSprites = (t_sprite *)malloc(
+			sizeof(t_sprite)* config->num_sprites);
 }
 
 void
@@ -82,6 +84,12 @@ void
 	t_rectangle	rectangle;
 	t_line		line;
 
+	image = (t_image){.img_ptr = NULL, .addr = NULL};
+	player = (t_player){.x = 0, .y = 0};
+	wall = (t_wall){.wallHeight = 0, .wallBottomY = 0,
+		.wallTopY = 0, .textureOffsetX = 0, .textureOffsetY = 0};
+	rectangle = (t_rectangle){.x = 0, .y = 0};
+	line = (t_line){.x0 = 0, .y0 = 0};
 	cub3d->win = NULL;
 	cub3d->image = image;
 	cub3d->plr = player;
