@@ -37,7 +37,7 @@ void
 	//printf("x = %d, sprite.left_x = %f, sprite.right_x = %f\n", x, sprite.left_x, sprite.right_x);
 	while (x < sprite.right_x)
 	{
-		draw_sprite(cub3d, &sprite, x);
+		draw_sprite(cub3d, cub3d->config, &sprite, x);
 		x++;
 	}
 }

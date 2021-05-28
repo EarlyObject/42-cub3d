@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 21:58:51 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/25 22:02:02 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/05/28 09:30:23 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void
 	float		deltaTime;
 
 	timeToWait = cub3d->config->frame_time_length
-				 - (SDL_GetTicks() - ticksLastFrame);
+		 - (SDL_GetTicks() - ticksLastFrame);
 	if (timeToWait > 0 && timeToWait <= cub3d->config->frame_time_length)
 	{
 		SDL_Delay(timeToWait);
@@ -74,4 +74,14 @@ void
 	configurate_sprites(cub3d);
 	if (save_option)
 		screenshot(cub3d);
+}
+
+void
+	screenshot(t_cub3d *cub3d)
+{
+	update(cub3d);
+	render(cub3d);
+	bmp_builder(cub3d, "screenshot.bmp");
+	printf("SCREENSHOT MADE SUCCESSFULLY.");
+	exit_game(cub3d, EXIT_SUCCESS);
 }

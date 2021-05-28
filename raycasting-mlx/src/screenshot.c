@@ -6,13 +6,14 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 08:48:51 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/20 08:48:52 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/05/28 09:47:04 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "defs.h"
 
-static	int		make_bmp(t_cub3d *cub3d, char *file_name)
+static	int
+	make_bmp(t_cub3d *cub3d, char *file_name)
 {
 	int	fd;
 
@@ -22,7 +23,8 @@ static	int		make_bmp(t_cub3d *cub3d, char *file_name)
 	return (fd);
 }
 
-static void		make_header(t_config *config, t_screenshot *screenshot)
+static void
+	make_header(t_config *config, t_screenshot *screenshot)
 {
 	screenshot->byte_type[0] = 0x42;
 	screenshot->byte_type[1] = 0x4D;
@@ -42,7 +44,8 @@ static void		make_header(t_config *config, t_screenshot *screenshot)
 	screenshot->important_colors = 0;
 }
 
-static void		write_header(int fd, t_screenshot screenshot)
+static void
+	write_header(int fd, t_screenshot screenshot)
 {
 	write(fd, &screenshot.byte_type, 2);
 	write(fd, &screenshot.byte_size, 4);
@@ -61,13 +64,15 @@ static void		write_header(int fd, t_screenshot screenshot)
 	write(fd, &screenshot.important_colors, 4);
 }
 
-static void		write_to_bmp(t_cub3d *cub3d, int fd, int imagesize)
+static void
+	write_to_bmp(t_cub3d *cub3d, int fd, int imagesize)
 {
-	char 		*pixel_array;
+	char		*pixel_array;
 	int			i;
 	int			j;
 
-	if (!(pixel_array = malloc(sizeof(char) * imagesize * 4)))
+	pixel_array = malloc(sizeof(char) * imagesize * 4);
+	if (!pixel_array)
 		ft_exit_error(cub3d, "ERROR: ERROR WHILE WRITE TO BMP FILE.");
 	i = 0;
 	j = 0;
@@ -85,7 +90,7 @@ static void		write_to_bmp(t_cub3d *cub3d, int fd, int imagesize)
 }
 
 void
-	bmp_builder(t_cub3d * cub3d, char *file_name)
+	bmp_builder(t_cub3d *cub3d, char *file_name)
 {
 	t_screenshot	screenshot;
 	int				fd;
@@ -96,13 +101,4 @@ void
 	write_header(fd, screenshot);
 	write_to_bmp(cub3d, fd, screenshot.image_size);
 	close(fd);
-}
-void
-	screenshot(t_cub3d *cub3d)
-{
-	update(cub3d);
-	render(cub3d);
-	bmp_builder(cub3d, "screenshot.bmp");
-	printf("SCREENSHOT MADE SUCCESSFULLY.");
-	exit_game(cub3d, EXIT_SUCCESS);
 }

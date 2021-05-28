@@ -6,49 +6,19 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:00:58 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/16 22:28:30 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/05/28 09:16:55 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "defs.h"
-
-void
-	renderMapSprites(t_cub3d *cub3d)
-{
-	int			i;
-	int			j;
-	int			x;
-	uint32_t	color;
-	t_rectangle	rectangle;
-	int w = cub3d->config->width / cub3d->config->columns;
-	int h = cub3d->config->height / cub3d->config->rows;
-
-	i = 0;
-	while (i < cub3d->config->rows)
-	{
-		j = 0;
-		while (j < cub3d->config->columns)
-		{
-			x = cub3d->config->map[j + i * cub3d->config->columns] - 48;
-			color = 0xFF00FFFF;
-			if (x == 2)
-			{
-				rectangle = (t_rectangle){.x = j * w * MINIMAP_SCALE_FACTOR,
-						.y = i * h * MINIMAP_SCALE_FACTOR, .width = 2, .height = 2};
-				drawRect(cub3d, rectangle, color);
-			}
-			j++;
-		}
-		i++;
-	}
-}
 
 float
 	get_angle_sprite_player(
 		const t_cub3d *cub3d, int i, float angleSpritePlayer)
 {
 	angleSpritePlayer = cub3d->plr.rotAngle
-		- atan2(cub3d->sprites[i].y - cub3d->plr.y, cub3d->sprites[i].x - cub3d->plr.x);
+		- atan2(cub3d->sprites[i].y - cub3d->plr.y,
+			cub3d->sprites[i].x - cub3d->plr.x);
 	if (angleSpritePlayer > PI)
 		angleSpritePlayer -= TWO_PI;
 	if (angleSpritePlayer < -PI)
@@ -131,7 +101,8 @@ int
 			cub3d->sprites[i].visible = true;
 			cub3d->sprites[i].angle = angleSpritePlayer;
 			cub3d->sprites[i].distance = distanceBetweenPoints(
-					cub3d->sprites[i].x, cub3d->sprites[i].y, cub3d->plr.x, cub3d->plr.y);
+					cub3d->sprites[i].x, cub3d->sprites[i].y,
+					cub3d->plr.x, cub3d->plr.y);
 			vsblSprites[numVsblSprites] = cub3d->sprites[i];
 			numVsblSprites++;
 		}
@@ -141,7 +112,7 @@ int
 }
 
 void
-	draw_sprite(t_cub3d *cub3d, t_sprite *sprite, int x)
+	draw_sprite(t_cub3d *cub3d, t_config *config, t_sprite *sprite, int x)
 {
 	uint32_t	texelColor;
 	float		texelWidth;
@@ -150,25 +121,24 @@ void
 
 	texelWidth = (TEXTURE_WIDTH / sprite->width);
 	sprite->texture_offset_x = (x - sprite->left_x) * texelWidth;
-	y = sprite->top_y;
-	while (y < sprite->bottom_y)
+	y = sprite->top_y - 1;
+	while (y++ < sprite->bottom_y)
 	{
-		if (x > 0 && x < cub3d->config->width && y > 0 && y < cub3d->config->height)
+		if (x > 0 && x < config->width && y > 0 && y < config->height)
 		{
-			distanceFromTop
-					= y + (sprite->height / 2) - (cub3d->config->height / 2);
-			sprite->texture_offset_y
-					= distanceFromTop * (TEXTURE_HEIGHT / sprite->height);
+			distanceFromTop = y + (sprite->height / 2) - (config->height / 2);
+			sprite->texture_offset_y = distanceFromTop
+				* (TEXTURE_HEIGHT / sprite->height);
 			if (cub3d->wall.textureOffsetX > 63)
 				cub3d->wall.textureOffsetX = 63;
 			//printf("x = %d, texture = %d, textureOffsetX = %d, textureOffsetY = %d\n", x, sprite->texture, cub3d->wall.textureOffsetX, cub3d->wall.textureOffsetY);
-			texelColor = cub3d->config->wallTexture[sprite->texture]
-					->addr[(TEXTURE_WIDTH * sprite->texture_offset_y)
-						   + sprite->texture_offset_x];
+			texelColor = config->wallTexture[sprite->texture]->addr[(
+					TEXTURE_WIDTH * sprite->texture_offset_y)
+				+ sprite->texture_offset_x];
 			//texelColor = RED;
-			if (sprite->distance < cub3d->rays[x].distance && texelColor != 0x00FF00FF)
-					drawPixel(cub3d, x, y, texelColor);
+			if (sprite->distance < cub3d->rays[x].distance
+				&& texelColor != 0x00FF00FF)
+				drawPixel(cub3d, x, y, texelColor);
 		}
-		y++;
 	}
 }

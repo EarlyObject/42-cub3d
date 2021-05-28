@@ -61,6 +61,9 @@ debug: $(LIBFT_NAME) $(MLX_NAME) $(OBJ)
 linux: $(LIBFT_LINUX_NAME) $(MLX_NAME_LINUX) $(OBJ)
 	gcc -fsanitize=address -g3 $(CFLAGS) $(SRC) $(LIBFT_LINUX_PATH)/$(LIBFT_LINUX_NAME) $(MLX_LINUX_LINK)
 
+norminette:
+	norminette $(SRC) $(LIBFT_PATH)
+
 clean:
 	$(RM) $(OBJ)
 

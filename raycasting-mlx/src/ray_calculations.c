@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 22:43:46 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/25 22:47:34 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/05/28 10:48:31 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,9 @@ void
 	while (isInsideMap(cub3d->config, ray->nextHorzTouchX, ray->nextHorzTouchY))
 	{
 		xToCheck = ray->nextHorzTouchX;
+		yToCheck = ray->nextHorzTouchY;
 		if (isRayFacingUp(rayAngle))
 			yToCheck = ray->nextHorzTouchY + -1;
-		else
-			yToCheck = ray->nextHorzTouchY + 0;
 		if (mapHasWallAt(cub3d->config, xToCheck, yToCheck))
 		{
 			ray->horzWallHitX = ray->nextHorzTouchX;
@@ -53,23 +52,16 @@ void
 	ray->yintercept = floor(cub3d->plr.y / TILE_SIZE) * TILE_SIZE;
 	if (isRayFacingDown(rayAngle))
 		ray->yintercept += TILE_SIZE;
-	else
-		ray->yintercept += 0;
-	ray->xintercept = cub3d->plr.x + (ray->yintercept - cub3d->plr.y) / tan(rayAngle);
+	ray->xintercept = cub3d->plr.x
+		+ (ray->yintercept - cub3d->plr.y) / tan(rayAngle);
 	ray->ystep = TILE_SIZE;
 	if (isRayFacingUp(rayAngle))
 		ray->ystep *= -1;
-	else
-		ray->ystep *= 1;
 	ray->xstep = TILE_SIZE / tan(rayAngle);
 	if (isRayFacingLeft(rayAngle) && ray->xstep > 0)
 		ray->xstep *= -1;
-	else
-		ray->xstep *= 1;
 	if (isRayFacingRight(rayAngle) && ray->xstep < 0)
 		ray->xstep *= -1;
-	else
-		ray->xstep *= 1;
 	ray->nextHorzTouchX = ray->xintercept;
 	ray->nextHorzTouchY = ray->yintercept;
 	calc_hgrid_xy_steps(cub3d, rayAngle, ray);
@@ -83,10 +75,9 @@ void
 
 	while (isInsideMap(cub3d->config, ray->nextVertTouchX, ray->nextVertTouchY))
 	{
+		xToCheck = ray->nextVertTouchX;
 		if (isRayFacingLeft(rayAngle))
 			xToCheck = ray->nextVertTouchX + -1;
-		else
-			xToCheck = ray->nextVertTouchX + 0;
 		yToCheck = ray->nextVertTouchY;
 		if (mapHasWallAt(cub3d->config, xToCheck, yToCheck))
 		{
@@ -116,30 +107,24 @@ void
 	ray->xintercept = floor(cub3d->plr.x / TILE_SIZE) * TILE_SIZE;
 	if (isRayFacingRight(rayAngle))
 		ray->xintercept += TILE_SIZE;
-	else
-		ray->xintercept += 0;
-	ray->yintercept = cub3d->plr.y + (ray->xintercept - cub3d->plr.x) * tan(rayAngle);
+	ray->yintercept = cub3d->plr.y
+		+ (ray->xintercept - cub3d->plr.x) * tan(rayAngle);
 	ray->xstep = TILE_SIZE;
 	if (isRayFacingLeft(rayAngle))
 		ray->xstep *= -1;
-	else
-		ray->xstep *= 1;
 	ray->ystep = TILE_SIZE * tan(rayAngle);
 	if (isRayFacingUp(rayAngle) && ray->ystep > 0)
 		ray->ystep *= -1;
-	else
-		ray->ystep *= 1;
 	if (isRayFacingDown(rayAngle) && ray->ystep < 0)
 		ray->ystep *= -1;
-	else
-		ray->ystep *= 1;
 	ray->nextVertTouchX = ray->xintercept;
 	ray->nextVertTouchY = ray->yintercept;
 	calc_vgrid_xy_steps(cub3d, rayAngle, ray);
 }
 
 void
-	calc_ray_params(float rayAngle, t_ray *ray, float horzHitDistance, float vertHitDistance)
+	calc_ray_params(float rayAngle, t_ray *ray,
+				float horzHitDistance, float vertHitDistance)
 {
 	if (vertHitDistance < horzHitDistance)
 	{

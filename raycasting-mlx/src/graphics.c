@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:00:08 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/27 20:17:08 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/05/28 09:06:10 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,59 @@ int
 		i++;
 	}
 	return (0);
+}
+
+void
+	draw_map_sprites(t_cub3d *cub3d, int i, int j)
+{
+	uint32_t	color;
+	t_rectangle	rectangle;
+	int			x;
+	int			w;
+	int			h;
+
+	w = cub3d->config->width / cub3d->config->columns;
+	h = cub3d->config->height / cub3d->config->rows;
+	x = cub3d->config->map[j + i * cub3d->config->columns] - 48;
+	color = 0xFF00FFFF;
+	if (x == 2)
+	{
+		(rectangle) = (t_rectangle){.x = j * w * MINIMAP_SCALE_FACTOR,
+			.y = i * h * MINIMAP_SCALE_FACTOR, .width = 2, .height = 2};
+		drawRect(cub3d, rectangle, color);
+	}
+}
+
+void
+	renderMapSprites(t_cub3d *cub3d)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < cub3d->config->rows)
+	{
+		j = 0;
+		while (j < cub3d->config->columns)
+		{
+			draw_map_sprites(cub3d, i, j);
+			j++;
+		}
+		i++;
+	}
+}
+
+void
+	changeColorIntensity(uint32_t	*color, float factor)
+{
+	uint32_t	a;
+	uint32_t	r;
+	uint32_t	g;
+	uint32_t	b;
+
+	a = (*color & 0xFF000000);
+	r = (*color & 0x00FF0000) * factor;
+	g = (*color & 0x0000FF00) * factor;
+	b = (*color & 0x000000FF) * factor;
+	*color = a | (r & 0x00FF0000) | (g & 0x0000FF00) | (b & 0x000000FF);
 }

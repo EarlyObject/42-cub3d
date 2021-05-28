@@ -6,13 +6,11 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:00:52 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/25 22:42:02 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/05/28 10:48:58 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "defs.h"
-
-
 
 void
 	castRay(t_cub3d *cub3d, float rayAngle, int stripId)
@@ -62,7 +60,7 @@ void
 {
 	t_line	line;
 	int		num_rays;
-	int	i;
+	int		i;
 
 	i = 0;
 	num_rays = cub3d->config->width;

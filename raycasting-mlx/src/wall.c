@@ -6,25 +6,42 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:01:35 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/27 22:25:54 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/05/28 09:29:31 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "defs.h"
 
-void
-	changeColorIntensity(uint32_t	*color, float factor)
+uint32_t
+	get_texel_color(t_cub3d *cub3d, int x, int texNum, int y)
 {
-	uint32_t	a;
-	uint32_t	r;
-	uint32_t	g;
-	uint32_t	b;
+uint32_t	texelColor;
+uint32_t	*walTextrBuf;
+int			distanceFromTop;
 
-	a = (*color & 0xFF000000);
-	r = (*color & 0x00FF0000) * factor;
-	g = (*color & 0x0000FF00) * factor;
-	b = (*color & 0x000000FF) * factor;
-	*color = a | (r & 0x00FF0000) | (g & 0x0000FF00) | (b & 0x000000FF);
+distanceFromTop = (y + (cub3d->wall.wallHeight / 2)
+				   - (cub3d->config->height / 2));
+cub3d->wall.textureOffsetY = distanceFromTop
+							 * (float)(TEXTURE_HEIGHT / cub3d->wall.wallHeight);
+if (cub3d->wall.textureOffsetY > 63)
+cub3d->wall.textureOffsetY = 63;
+/*if (cub3d->wall.textureOffsetX > 63)
+cub3d->wall.textureOffsetX = 63;*/
+if (cub3d->config->wallTexture[texNum])
+{
+if (texNum < 0)
+texNum = 0;
+/*printf("texNum = %d, textureOffsetX = %d, textureOffsetY = %d\n", texNum, cub3d->wall.textureOffsetX, cub3d->wall.textureOffsetY);*/
+walTextrBuf = (uint32_t *) cub3d->config->wallTexture[texNum]->addr;
+if (walTextrBuf == NULL)
+printf("walTextrBuf = NULL");
+texelColor = walTextrBuf[(TEXTURE_WIDTH * cub3d->wall.textureOffsetY)
+						 + cub3d->wall.textureOffsetX];
+//texelColor = GREEN;
+}
+else
+texelColor = cub3d->config->color[cub3d->rays[x].texture];
+return (texelColor);
 }
 
 void
@@ -32,8 +49,6 @@ void
 {
 	int			texNum;
 	int			y;
-	int			distanceFromTop;
-	uint32_t	*walTextrBuf;
 	uint32_t	texelColor;
 
 	if (cub3d->rays[x].wasHitVertical)
@@ -55,27 +70,7 @@ void
 	y = cub3d->wall.wallTopY;
 	while (y < cub3d->wall.wallBottomY)
 	{
-		distanceFromTop = (y + (cub3d->wall.wallHeight / 2)
-				- (cub3d->config->height / 2));
-		cub3d->wall.textureOffsetY = distanceFromTop
-			* (float)(TEXTURE_HEIGHT / cub3d->wall.wallHeight);
-		if (cub3d->wall.textureOffsetY > 63)
-			cub3d->wall.textureOffsetY = 63;
-		/*if (cub3d->wall.textureOffsetX > 63)
-			cub3d->wall.textureOffsetX = 63;*/
-		if (cub3d->config->wallTexture[texNum])
-		{
-			if (texNum < 0)
-				texNum = 0;
-			/*printf("texNum = %d, textureOffsetX = %d, textureOffsetY = %d\n", texNum, cub3d->wall.textureOffsetX, cub3d->wall.textureOffsetY);*/
-			walTextrBuf = (uint32_t *) cub3d->config->wallTexture[texNum]->addr;
-			if (walTextrBuf == NULL)
-				printf("walTextrBuf = NULL");
-			texelColor = walTextrBuf[(TEXTURE_WIDTH * cub3d->wall.textureOffsetY) + cub3d->wall.textureOffsetX];
-				//texelColor = GREEN;
-		}
-		else
-			texelColor = cub3d->config->color[cub3d->rays[x].texture];
+		texelColor = get_texel_color(cub3d, x, texNum, y);
 		if (cub3d->rays[x].wasHitVertical)
 			changeColorIntensity(&texelColor, 0.7);
 		drawPixel(cub3d, x, y, texelColor);
@@ -89,15 +84,15 @@ void
 	float	perp_distance;
 
 	perp_distance = cub3d->rays[x].distance
-		* cos(cub3d->rays[x].rayAngle - cub3d->plr.rotAngle);
+					* cos(cub3d->rays[x].rayAngle - cub3d->plr.rotAngle);
 	cub3d->wall.wallHeight = (TILE_SIZE / perp_distance)
-		* cub3d->config->dist_proj_plane;
+							 * cub3d->config->dist_proj_plane;
 	cub3d->wall.wallTopY = (cub3d->config->height / 2)
-		- (cub3d->wall.wallHeight / 2);
+						   - (cub3d->wall.wallHeight / 2);
 	if (cub3d->wall.wallTopY < 0)
 		cub3d->wall.wallTopY = 0;
 	cub3d->wall.wallBottomY = (cub3d->config->height / 2)
-		+ (cub3d->wall.wallHeight / 2);
+							  + (cub3d->wall.wallHeight / 2);
 	if (cub3d->wall.wallBottomY > cub3d->config->height)
 		cub3d->wall.wallBottomY = cub3d->config->height;
 	if (cub3d->wall.wallBottomY < 0)

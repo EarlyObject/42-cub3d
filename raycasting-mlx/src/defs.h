@@ -105,7 +105,7 @@ void			renderSpriteProjection(t_cub3d *cub3d, t_config *config);
 void			renderMapSprites(t_cub3d *cub3d);
 void			render_vsbl_sprites(t_cub3d *cub3d,
 					 t_sprite *vsbl_sprites, int i);
-void			draw_sprite(t_cub3d *cub3d, t_sprite *sprite, int x);
+void			draw_sprite(t_cub3d *cub3d, t_config  *config, t_sprite *sprite, int x);
 int				find_visible_sprites(t_cub3d *cub3d, t_sprite *vsblSprites);
 void			find_sprites(t_cub3d *cub3d, t_config *config);
 void			count_sprites(t_config *config);
@@ -144,4 +144,5 @@ void			free_mmry(t_cub3d *cub3d);
 int				clear_config(t_config *config);
 int				clear_window(t_cub3d *cub3d);
 void			clear_textures(t_cub3d *cub3d);
+void			changeColorIntensity(uint32_t	*color, float factor);
 #endif
