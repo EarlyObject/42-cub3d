@@ -11,14 +11,17 @@
 # **************************************************************************** #
 
 SRC = src/main.c src/graphics.c src/errors.c src/draw.c src/inits.c \
-		src/textures.c src/ceiling.c
+		src/textures.c src/ceiling.c src/sprite.c src/setups.c src/parse.c \
+		src/params_parse.c gnl/get_next_line.c gnl/get_next_line_utils.c \
+		src/screenshot.c src/map_parse.c src/utils_parse.c src/str_parse.c \
 
 
-# src/map.c src/player.c src/ray.c src/sprite.c \
+
+# src/map.c src/player.c src/ray.c \
       src/utils.c src/wall.c  src/draw_sprites.c \
-       src/params_parse.c src/parse.c gnl/get_next_line.c \
-      gnl/get_next_line_utils.c src/str_parse.c src/utils_parse.c \
-      src/map_parse.c src/screenshot.c  src/setups.c src/window.c \
+          \
+        \
+          src/window.c \
       src/ray_utils.c src/ray_calculations.c src/memory_mngt.c
 OBJ = $(SRC:.c=.o)
 

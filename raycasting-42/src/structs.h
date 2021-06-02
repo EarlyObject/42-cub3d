@@ -19,8 +19,8 @@
 # include "defs.h"
 # include "../mlx/mlx.h"
 
-//# define TEXTURES			7
-# define TEXTURES			13
+# define TEXTURES			7
+//# define TEXTURES			13
 # define C_LAST				9
 
 typedef struct s_str
@@ -178,6 +178,7 @@ typedef struct s_config
 	t_image		*wallTexture[TEXTURES];
 	uint32_t	color[TEXTURES];
 	int			set[C_LAST];
+	t_sprite	*sprites;
 }	t_config;
 
 typedef struct s_cub3d
@@ -192,7 +193,7 @@ typedef struct s_cub3d
 	t_screen	screen;
 	t_config	*config;
 	t_ray		*rays;
-	t_sprite	*sprites;
+
 }	t_cub3d;
 
 #endif

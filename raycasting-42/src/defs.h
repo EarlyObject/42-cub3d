@@ -63,15 +63,15 @@
 # define C_MAP					8
 # define DIRECTIONS 			"NSEW"
 # define VALID_MAP_CHARACTERS 	" 01234NSEW"
-//# define TEXTURES				7
-# define TEXTURES				13
+# define TEXTURES				7
+//# define TEXTURES				13
 # define TEX_NORTH				0
 # define TEX_SOUTH				1
 # define TEX_WEST				2
 # define TEX_EAST				3
 # define TEX_SKY				4
 # define TEX_FLOOR				5
-# define TEX_SPRITE				6º
+# define TEX_SPRITE				6
 
 int				initialize_window(t_cub3d *cub3d);
 int				clear_color_buffer(t_cub3d *cub3d, uint32_t color);
@@ -85,8 +85,31 @@ void			loadTextures(t_cub3d *cub3d);
 void			drawPixel(t_cub3d *cub3d, int x, int y, uint32_t color);
 void			draw_ceiling(t_cub3d *cub3d);
 void			draw_floor(t_cub3d *cub3d);
-
-
+void			draw_sprites(t_cub3d *cub3d, const double *ZBuffer);
+void			setup(t_cub3d *cub3d, t_config *config, char *conf_path);
+int				parse_config(t_config *config, char const *conf_path);
+int				check_top_bottom_borders(t_str *map_buffer);
+int				check_left_right_borders(t_str *map_buffer);
+int				check_valid(t_config *config, t_str *map_buffer);
+int				copy_map(t_config *config, t_str *map_buffer, int *map);
+int				ft_endwith(char const *str, char const *end);
+int				get_next_line(int fd, char **line);
+int				parse_line(t_config *config,
+							  char const *line, t_str **map_buffer);
+int				string_length(t_str *str);
+t_str			*string_add_back(t_str **str, char *content);
+int				string_clear(t_str **list);
+void			screenshot(t_cub3d *cub3d);
+t_str			*string_last(t_str *str);
+int				ft_in_set(t_config *config, char c, char const *set);
+t_str			*ft_split_new(char const *org, char sep);
+int				parse_color(t_config *config, int key, char const *line);
+int				parse_dimensions(t_config *config, char const *line);
+int				parse_texture(t_config *config, int key, char const *line);
+int				exit_game(t_cub3d *cub3d, int code);
+int				count_sprites(t_config *config);
+void			resume_init_config(t_config *config);
+void			find_sprites(t_config *config);
 /*
 
 void			drawRect(t_cub3d *cub3d, t_rectangle rectangle, uint32_t color);
@@ -122,32 +145,13 @@ void			draw_sprite(t_cub3d *cub3d, t_config  *config, t_sprite *sprite, int x);
 int				find_visible_sprites(t_cub3d *cub3d, t_sprite *vsblSprites);
 void			find_sprites(t_cub3d *cub3d, t_config *config);
 void			count_sprites(t_config *config);
-int				parse_color(t_config *config, int key, char const *line);
-int				parse_dimensions(t_config *config, char const *line);
-int				parse_line(t_config *config,
-					char const *line, t_str **map_buffer);
-int				string_length(t_str *str);
-t_str			*string_add_back(t_str **str, char *content);
-int				parse_config(t_config *config, char const *conf_path);
-int				string_clear(t_str **list);
-int				ft_in_set(t_config *config, char c, char const *set);
-int				get_next_line(int fd, char **line);
-int				parse_texture(t_config *config, int key, char const *line);
-int				check_valid(t_config *config, t_str *map_buffer);
-t_str			*ft_split_new(char const *org, char sep);
-int				check_top_bottom_borders(t_str *map_buffer);
-int				check_left_right_borders(t_str *map_buffer);
-int				copy_map(t_config *config, t_str *map_buffer, int *map);
-int				ft_endwith(char const *str, char const *end);
-t_str			*string_last(t_str *str);
-void			screenshot(t_cub3d *cub3d);
+
+
 int				render(t_cub3d *cub3d);
-int				exit_game(t_cub3d *cub3d, int code);
 void			update(t_cub3d *cub3d);
 void			bmp_builder(t_cub3d *cub3d, char *file_name);
 
-void			setup(t_cub3d *cub3d, t_config *config,
-					int save_option, char *conf_path);
+
 int				deal_key(int key_code, t_cub3d *cub3d);
 int				key_release(int key_code, t_cub3d *cub3d);
 int				close_win(void);

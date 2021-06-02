@@ -12,8 +12,8 @@
 
 #include "defs.h"
 
-/*void
-	set_window_size(t_config *config)
+void
+set_window_size(t_config *config)
 {
 	if (config->width > 1920)
 		config->width = 1920;
@@ -23,7 +23,7 @@
 		config->width = 848;
 	if (config->height < 480)
 		config->height = 480;
-}*/
+}
 
 /*void
 	update(t_cub3d *cub3d)
@@ -55,26 +55,7 @@ void
 	find_sprites(cub3d, cub3d->config);
 }*/
 
-/*void
-	setup(t_cub3d *cub3d, t_config *config, int save_option, char *conf_path)
-{
-	printf("Starting SETUP\n");
-	init_cub3d(cub3d);
-	init_config(config);
-	cub3d->config = config;
-	if (!parse_config(config, conf_path))
-		ft_exit_error(cub3d, "ERROR: INVALID MAP PARAMETERS.");
-	set_window_size(cub3d->config);
-	init_player(cub3d);
-	cub3d->rays = (t_ray *)malloc(sizeof(t_ray) * (config->width));
-	if (!cub3d->rays)
-		ft_exit_error(cub3d, "ERROR: ERROR CREATING RAYS ARRAY.");
-	initializeWindow(cub3d);
-	loadTextures(cub3d);
-	configurate_sprites(cub3d);
-	if (save_option)
-		screenshot(cub3d);
-}
+/*
 
 void
 	screenshot(t_cub3d *cub3d)
@@ -85,3 +66,27 @@ void
 	printf("SCREENSHOT MADE SUCCESSFULLY.");
 	exit_game(cub3d, EXIT_SUCCESS);
 }*/
+
+void
+setup(t_cub3d *cub3d, t_config *config, char *conf_path)
+{
+	printf("Starting SETUP\n");
+	init_cub3d(cub3d);
+	init_config(config);
+	cub3d->config = config;
+	if (!parse_config(config, conf_path))
+		ft_exit_error(cub3d, "ERROR: INVALID MAP PARAMETERS.");
+	resume_init_config(config);
+	set_window_size(cub3d->config);
+	init_player(cub3d);
+	//init_screen(cub3d);
+	/*cub3d->rays = (t_ray *)malloc(sizeof(t_ray) * (config->width));
+	if (!cub3d->rays)
+		ft_exit_error(cub3d, "ERROR: ERROR CREATING RAYS ARRAY.");*/
+	initialize_window(cub3d);
+	loadTextures(cub3d);
+	find_sprites(config);
+	//configurate_sprites(cub3d);
+	//if (save_option)
+	//	screenshot(cub3d);
+}

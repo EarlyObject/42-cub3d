@@ -11,43 +11,11 @@
 /* ************************************************************************** */
 
 #include "defs.h"
-#define mapWidth 24
-#define mapHeight 24
-//#define screenWidth 640
-//#define screenHeight 480
 
 int main_loop();
 
-int worldMap[mapWidth][mapHeight]=
-		{
-				{4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,7,7,7,7,7,7,7,7},
-				{4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,7},
-				{4,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7},
-				{4,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7},
-				{4,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,7},
-				{4,0,4,0,0,0,0,5,5,5,5,5,5,5,5,5,7,7,0,7,7,7,7,7},
-				{4,0,5,0,0,0,0,5,0,5,0,5,0,5,0,5,7,0,0,0,7,7,7,1},
-				{4,0,6,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,0,0,0,8},
-				{4,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,1},
-				{4,0,8,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,0,0,0,8},
-				{4,0,0,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,7,7,7,1},
-				{4,0,0,0,0,0,0,5,5,5,5,0,5,5,5,5,7,7,7,7,7,7,7,1},
-				{6,6,6,6,6,6,6,6,6,6,6,0,6,6,6,6,6,6,6,6,6,6,6,6},
-				{8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4},
-				{6,6,6,6,6,6,0,6,6,6,6,0,6,6,6,6,6,6,6,6,6,6,6,6},
-				{4,4,4,4,4,4,0,4,4,4,6,0,6,2,2,2,2,2,2,2,3,3,3,3},
-				{4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,0,0,0,2},
-				{4,0,0,0,0,0,0,0,0,0,0,0,6,2,0,0,5,0,0,2,0,0,0,2},
-				{4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,2,0,2,2},
-				{4,0,6,0,6,0,0,0,0,4,6,0,0,0,0,0,5,0,0,0,0,0,0,2},
-				{4,0,0,5,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,2,0,2,2},
-				{4,0,6,0,6,0,0,0,0,4,6,0,6,2,0,0,5,0,0,2,0,0,0,2},
-				{4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,0,0,0,2},
-				{4,4,4,4,4,4,4,4,4,4,1,1,1,2,2,2,2,2,2,3,3,3,3,3}
-		};
-
 int
-deal_key(int key_code, t_cub3d *cub3d)
+	deal_key(int key_code, t_cub3d *cub3d)
 {
 	if (key_code == KEY_ESC)
 	{
@@ -55,17 +23,17 @@ deal_key(int key_code, t_cub3d *cub3d)
 	}
 	if (key_code == KEY_W || key_code == KEY_FORWARD)
 	{
-		if(worldMap[(int)(cub3d->plr.posX + cub3d->plr.dirX * cub3d->plr.moveSpeed)][(int)(cub3d->plr.posY)] == false)
+		if(cub3d->config->map[(int)(cub3d->plr.posX + cub3d->plr.dirX * cub3d->plr.moveSpeed) + (cub3d->config->columns * (int)(cub3d->plr.posY))] - 48 == false)
 			cub3d->plr.posX += cub3d->plr.dirX * cub3d->plr.moveSpeed;
-		if(worldMap[(int)(cub3d->plr.posX)][(int)(cub3d->plr.posY + cub3d->plr.dirY * cub3d->plr.moveSpeed)] == false)
+		if(cub3d->config->map[(int)(cub3d->plr.posX) + (cub3d->config->columns * (int)(cub3d->plr.posY + cub3d->plr.dirY * cub3d->plr.moveSpeed))] - 48  == false)
 			cub3d->plr.posY += cub3d->plr.dirY * cub3d->plr.moveSpeed;
 	}
 	if (key_code == KEY_S || key_code == KEY_BACKWARD)
 	{
-		if(worldMap[(int)(cub3d->plr.posX - cub3d->plr.dirX * cub3d->plr.moveSpeed)][(int)(cub3d->plr.posY)] == false)
-			cub3d->plr.posX -= cub3d->plr.dirX * cub3d->plr.moveSpeed;
-		if(worldMap[(int)(cub3d->plr.posX)][(int)(cub3d->plr.posY - cub3d->plr.dirY * cub3d->plr.moveSpeed)] == false)
-			cub3d->plr.posY -= cub3d->plr.dirY * cub3d->plr.moveSpeed;
+		if(cub3d->config->map[(int)(cub3d->plr.posX - cub3d->plr.dirX * cub3d->plr.moveSpeed) + (cub3d->config->columns * (int)(cub3d->plr.posY))] - 48  == false)
+				cub3d->plr.posX -= cub3d->plr.dirX * cub3d->plr.moveSpeed;
+		if(cub3d->config->map[(int)(cub3d->plr.posX) + (cub3d->config->columns * (int)(cub3d->plr.posY - cub3d->plr.dirY * cub3d->plr.moveSpeed))] - 48 == false)
+				cub3d->plr.posY -= cub3d->plr.dirY * cub3d->plr.moveSpeed;
 	}
 	if (key_code == KEY_RIGHT)
 	{
@@ -86,10 +54,21 @@ deal_key(int key_code, t_cub3d *cub3d)
 		cub3d->screen.planeX = cub3d->screen.planeX * cos(cub3d->plr.rotSpeed) - cub3d->screen.planeY * sin(cub3d->plr.rotSpeed);
 		cub3d->screen.planeY = oldPlaneX * sin(cub3d->plr.rotSpeed) + cub3d->screen.planeY * cos(cub3d->plr.rotSpeed);
 	}
-	/*if (key_code == KEY_D)
-		cub3d->plr.moveSide = +1;
+	if (key_code == KEY_D)
+	{
+		if(cub3d->config->map[(int)((cub3d->plr.posX + cub3d->screen.planeX * cub3d->plr.moveSpeed) + (cub3d->config->columns * (int)cub3d->plr.posY))] - 48  == false)
+			cub3d->plr.posX += cub3d->screen.planeX * cub3d->plr.moveSpeed;
+		if(cub3d->config->map[(int)((cub3d->plr.posX) + (cub3d->config->columns * (int)(cub3d->plr.posY + cub3d->screen.planeY * cub3d->plr.moveSpeed)))] - 48  == false)
+			cub3d->plr.posY += cub3d->screen.planeY * cub3d->plr.moveSpeed;
+	}
 	if (key_code == KEY_A)
-		cub3d->plr.moveSide = -1;*/
+	{
+		if(cub3d->config->map[(int)(cub3d->plr.posX - cub3d->screen.planeX * cub3d->plr.moveSpeed) + (cub3d->config->columns * (int)cub3d->plr.posY)] - 48  == false)
+			cub3d->plr.posX -= cub3d->screen.planeX * cub3d->plr.moveSpeed;
+		if(cub3d->config->map[(int)(cub3d->plr.posX) + (cub3d->config->columns * (int)(cub3d->plr.posY - cub3d->screen.planeY * cub3d->plr.moveSpeed))] - 48  == false)
+			cub3d->plr.posY -= cub3d->screen.planeY * cub3d->plr.moveSpeed;
+
+	}
 	return (0);
 }
 
@@ -114,19 +93,7 @@ key_release(int key_code, t_cub3d *cub3d)
 //sort the sprites based on distance
 
 
-float
-distanceBetweenPoints(float x1, float y1, float x2, float y2)
-{
-	return (sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)));
-}
 
-void
-swap_sprites(t_sprite *visibleSprites, t_sprite *temp, int i, int j)
-{
-	(*temp) = visibleSprites[i];
-	visibleSprites[i] = visibleSprites[j];
-	visibleSprites[j] = (*temp);
-}
 
 //sort the sprites based on distance
 /*void sortSprites(int* order, double* dist, int amount)
@@ -147,9 +114,9 @@ swap_sprites(t_sprite *visibleSprites, t_sprite *temp, int i, int j)
 int
 main_loop(t_cub3d *cub3d)
 {
-	//1D Zbuffer
-	double ZBuffer[cub3d->config->width];
 
+//1D Zbuffer
+	double ZBuffer[cub3d->config->width];
 	clear_color_buffer(cub3d, WHITE);
 
 	//CEILING CASTING
@@ -225,8 +192,8 @@ main_loop(t_cub3d *cub3d)
 				side = 1;
 			}
 			//Check if ray has hit a wall
-			if (worldMap[mapX][mapY] > 0)
-				hit = 1;
+			if (cub3d->config->map[mapX + (cub3d->config->columns * mapY)] == '1')
+					hit = 1;
 		}
 
 		//Calculate distance projected on camera direction (Euclidean distance will give fisheye effect!)
@@ -247,12 +214,30 @@ main_loop(t_cub3d *cub3d)
 			drawEnd = cub3d->config->height - 1;
 
 		//texturing calculations
-		int texNum = worldMap[mapX][mapY] - 1; //1 subtracted from it so that texture 0 can be used!
+		//int texNum = cub3d->config->map[mapX][mapY] - 1; //1 subtracted from it so that texture 0 can be used!
+		int texNum = cub3d->config->map[mapX + (cub3d->config->columns *mapY)] - '0' - 1; //1 subtracted from it so that texture 0 can be used!
 
 		//calculate value of wallX
 		double wallX; //where exactly the wall was hit
-		if(side == 0) wallX = cub3d->plr.posY + perpWallDist * rayDirY;
-		else          wallX = cub3d->plr.posX + perpWallDist * rayDirX;
+		if(side == 0)
+		{
+			wallX = cub3d->plr.posY + perpWallDist * rayDirY;
+			if (rayDirX > 0)
+				texNum += 2;
+			else
+				texNum += 3;
+		}
+
+		else
+		{
+			wallX = cub3d->plr.posX + perpWallDist * rayDirX;
+			if (rayDirY < 0)
+				texNum += 0;
+			else
+				texNum += 1;
+
+		}
+
 		wallX -= floor((wallX));
 
 		//x coordinate on the texture
@@ -282,165 +267,15 @@ main_loop(t_cub3d *cub3d)
 		ZBuffer[x] = perpWallDist; //perpendicular distance is used
 	}
 
-	//SPRITE CASTING
-	//sort sprites from far to close
-	t_sprite sprite[NUM_SPRITES] =
-			{
-					{20.5, 11.5, 9, 0}, //green light in front of playerstart
-					//green lights in every room
-					{18.5,4.5, 9, 0},
-					{10.0,4.5, 9, 0},
-					{10.0,12.5,9, 0},
-					{3.5, 6.5, 9, 0},
-					{3.5, 20.5,9, 0},
-					{3.5, 14.5,9, 0},
-					{14.5,20.5,9, 0},
 
-					//row of pillars in front of wall: fisheye test
-					{18.5, 10.5, 11, 0},
-					{18.5, 11.5, 11, 0},
-					{18.5, 12.5, 11, 0},
-
-					//some barrels around the map
-					{21.5, 1.5, 11, 0},
-					{15.5, 1.5, 11, 0},
-					{16.0, 1.8, 11, 0},
-					{16.2, 1.2, 11, 0},
-					{3.5,  2.5, 11, 0},
-					{9.5, 15.5, 11, 0},
-					{10.0, 15.1,11, 0},
-					{10.5, 15.8,11, 0},
-			};
 	//Uint32 buffer[cub3d->config->height][cub3d->config->width]; // y-coordinate first because it works per scanline
-
-
-
-	//arrays used to sort the sprites
-//	int spriteOrder[cub3d->config->num_sprites];
-//	double spriteDistance[cub3d->config->num_sprites];
-
-	//function used to sort the sprites
-	//void sortSprites(int* order, double* dist, int amount);
-	for(int i = 0; i < cub3d->config->num_sprites; i++)
-	{
-		//spriteOrder[i] = i;
-	//	spriteDistance[i] = ((cub3d->plr.posX - sprite[i].x) * (cub3d->plr.posX - sprite[i].x) + (cub3d->plr.posY - sprite[i].y) * (cub3d->plr.posY - sprite[i].y)); //sqrt not taken, unneeded
-		sprite[i].distance = distanceBetweenPoints(
-				cub3d->sprites[i].x, cub3d->sprites[i].y,
-				cub3d->plr.posX, cub3d->plr.posY);
-
-		//sortSprites(spriteOrder, spriteDistance, NUM_SPRITES);
-	}
-
-	int z;
-	int j;
-	t_sprite	temp;
-	z = 0;
-	while (z < NUM_SPRITES - 1)
-	{
-		j = 1;
-		while (j < NUM_SPRITES)
-		{
-			if (sprite[z].distance < sprite[j].distance)
-			{
-				swap_sprites(sprite, &temp, z, j);
-			}
-			j++;
-		}
-		z++;
-	}
-
-	/*int i;
-	int j;
-	i = 0;
-	t_sprite	temp;
-	while (i < NUM_SPRITES - 1)
-	{
-		j = 1;
-		while (j < NUM_SPRITES)
-		{
-			if (sprite[i].distance < sprite[j].distance)
-				swap_sprites(sprite, &temp, i, j);
-			j++;
-		}
-		i++;
-	}*/
-//	sortSprites(spriteOrder, spriteDistance, cub3d->config->num_sprites);
-
-	//after sorting the sprites, do the projection and draw them
-	for(int i = 0; i < cub3d->config->num_sprites; i++)
-	{
-		//translate sprite position to relative to camera
-		double spriteX = sprite[i].x - cub3d->plr.posX;
-		double spriteY = sprite[i].y - cub3d->plr.posY;
-
-		//transform sprite with the inverse camera matrix
-		// [ planeX   dirX ] -1                                       [ dirY      -dirX ]
-		// [               ]       =  1/(planeX*dirY-dirX*planeY) *   [                 ]
-		// [ planeY   dirY ]                                          [ -planeY  planeX ]
-
-		double invDet = 1.0 / (cub3d->screen.planeX * cub3d->plr.dirY - cub3d->plr.dirX * cub3d->screen.planeY); //required for correct matrix multiplication
-
-		double transformX = invDet * (cub3d->plr.dirY * spriteX - cub3d->plr.dirX * spriteY);
-		double transformY = invDet * (-cub3d->screen.planeY * spriteX + cub3d->screen.planeX * spriteY); //this is actually the depth inside the screen, that what Z is in 3D, the distance of sprite to player, matching sqrt(spriteDistance[i])
-
-		int spriteScreenX = (int)((cub3d->config->width / 2) * (1 + transformX / transformY));
-
-		//parameters for scaling and moving the sprites
-#define uDiv 1
-#define vDiv 1
-#define vMove 0.0
-		int vMoveScreen = (int)(vMove / transformY);
-
-		//calculate height of the sprite on screen
-		int spriteHeight = abs((int)(cub3d->config->height / (transformY))) / vDiv; //using "transformY" instead of the real distance prevents fisheye
-		//calculate lowest and highest pixel to fill in current stripe
-		int drawStartY = -spriteHeight / 2 + cub3d->config->height / 2 + vMoveScreen;
-		if(drawStartY < 0) drawStartY = 0;
-		int drawEndY = spriteHeight / 2 + cub3d->config->height / 2 + vMoveScreen;
-		if(drawEndY >= cub3d->config->height) drawEndY = cub3d->config->height - 1;
-
-		//calculate width of the sprite
-		int spriteWidth = abs( (int) (cub3d->config->height / (transformY))) / uDiv;
-		int drawStartX = -spriteWidth / 2 + spriteScreenX;
-		if(drawStartX < 0) drawStartX = 0;
-		int drawEndX = spriteWidth / 2 + spriteScreenX;
-		if(drawEndX >= cub3d->config->width) drawEndX = cub3d->config->width - 1;
-
-		//loop through every vertical stripe of the sprite on screen
-		for(int stripe = drawStartX; stripe < drawEndX; stripe++)
-		{
-			int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * TEXTURE_WIDTH / spriteWidth) / 256;
-			//the conditions in the if are:
-			//1) it's in front of camera plane so you don't see things behind you
-			//2) it's on the screen (left)
-			//3) it's on the screen (right)
-			//4) ZBuffer, with perpendicular distance
-			if(transformY > 0 && stripe > 0 && stripe < cub3d->config->width && transformY < ZBuffer[stripe])
-				for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
-				{
-					int d = (y-vMoveScreen) * 256 - cub3d->config->height * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
-					int texY = ((d * TEXTURE_HEIGHT) / spriteHeight) / 256;
-
-					uint32_t *walTextrBuf;
-					walTextrBuf = cub3d->config->wallTexture[sprite[i].texture]->addr;
-					Uint32 color = walTextrBuf[(TEXTURE_WIDTH * texY + texX)];
-
-					//Uint32 color = texture[sprite[spriteOrder[i]].texture][texWidth * texY + texX]; //get current color from the texture
-					if((color && color != 0x00FF00FF))
-					//	buffer[y][stripe] = color; //paint pixel if it isn't black, black is the invisible color
-						drawPixel(cub3d, stripe, y, color);
-				}
-		}
-	}
-
-
-
+	draw_sprites(cub3d, ZBuffer);
 	mlx_put_image_to_window(
 			cub3d->mlx.mlx, cub3d->win, cub3d->image.img_ptr, 0, 0);
 	return (0);
 
 }
+
 
 
 int
@@ -471,45 +306,22 @@ main_loop()
 int
 main(int argc, char *argv[])
 {
-
-
 	t_cub3d		cub3d;
 	t_config	config;
-	//t_config	config;
-	//int			save_option;
-	printf("%d\n", argc);
-	printf("%s\n", argv[0]);
-	init_cub3d(&cub3d);
-	init_config(&config);
-	cub3d.config = &config;
-	//cub3d.config->width = screenWidth;
-	//cub3d.config->height = cub3d->config->height;
+	int			save_option;
 
-	init_player(&cub3d);
-	init_screen(&cub3d);
-
-
-	/*save_option = 0;
+	save_option = 0;
 	if (argc == 3)
 		save_option = (!ft_strncmp(argv[2], "--save", 6));
 	if (argc == 2 || (argc == 3 && save_option))
 	{
-		setup(&cub3d, &config, save_option, argv[1]);
+		setup(&cub3d, &config, argv[1]);
 		if (save_option)
 			screenshot(&cub3d);
 		ft_run(cub3d);
 		return (EXIT_SUCCESS);
 	}
 	else
-	{
 		ft_exit_error(&cub3d, "ERROR: WRONG NUMBER OF ARGUMENTS.\n");
-	}*/
-
-	initialize_window(&cub3d);
-	loadTextures(&cub3d);
-	ft_run(cub3d);
 	return (EXIT_SUCCESS);
-
-	//screen(screenWidth, screenHeight, 0, "Raycaster");
-
 }

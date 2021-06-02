@@ -58,29 +58,41 @@ void
 		float floorX = cub3d->plr.posX + rowDistance * rayDirX0;
 		float floorY = cub3d->plr.posY + rowDistance * rayDirY0;
 
-		for(int x = 0; x < cub3d->config->width; ++x)
+		if (cub3d->config->wallTexture[TEX_FLOOR] == NULL)
 		{
-			// the cell coord is simply got from the integer parts of floorX and floorY
-			int cellX = (int)(floorX);
-			int cellY = (int)(floorY);
-
-			// get the texture coordinate from the fractional part
-			int tx = (int)(TEXTURE_WIDTH * (floorX - cellX)) & (TEXTURE_WIDTH - 1);
-			int ty = (int)(TEXTURE_HEIGHT * (floorY - cellY)) & (TEXTURE_HEIGHT - 1);
-
-			floorX += floorStepX;
-			floorY += floorStepY;
-
-			int floorTexture = 4;
-			Uint32 color;
-
-			// floor
-			uint32_t *walTextrBuf;
-			walTextrBuf = cub3d->config->wallTexture[floorTexture]->addr;
-			color = walTextrBuf[(TEXTURE_WIDTH * ty + tx)];
-			color = (color >> 1) & 8355711; // make a bit darker
-			drawPixel(cub3d, x, y, color);
+			for(int x = 0; x < cub3d->config->width; ++x)
+			{
+				drawPixel(cub3d, x, y, cub3d->config->color[TEX_FLOOR]);
+			}
 		}
+		else
+		{
+			for(int x = 0; x < cub3d->config->width; ++x)
+			{
+				// the cell coord is simply got from the integer parts of floorX and floorY
+				int cellX = (int)(floorX);
+				int cellY = (int)(floorY);
+
+				// get the texture coordinate from the fractional part
+				int tx = (int)(TEXTURE_WIDTH * (floorX - cellX)) & (TEXTURE_WIDTH - 1);
+				int ty = (int)(TEXTURE_HEIGHT * (floorY - cellY)) & (TEXTURE_HEIGHT - 1);
+
+				floorX += floorStepX;
+				floorY += floorStepY;
+
+				//int floorTexture = 4;
+				Uint32 color;
+
+				// floor
+				uint32_t *walTextrBuf;
+				walTextrBuf = cub3d->config->wallTexture[TEX_FLOOR]->addr;
+				color = walTextrBuf[(TEXTURE_WIDTH * ty + tx)];
+				color = (color >> 1) & 8355711; // make a bit darker
+				drawPixel(cub3d, x, y, color);
+			}
+		}
+
+
 	}
 }
 
@@ -111,29 +123,39 @@ void
 		float floorX = cub3d->plr.posX + rowDistance * rayDirX0;
 		float floorY = cub3d->plr.posY + rowDistance * rayDirY0;
 
-		for(int x = 0; x < cub3d->config->width; ++x)
+		if (cub3d->config->wallTexture[TEX_SKY] == NULL)
 		{
-			// the cell coord is simply got from the integer parts of floorX and floorY
-			int cellX = (int)(floorX);
-			int cellY = (int)(floorY);
+			for(int x = 0; x < cub3d->config->width; ++x)
+			{
+				drawPixel(cub3d, x, y, cub3d->config->color[TEX_SKY]);
+			}
+		}
+		else
+		{
+			for(int x = 0; x < cub3d->config->width; ++x)
+			{
+				// the cell coord is simply got from the integer parts of floorX and floorY
+				int cellX = (int)(floorX);
+				int cellY = (int)(floorY);
 
-			// get the texture coordinate from the fractional part
-			int tx = (int)(TEXTURE_WIDTH * (floorX - cellX)) & (TEXTURE_WIDTH - 1);
-			int ty = (int)(TEXTURE_HEIGHT * (floorY - cellY)) & (TEXTURE_HEIGHT - 1);
+				// get the texture coordinate from the fractional part
+				int tx = (int)(TEXTURE_WIDTH * (floorX - cellX)) & (TEXTURE_WIDTH - 1);
+				int ty = (int)(TEXTURE_HEIGHT * (floorY - cellY)) & (TEXTURE_HEIGHT - 1);
 
-			floorX += floorStepX;
-			floorY += floorStepY;
+				floorX += floorStepX;
+				floorY += floorStepY;
 
-			// choose texture and draw the pixel
-			int ceilingTexture = 6;
-			Uint32 color;
+				// choose texture and draw the pixel
+				int ceilingTexture = 6;
+				Uint32 color;
 
-			// floor
-			uint32_t *walTextrBuf;
-			walTextrBuf = cub3d->config->wallTexture[ceilingTexture]->addr;
-			color = walTextrBuf[(TEXTURE_WIDTH * ty + tx)];
-			color = (color >> 1) & 8355711; // make a bit darker
-			drawPixel(cub3d, x, y, color);
+				// floor
+				uint32_t *walTextrBuf;
+				walTextrBuf = cub3d->config->wallTexture[ceilingTexture]->addr;
+				color = walTextrBuf[(TEXTURE_WIDTH * ty + tx)];
+				color = (color >> 1) & 8355711; // make a bit darker
+				drawPixel(cub3d, x, y, color);
+			}
 		}
 	}
 }

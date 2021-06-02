@@ -12,7 +12,7 @@
 
 #include "defs.h"
 
-static char *textureFileNames[TEXTURES] = {
+/*static char *textureFileNames[TEXTURES] = {
 		"./textures/redbrick.xpm", //[0]
 		"./textures/purplestone.xpm",
 		"./textures/mossystone.xpm",
@@ -26,10 +26,10 @@ static char *textureFileNames[TEXTURES] = {
 		"./textures/table.xpm", //[10]
 		"./textures/guard.xpm", //[11]
 		"./textures/armor.xpm" //[12]
-};
+};*/
 
 void
-loadTextures(t_cub3d *cub3d)
+	loadTextures(t_cub3d *cub3d)
 {
 	int		i;
 	t_image	img;
@@ -39,16 +39,19 @@ loadTextures(t_cub3d *cub3d)
 	i = 0;
 	while (i < TEXTURES)
 	{
-		img.img_ptr = mlx_xpm_file_to_image(cub3d->mlx.mlx,
-											textureFileNames[i], &img_width, &img_height);
-		if (img.img_ptr == NULL)
-			ft_exit_error(cub3d, "ERROR: ERROR CONVERTING TEXTURE");
-		img.addr = (uint32_t *)mlx_get_data_addr(img.img_ptr,
-												 &img.bits_per_pixel, &img.line_length, &img.endian);
-		if (img.addr != NULL )
-			cub3d->config->wallTexture[i] = img.img_ptr;
-		else
-			ft_exit_error(cub3d, "ERROR: ERROR LOADING TEXTURE");
+		if (cub3d->config->tex_path[i])
+		{
+			img.img_ptr = mlx_xpm_file_to_image(cub3d->mlx.mlx,
+												cub3d->config->tex_path[i], &img_width, &img_height);
+			if (img.img_ptr == NULL)
+				ft_exit_error(cub3d, "ERROR: ERROR CONVERTING TEXTURE");
+			img.addr = (uint32_t *)mlx_get_data_addr(img.img_ptr,
+													 &img.bits_per_pixel, &img.line_length, &img.endian);
+			if (img.addr != NULL )
+				cub3d->config->wallTexture[i] = img.img_ptr;
+			else
+				ft_exit_error(cub3d, "ERROR: ERROR LOADING TEXTURE");
+		}
 		i++;
 	}
 }
