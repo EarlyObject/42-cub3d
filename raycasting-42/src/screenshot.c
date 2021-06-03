@@ -106,8 +106,7 @@ void
 void
 	screenshot(t_cub3d *cub3d)
 {
-	//update(cub3d);
-	//render(cub3d);
+	main_loop(cub3d);
 	bmp_builder(cub3d, "screenshot.bmp");
 	printf("SCREENSHOT MADE SUCCESSFULLY.");
 	exit_game(cub3d, EXIT_SUCCESS);

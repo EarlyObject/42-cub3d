@@ -29,7 +29,7 @@
 };*/
 
 void
-	loadTextures(t_cub3d *cub3d)
+loadTextures(t_cub3d *cub3d)
 {
 	int		i;
 	t_image	img;

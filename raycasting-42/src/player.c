@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:00:43 by asydykna          #+#    #+#             */
-/*   Updated: 2021/06/03 18:35:10 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/04 14:57:02 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void
 	cub3d->plr.dirX = cub3d->plr.dirX * cos(cub3d->plr.rotSpeed)
 		- cub3d->plr.dirY * sin(cub3d->plr.rotSpeed);
 	cub3d->plr.dirY = oldDirX * sin(cub3d->plr.rotSpeed)
-		+ cub3d->plr.dirY * cos(cub3d->plr.rotSpeed);
+		 + cub3d->plr.dirY * cos(cub3d->plr.rotSpeed);
 	cub3d->screen.planeX = cub3d->screen.planeX * cos(cub3d->plr.rotSpeed)
 		- cub3d->screen.planeY * sin(cub3d->plr.rotSpeed);
 	cub3d->screen.planeY = oldPlaneX * sin(cub3d->plr.rotSpeed)
@@ -39,7 +39,7 @@ void
 }
 
 void
-	move_aside(int key_code, t_cub3d *cub3d)
+move_aside(int key_code, t_cub3d *cub3d)
 {
 	if (key_code == KEY_D)
 	{

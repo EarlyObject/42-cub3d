@@ -65,9 +65,9 @@ int
 	int			w;
 	int			h;
 
-	w = cub3d->config->width / cub3d->config->columns;
+	w = cub3d->config->width / cub3d->config->colms;
 	h = cub3d->config->height / cub3d->config->rows;
-	x = cub3d->config->map[j + i * cub3d->config->columns] - 48;
+	x = cub3d->config->map[j + i * cub3d->config->colms] - 48;
 	color = 0xFF00FFFF;
 	if (x == 2)
 	{
@@ -87,7 +87,7 @@ int
 	while (i < cub3d->config->rows)
 	{
 		j = 0;
-		while (j < cub3d->config->columns)
+		while (j < cub3d->config->colms)
 		{
 			draw_map_sprites(cub3d, i, j);
 			j++;

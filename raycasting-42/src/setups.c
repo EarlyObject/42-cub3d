@@ -6,14 +6,14 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 21:58:51 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/28 09:30:23 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/04 14:57:21 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "defs.h"
 
 void
-set_window_size(t_config *config)
+	set_window_size(t_config *config)
 {
 	if (config->width > 1920)
 		config->width = 1920;
@@ -49,7 +49,7 @@ void
 {
 	count_sprites(cub3d->config);
 	cub3d->sprites = (t_sprite *)malloc(
-			sizeof(t_sprite) * cub3d->config->num_sprites);
+			sizeof(t_sprite) * cub3d->config->num_sprs);
 	if (cub3d->sprites == NULL)
 		ft_exit_error(cub3d, "ERROR: ERROR CREATING SPRITES ARRAY.");
 	find_sprites(cub3d, cub3d->config);
@@ -68,7 +68,7 @@ void
 }*/
 
 void
-setup(t_cub3d *cub3d, t_config *config, char *conf_path)
+	setup(t_cub3d *cub3d, t_config *config, char *conf_path)
 {
 	printf("Starting SETUP\n");
 	init_cub3d(cub3d);
@@ -79,10 +79,10 @@ setup(t_cub3d *cub3d, t_config *config, char *conf_path)
 	resume_init_config(config);
 	set_window_size(cub3d->config);
 	init_player(cub3d);
-	//init_screen(cub3d);
 	/*cub3d->rays = (t_ray *)malloc(sizeof(t_ray) * (config->width));
 	if (!cub3d->rays)
 		ft_exit_error(cub3d, "ERROR: ERROR CREATING RAYS ARRAY.");*/
+	init_wall(cub3d);
 	initialize_window(cub3d);
 	loadTextures(cub3d);
 	find_sprites(config);

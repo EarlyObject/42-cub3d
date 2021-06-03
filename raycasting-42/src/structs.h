@@ -20,7 +20,6 @@
 # include "../mlx/mlx.h"
 
 # define TEXTURES			7
-//# define TEXTURES			13
 # define C_LAST				9
 
 typedef struct s_str
@@ -64,8 +63,22 @@ typedef struct s_ray{
 typedef struct s_sprite {
 	float		x;
 	float		y;
-	int			texture;
-	float		distance;
+	int			txtr;
+	float		dist;
+	double		trnsf_x;
+	double		trnsf_y;
+	int			dr_st_x;
+	int			dr_st_y;
+	int			dr_end_x;
+	int			dr_end_y;
+	int			spr_scr_x;
+	int			vMoveScreen;
+	int			spr_h;
+	int			spr_w;
+	int			tex_x;
+	int			tex_y;
+	uint32_t	*txtr_buf;
+	uint32_t	color;
 /*
 	float		height;
 	float		width;
@@ -92,9 +105,9 @@ typedef struct s_image
 typedef struct s_player
 {
 	double		posX;
-	double		posY;  //x and y start position
+	double		posY;
 	double		dirX;
-	double		dirY; //initial direction vector
+	double		dirY;
 	double 		rotSpeed;
 	double		moveSpeed;
 	/*float		x;
@@ -111,11 +124,27 @@ typedef struct s_player
 
 typedef struct s_wall
 {
-	float	wallHeight;
-	int		wallTopY;
-	int		wallBottomY;
-	int		textureOffsetY;
-	int		textureOffsetX;
+	double		rayDirX;
+	double		rayDirY;
+	int			side;
+	int			stepX;
+	int			stepY;
+	double		perpWallDist;
+	int			texNum;
+	int			texX;
+	double		step;
+	double		texPos;
+	double		wallX;
+	double		sideDistX;
+	double		sideDistY;
+	double		deltaDistX;
+	double		deltaDistY;
+	int			lineHeight;
+	int			drawStart;
+	int			drawEnd;
+	uint32_t	color;
+	uint32_t	*walTextrBuf;
+	double		*ZBuffer;
 }	t_wall;
 
 typedef struct s_rectangle
@@ -156,6 +185,8 @@ typedef struct s_screenshot
 
 typedef struct s_screen
 {
+	int			mapX;
+	int			mapY;
 	double		planeX;
 	double		planeY;
 	float		rayDirX0;
@@ -203,7 +234,7 @@ typedef struct s_cub3d
 	t_screen	screen;
 	t_config	*config;
 	t_ray		*rays;
-
+	t_sprite	sprt_data;
 }	t_cub3d;
 
 #endif

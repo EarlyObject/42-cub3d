@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 20:23:44 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/25 22:13:40 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/04 14:54:05 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int
 		i++;
 	}
 	return (j);
-}
+}	
 
 int
 	check_top_bottom_borders(t_str *map_buffer)

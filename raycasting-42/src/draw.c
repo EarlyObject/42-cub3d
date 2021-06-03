@@ -6,14 +6,14 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 15:25:01 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/25 21:35:10 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/04 15:21:52 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "defs.h"
 
 void
-drawPixel(t_cub3d *cub3d, int x, int y, uint32_t color)
+	drawPixel(t_cub3d *cub3d, int x, int y, uint32_t color)
 {
 	if (x >= 0 && x < cub3d->config->width
 		&& y >= 0 && y < cub3d->config->height)
@@ -40,14 +40,11 @@ void
 }
 
 void
-draw_line(t_cub3d *cub3d, int x, int y, int y1, uint32_t color)
+	draw_line(t_cub3d *cub3d, int x, int y, int y1, uint32_t color)
 {
 	while (y < y1)
 	{
 		drawPixel(cub3d, x, y, color);
 		y++;
 	}
-
 }
-
-

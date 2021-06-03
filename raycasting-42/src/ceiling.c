@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 19:59:20 by asydykna          #+#    #+#             */
-/*   Updated: 2021/06/03 20:37:28 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/04 14:51:29 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,14 @@ uint32_t
 	cellX = (int)(cub3d->screen.floorX);
 	cellY = (int)(cub3d->screen.floorY);
 	tx = (int)(TEXTURE_WIDTH
-			* (cub3d->screen.floorX - cellX)) & (TEXTURE_WIDTH - 1);
+			   * (cub3d->screen.floorX - cellX)) & (TEXTURE_WIDTH - 1);
 	ty = (int)(TEXTURE_HEIGHT
-			* (cub3d->screen.floorY - cellY)) & (TEXTURE_HEIGHT - 1);
+			   * (cub3d->screen.floorY - cellY)) & (TEXTURE_HEIGHT - 1);
 	cub3d->screen.floorX += cub3d->screen.floorStepX;
 	cub3d->screen.floorY += cub3d->screen.floorStepY;
 	cub3d->screen.walTextrBuf = cub3d->config->wallTexture[TEX_FLOOR]->addr;
 	cub3d->screen.color = cub3d->screen.walTextrBuf[(TEXTURE_WIDTH * ty + tx)];
-	cub3d->screen.color = (cub3d->screen.color >> 1)
-		& 8355711;
+	cub3d->screen.color = (cub3d->screen.color >> 1) & 8355711;
 	return (cub3d->screen.color);
 }
 

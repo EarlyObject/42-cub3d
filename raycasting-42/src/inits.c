@@ -6,18 +6,12 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/21 08:34:45 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/27 20:18:44 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/04 15:22:24 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "defs.h"
 
-void
-	init_screen(t_cub3d *cub3d)
-{
-	cub3d->screen.planeX = 0;
-	cub3d->screen.planeY = 0.66;
-}
 void
 	init_player(t_cub3d *cub3d)
 {
@@ -54,7 +48,6 @@ void
 	cub3d->plr.moveSpeed = 0.9;
 	cub3d->plr.rotSpeed = 0.5;
 
-
 	/*cub3d->plr.x = cub3d->config->width / 2;
 	cub3d->plr.y = cub3d->config->height / 2;
 	cub3d->plr.width = 1;
@@ -79,6 +72,8 @@ void
 {
 	t_image		image;
 	t_player	player;
+	t_sprite	spr_data;
+
 	/*
 	t_wall		wall;
 	t_rectangle	rectangle;
@@ -98,6 +93,12 @@ void
 	cub3d->plr = player;
 	cub3d->image = image;
 	cub3d->config = NULL;
+	spr_data = (t_sprite){.x = 0, .y = 0, .txtr = 0, .dist = 0, .trnsf_x = 0,
+		.trnsf_y = 0, .dr_st_x = 0, .dr_st_y = 0, .dr_end_x = 0, .dr_end_y = 0,
+		.spr_scr_x = 0, .vMoveScreen = 0, .spr_h = 0, .spr_w = 0, 
+		.txtr_buf = NULL, .color = 0};
+	cub3d->sprt_data = spr_data;
+
 	/*
 	cub3d->wall = wall;
 	cub3d->rectangle = rectangle;
@@ -139,13 +140,22 @@ void
 	config->columns = 0;
 	config->direction = 0;
 	config->save_arg = 0;
-	/*
-	config->fov_angle = (60 * (PI / 180));
-	config->frame_time_length = 1000 / FPS;
-	config->dist_proj_plane = (
-			(config->width / 2) / tan(config->fov_angle / 2));
-	*/
 	init_config_arrays(config);
+}
+
+void
+	init_wall(t_cub3d *cub3d)
+{
+	int	i;
+
+	cub3d->wall.ZBuffer
+		= (double *)malloc(sizeof(double) * cub3d->config->width);
+	i = 0;
+	while (i < cub3d->config->width)
+	{
+		cub3d->wall.ZBuffer[i] = 0;
+		i++;
+	}	
 }
 
 void
@@ -154,5 +164,4 @@ void
 	config->num_sprites = count_sprites(config);
 	config->sprites = (t_sprite *)malloc(
 			sizeof(t_sprite)* config->num_sprites);
-
 }
