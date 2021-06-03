@@ -14,10 +14,10 @@ SRC = src/main.c src/graphics.c src/errors.c src/draw.c src/inits.c \
 		src/textures.c src/ceiling.c src/sprite.c src/setups.c src/parse.c \
 		src/params_parse.c gnl/get_next_line.c gnl/get_next_line_utils.c \
 		src/screenshot.c src/map_parse.c src/utils_parse.c src/str_parse.c \
+		src/key_management.c src/player.c
 
 
-
-# src/map.c src/player.c src/ray.c \
+# src/map.c  src/ray.c \
       src/utils.c src/wall.c  src/draw_sprites.c \
           \
         \

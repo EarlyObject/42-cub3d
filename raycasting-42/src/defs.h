@@ -110,6 +110,13 @@ int				exit_game(t_cub3d *cub3d, int code);
 int				count_sprites(t_config *config);
 void			resume_init_config(t_config *config);
 void			find_sprites(t_config *config);
+int				deal_key(int key_code, t_cub3d *cub3d);
+void			look_left(t_cub3d *cub3d, double oldDirX, double oldPlaneX);
+void			look_right(t_cub3d *cub3d, double oldDirX, double oldPlaneX);
+void			move_aside(int key_code, t_cub3d *cub3d);
+void			move_forward(t_cub3d *cub3d);
+void			move_backward(t_cub3d *cub3d);
+void			draw_floor_ceiling(t_cub3d *cub3d, int start, int end, int texnum);
 /*
 
 void			drawRect(t_cub3d *cub3d, t_rectangle rectangle, uint32_t color);

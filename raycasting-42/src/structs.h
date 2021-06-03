@@ -158,6 +158,16 @@ typedef struct s_screen
 {
 	double		planeX;
 	double		planeY;
+	float		rayDirX0;
+	float		rayDirY0;
+	float		rayDirX1;
+	float		rayDirY1;
+	float		floorX;
+	float		floorY;
+	float		floorStepX;
+	float		floorStepY;
+	uint32_t	color;
+	uint32_t	*walTextrBuf;
 }	t_screen;
 
 typedef struct s_config

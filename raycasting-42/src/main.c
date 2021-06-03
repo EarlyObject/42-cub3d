@@ -12,66 +12,6 @@
 
 #include "defs.h"
 
-int main_loop();
-
-int
-	deal_key(int key_code, t_cub3d *cub3d)
-{
-	if (key_code == KEY_ESC)
-	{
-		exit(0);
-	}
-	if (key_code == KEY_W || key_code == KEY_FORWARD)
-	{
-		if(cub3d->config->map[(int)(cub3d->plr.posX + cub3d->plr.dirX * cub3d->plr.moveSpeed) + (cub3d->config->columns * (int)(cub3d->plr.posY))] - 48 == false)
-			cub3d->plr.posX += cub3d->plr.dirX * cub3d->plr.moveSpeed;
-		if(cub3d->config->map[(int)(cub3d->plr.posX) + (cub3d->config->columns * (int)(cub3d->plr.posY + cub3d->plr.dirY * cub3d->plr.moveSpeed))] - 48  == false)
-			cub3d->plr.posY += cub3d->plr.dirY * cub3d->plr.moveSpeed;
-	}
-	if (key_code == KEY_S || key_code == KEY_BACKWARD)
-	{
-		if(cub3d->config->map[(int)(cub3d->plr.posX - cub3d->plr.dirX * cub3d->plr.moveSpeed) + (cub3d->config->columns * (int)(cub3d->plr.posY))] - 48  == false)
-				cub3d->plr.posX -= cub3d->plr.dirX * cub3d->plr.moveSpeed;
-		if(cub3d->config->map[(int)(cub3d->plr.posX) + (cub3d->config->columns * (int)(cub3d->plr.posY - cub3d->plr.dirY * cub3d->plr.moveSpeed))] - 48 == false)
-				cub3d->plr.posY -= cub3d->plr.dirY * cub3d->plr.moveSpeed;
-	}
-	if (key_code == KEY_RIGHT)
-	{
-		//both camera direction and camera plane must be rotated
-		double oldDirX = cub3d->plr.dirX;
-		cub3d->plr.dirX = cub3d->plr.dirX * cos(-cub3d->plr.rotSpeed) - cub3d->plr.dirY * sin(-cub3d->plr.rotSpeed);
-		cub3d->plr.dirY = oldDirX * sin(-cub3d->plr.rotSpeed) + cub3d->plr.dirY * cos(-cub3d->plr.rotSpeed);
-		double oldPlaneX = cub3d->screen.planeX;
-		cub3d->screen.planeX = cub3d->screen.planeX * cos(-cub3d->plr.rotSpeed) - cub3d->screen.planeY * sin(-cub3d->plr.rotSpeed);
-		cub3d->screen.planeY = oldPlaneX * sin(-cub3d->plr.rotSpeed) + cub3d->screen.planeY * cos(-cub3d->plr.rotSpeed);
-	}
-	if (key_code == KEY_LEFT)
-	{
-		double oldDirX = cub3d->plr.dirX;
-		cub3d->plr.dirX = cub3d->plr.dirX * cos(cub3d->plr.rotSpeed) - cub3d->plr.dirY * sin(cub3d->plr.rotSpeed);
-		cub3d->plr.dirY = oldDirX * sin(cub3d->plr.rotSpeed) + cub3d->plr.dirY * cos(cub3d->plr.rotSpeed);
-		double oldPlaneX = cub3d->screen.planeX;
-		cub3d->screen.planeX = cub3d->screen.planeX * cos(cub3d->plr.rotSpeed) - cub3d->screen.planeY * sin(cub3d->plr.rotSpeed);
-		cub3d->screen.planeY = oldPlaneX * sin(cub3d->plr.rotSpeed) + cub3d->screen.planeY * cos(cub3d->plr.rotSpeed);
-	}
-	if (key_code == KEY_D)
-	{
-		if(cub3d->config->map[(int)((cub3d->plr.posX + cub3d->screen.planeX * cub3d->plr.moveSpeed) + (cub3d->config->columns * (int)cub3d->plr.posY))] - 48  == false)
-			cub3d->plr.posX += cub3d->screen.planeX * cub3d->plr.moveSpeed;
-		if(cub3d->config->map[(int)((cub3d->plr.posX) + (cub3d->config->columns * (int)(cub3d->plr.posY + cub3d->screen.planeY * cub3d->plr.moveSpeed)))] - 48  == false)
-			cub3d->plr.posY += cub3d->screen.planeY * cub3d->plr.moveSpeed;
-	}
-	if (key_code == KEY_A)
-	{
-		if(cub3d->config->map[(int)(cub3d->plr.posX - cub3d->screen.planeX * cub3d->plr.moveSpeed) + (cub3d->config->columns * (int)cub3d->plr.posY)] - 48  == false)
-			cub3d->plr.posX -= cub3d->screen.planeX * cub3d->plr.moveSpeed;
-		if(cub3d->config->map[(int)(cub3d->plr.posX) + (cub3d->config->columns * (int)(cub3d->plr.posY - cub3d->screen.planeY * cub3d->plr.moveSpeed))] - 48  == false)
-			cub3d->plr.posY -= cub3d->screen.planeY * cub3d->plr.moveSpeed;
-
-	}
-	return (0);
-}
-
 /*int
 key_release(int key_code, t_cub3d *cub3d)
 {
@@ -90,29 +30,9 @@ key_release(int key_code, t_cub3d *cub3d)
 	return (0);
 }*/
 
-//sort the sprites based on distance
-
-
-
-
-//sort the sprites based on distance
-/*void sortSprites(int* order, double* dist, int amount)
-{
-	std::vector<std::pair<double, int>> sprites(amount);
-	for(int i = 0; i < amount; i++) {
-		sprites[i].first = dist[i];
-		sprites[i].second = order[i];
-	}
-	std::sort(sprites.begin(), sprites.end());
-	// restore in reverse order to go from farthest to nearest
-	for(int i = 0; i < amount; i++) {
-		dist[i] = sprites[amount - i - 1].first;
-		order[i] = sprites[amount - i - 1].second;
-	}
-}*/
 
 int
-main_loop(t_cub3d *cub3d)
+	main_loop(t_cub3d *cub3d)
 {
 
 //1D Zbuffer
@@ -120,9 +40,10 @@ main_loop(t_cub3d *cub3d)
 	clear_color_buffer(cub3d, WHITE);
 
 	//CEILING CASTING
-	draw_ceiling(cub3d);
+	draw_floor_ceiling(cub3d, 0, cub3d->config->height / 2 + 1, TEX_SKY);
 	//FLOOR CASTING
-	draw_floor(cub3d);
+	draw_floor_ceiling(cub3d, cub3d->config->height / 2 + 1, cub3d->config->height, TEX_FLOOR);
+
 
 	for(int x = 0; x < cub3d->config->width; x++)
 	{
@@ -251,17 +172,22 @@ main_loop(t_cub3d *cub3d)
 		double texPos = (drawStart - cub3d->config->height / 2 + lineHeight / 2) * step;
 		for(int y = drawStart; y < drawEnd; y++)
 		{
-			// Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
-			int texY = (int) texPos & (TEXTURE_HEIGHT - 1);
-			texPos += step;
-			uint32_t *walTextrBuf;
-			walTextrBuf = cub3d->config->wallTexture[texNum]->addr;
-			uint32_t color = walTextrBuf[(TEXTURE_HEIGHT * texY + texX)];
-			//make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
-			if (side == 1)
-				color = (color >> 1) & 8355711;
-			//buffer[y][x] = color;
-			drawPixel(cub3d, x, y, color);
+			if (!cub3d->config->wallTexture[texNum])
+				drawPixel(cub3d, x, y, cub3d->config->color[texNum]);
+			else
+			{
+				// Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
+				int texY = (int) texPos & (TEXTURE_HEIGHT - 1);
+				texPos += step;
+				uint32_t *walTextrBuf;
+				walTextrBuf = cub3d->config->wallTexture[texNum]->addr;
+				uint32_t color = walTextrBuf[(TEXTURE_HEIGHT * texY + texX)];
+				//make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
+				if (side == 1)
+					color = (color >> 1) & 8355711;
+				//buffer[y][x] = color;
+				drawPixel(cub3d, x, y, color);
+			}
 		}
 		//SET THE ZBUFFER FOR THE SPRITE CASTING
 		ZBuffer[x] = perpWallDist; //perpendicular distance is used

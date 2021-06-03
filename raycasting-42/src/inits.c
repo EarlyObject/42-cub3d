@@ -114,8 +114,8 @@ void
 	i = 0;
 	while (i < TEXTURES)
 		config->tex_path[i++] = NULL;
-	config->color[TEX_NORTH] = 0xFFFFFF;
-	config->color[TEX_SOUTH] = 0xCCCCCC;
+	config->color[TEX_NORTH] = 0xCFE2F3;
+	config->color[TEX_SOUTH] = 0xFF9900;
 	config->color[TEX_WEST] = 0xFF44FF;
 	config->color[TEX_EAST] = 0x44FF44;
 	config->color[TEX_SKY] = 0x33C6E3;
