@@ -45,7 +45,7 @@ void
 	}
 	cub3d->plr.posX = 9;
 	cub3d->plr.posY = 9;
-	cub3d->plr.moveSpeed = 0.9;
+	cub3d->plr.moveSpeed = 0.75;
 	cub3d->plr.rotSpeed = 0.5;
 
 	/*cub3d->plr.x = cub3d->config->width / 2;
@@ -140,6 +140,8 @@ void
 	config->columns = 0;
 	config->direction = 0;
 	config->save_arg = 0;
+	config->tile_width = 0;
+	config->tile_height = 0;
 	init_config_arrays(config);
 }
 
@@ -164,4 +166,6 @@ void
 	config->num_sprites = count_sprites(config);
 	config->sprites = (t_sprite *)malloc(
 			sizeof(t_sprite)* config->num_sprites);
+	config->tile_width = config->width / config->columns;
+	config->tile_height = config->height / config->rows;
 }

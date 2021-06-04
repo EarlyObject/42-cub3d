@@ -12,6 +12,9 @@
 
 #include "defs.h"
 
+
+
+
 int
 	main_loop(t_cub3d *cub3d)
 {
@@ -21,6 +24,9 @@ int
 		cub3d, cub3d->config->height / 2 + 1, cub3d->config->height, TEX_FLOOR);
 	manage_walls(cub3d);
 	draw_sprites(cub3d);
+	renderMapGrid(cub3d);
+	renderMapPlayer(cub3d);
+	renderMapSprites(cub3d);
 	mlx_put_image_to_window(
 		cub3d->mlx.mlx, cub3d->win, cub3d->image.img_ptr, 0, 0);
 	return (0);
@@ -30,7 +36,6 @@ void
 	ft_run(t_cub3d cub3d)
 {
 	mlx_hook(cub3d.win, X_EVENT_KEY_PRESS, 0, &deal_key, &cub3d);
-	//mlx_hook(cub3d.win, X_EVENT_KEY_RELEASE, 0, &key_release, &cub3d);
 	mlx_hook(cub3d.win, X_EVENT_KEY_EXIT, 0, &close_win, &cub3d);
 	mlx_loop_hook(cub3d.mlx.mlx, &main_loop, &cub3d);
 	mlx_loop(cub3d.mlx.mlx);

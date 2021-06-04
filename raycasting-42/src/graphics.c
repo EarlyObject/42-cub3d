@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:00:08 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/28 09:06:10 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/04 18:17:40 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,6 @@ int
 	void	*mlx;
 	void	*win;
 
-	/*if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
-	{
-		fprintf(stderr, "Error initializing SDL.\n");
-		return (false);
-	}*/
 	mlx = mlx_init();
 	if (!mlx)
 		ft_exit_error(cub3d, "ERROR: MLX_INIT ERROR.");

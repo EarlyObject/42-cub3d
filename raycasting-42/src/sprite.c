@@ -27,9 +27,9 @@ void
 			* cub3d->sprt_data.x + cub3d->screen.planeX * cub3d->sprt_data.y);
 	cub3d->sprt_data.spr_scr_x = (int)((cub3d->config->width / 2)
 			* (1 + cub3d->sprt_data.trnsf_x / cub3d->sprt_data.trnsf_y));
-	cub3d->sprt_data.vMoveScreen = (int)(vMove / cub3d->sprt_data.trnsf_y);
+	cub3d->sprt_data.vMoveScreen = (int)(V_MOVE / cub3d->sprt_data.trnsf_y);
 	cub3d->sprt_data.spr_h = abs((int)(cub3d->config->height
-				/ (cub3d->sprt_data.trnsf_y))) / vDiv;
+				/ (cub3d->sprt_data.trnsf_y))) / V_DIV;
 	cub3d->sprt_data.dr_st_y = -cub3d->sprt_data.spr_h / 2
 		+ cub3d->config->height / 2 + cub3d->sprt_data.vMoveScreen;
 	if (cub3d->sprt_data.dr_st_y < 0)
@@ -94,7 +94,7 @@ void
 	{
 		calc_sprite(cub3d, i);
 		cub3d->sprt_data.spr_w = abs((int)(cub3d->config->height
-					/ (cub3d->sprt_data.trnsf_y))) / uDiv;
+					/ (cub3d->sprt_data.trnsf_y))) / U_DIV;
 		cub3d->sprt_data.dr_st_x = -cub3d->sprt_data.spr_w
 			/ 2 + cub3d->sprt_data.spr_scr_x;
 		if (cub3d->sprt_data.dr_st_x < 0)

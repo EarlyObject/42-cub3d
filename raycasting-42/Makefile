@@ -14,11 +14,11 @@ SRC = src/main.c src/graphics.c src/errors.c src/draw.c src/inits.c \
 		src/textures.c src/ceiling.c src/sprite.c src/setups.c src/parse.c \
 		src/params_parse.c gnl/get_next_line.c gnl/get_next_line_utils.c \
 		src/screenshot.c src/map_parse.c src/utils_parse.c src/str_parse.c \
-		src/key_management.c src/player.c src/wall.c src/wall_two.c \
+		src/key_management.c src/player.c src/wall.c src/wall_two.c src/map.c \
 		src/sprite_utils.c
 
 
-# src/map.c  src/ray.c \
+#   src/ray.c \
       src/utils.c  src/draw_sprites.c \
           src/window.c \
       src/ray_utils.c src/ray_calculations.c src/memory_mngt.c
@@ -58,7 +58,7 @@ $(MLX_NAME_LINUX):
 	$(MAKE) -C $(MLX_PATH_LINUX)
 
 all: $(LIBFT_NAME) $(MLX_NAME) $(OBJ)
-	gcc $(CFLAGS) $(SRC) $(MLX_LINK) $(LIBFT_PATH)/$(LIBFT_NAME) -o $(NAME)
+	gcc $(CFLAGS) $(SRC) $(MLX_LINK) $(LIBFT_PATH)/$(LIBFT_NAME) #-o $(NAME)
 
 debug: $(LIBFT_NAME) $(MLX_NAME) $(OBJ)
 	gcc -fsanitize=address -g3 $(CFLAGS) $(SRC) $(MLX_LINK) $(LIBFT_PATH)/$(LIBFT_NAME) -o $(NAME)

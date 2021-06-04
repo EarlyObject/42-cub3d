@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 16:44:32 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/27 18:19:46 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/04 15:34:33 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@
 # define DIRECTIONS 			"NSEW"
 # define VALID_MAP_CHARACTERS 	" 01234NSEW"
 # define TEXTURES				7
-//# define TEXTURES				13
 # define TEX_NORTH				0
 # define TEX_SOUTH				1
 # define TEX_WEST				2
@@ -66,9 +65,9 @@
 # define TEX_SKY				4
 # define TEX_FLOOR				5
 # define TEX_SPRITE				6
-# define uDiv 1
-# define vDiv 1
-# define vMove 0.0
+# define U_DIV 1
+# define V_DIV 1
+# define V_MOVE 0.0
 
 int				initialize_window(t_cub3d *cub3d);
 int				clear_color_buffer(t_cub3d *cub3d, uint32_t color);
@@ -91,7 +90,7 @@ int				copy_map(t_config *config, t_str *map_buffer, int *map);
 int				ft_endwith(char const *str, char const *end);
 int				get_next_line(int fd, char **line);
 int				parse_line(t_config *config,
-							  char const *line, t_str **map_buffer);
+					char const *line, t_str **map_buffer);
 int				string_length(t_str *str);
 t_str			*string_add_back(t_str **str, char *content);
 int				string_clear(t_str **list);
@@ -112,7 +111,8 @@ void			look_right(t_cub3d *cub3d, double oldDirX, double oldPlaneX);
 void			move_aside(int key_code, t_cub3d *cub3d);
 void			move_forward(t_cub3d *cub3d);
 void			move_backward(t_cub3d *cub3d);
-void			draw_floor_ceiling(t_cub3d *cub3d, int start, int end, int texnum);
+void			draw_floor_ceiling(t_cub3d *cub3d, int start,
+					int end, int texnum);
 int				close_win(void);
 void			perform_dda(t_cub3d *cub3d);
 void			calc_step_and_side_dist(t_cub3d *cub3d);
@@ -123,10 +123,13 @@ void			manage_walls(t_cub3d *cub3d);
 void			init_wall(t_cub3d *cub3d);
 void			sort_sprites(t_cub3d *cub3d, t_config *config);
 int				main_loop(t_cub3d *cub3d);
-
+void			bmp_builder(t_cub3d *cub3d, char *file_name);
+void			drawRect(t_cub3d *cub3d, t_rectangle rectangle, uint32_t color);
+void			renderMapPlayer(t_cub3d *cub3d);
+void			renderMapGrid(t_cub3d *cub3d);
+void			renderMapSprites(t_cub3d *cub3d);
 /*
 
-void			drawRect(t_cub3d *cub3d, t_rectangle rectangle, uint32_t color);
 bool			mapHasWallAt(t_config *config, float x, float y);
 bool			isInsideMap(t_config *config, float x, float y);
 void			renderMapGrid(t_cub3d *cub3d);

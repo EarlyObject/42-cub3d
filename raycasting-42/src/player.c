@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:00:43 by asydykna          #+#    #+#             */
-/*   Updated: 2021/06/04 14:57:02 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/04 18:23:25 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void
 }
 
 void
-move_aside(int key_code, t_cub3d *cub3d)
+	move_aside(int key_code, t_cub3d *cub3d)
 {
 	if (key_code == KEY_D)
 	{

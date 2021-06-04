@@ -38,26 +38,17 @@ int
 	return (0);
 }
 
-/*int
-	key_release(int key_code, t_cub3d *cub3d)
-{
-	if (key_code == KEY_W || key_code == KEY_FORWARD)
-		//cub3d->plr.walkDrcn = 0;
-	if (key_code == KEY_S || key_code == KEY_BACKWARD)
-		//cub3d->plr.walkDrcn = 0;
-	if (key_code == KEY_RIGHT)
-		//cub3d->plr.turnDrcn = 0;
-	if (key_code == KEY_LEFT)
-		//cub3d->plr.turnDrcn = 0;
-	if (key_code == KEY_D)
-		//cub3d->plr.moveSide = 0;
-	if (key_code == KEY_A)
-		//cub3d->plr.moveSide = 0;
-	return (0);
-}*/
-
 int
 	close_win(void)
 {
 	exit(0);
+}
+
+void
+	screenshot(t_cub3d *cub3d)
+{
+	main_loop(cub3d);
+	bmp_builder(cub3d, "screenshot.bmp");
+	printf("SCREENSHOT MADE SUCCESSFULLY.");
+	exit_game(cub3d, EXIT_SUCCESS);
 }

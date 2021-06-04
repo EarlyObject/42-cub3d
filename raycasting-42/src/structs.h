@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:01:08 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/27 21:08:25 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/04 18:25:24 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 # include "defs.h"
 # include "../mlx/mlx.h"
 
-# define TEXTURES			7
-# define C_LAST				9
+# define TEXTURES	7
+# define C_LAST		9
 
 typedef struct s_str
 {
@@ -108,7 +108,7 @@ typedef struct s_player
 	double		posY;
 	double		dirX;
 	double		dirY;
-	double 		rotSpeed;
+	double		rotSpeed;
 	double		moveSpeed;
 	/*float		x;
 	float		y;
@@ -209,6 +209,8 @@ typedef struct s_config
 	int			rows;
 	int			columns;
 	int			num_sprites;
+	int			tile_width;
+	int			tile_height;
 	int			save_arg;
 	float		dist_proj_plane;
 	float		fov_angle;
