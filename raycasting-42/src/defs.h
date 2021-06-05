@@ -72,14 +72,11 @@
 int				initialize_window(t_cub3d *cub3d);
 int				clear_color_buffer(t_cub3d *cub3d, uint32_t color);
 void			ft_exit_error(t_cub3d *cub3d, char const *message);
-void			draw_line(t_cub3d *cub3d, int x, int y, int y1, uint32_t color);
 void			init_cub3d(t_cub3d *cub3d);
 void			init_config(t_config *config);
 void			init_player(t_cub3d *cub3d);
 void			loadTextures(t_cub3d *cub3d);
 void			drawPixel(t_cub3d *cub3d, int x, int y, uint32_t color);
-void			draw_ceiling(t_cub3d *cub3d);
-void			draw_floor(t_cub3d *cub3d);
 void			draw_sprites(t_cub3d *cub3d);
 void			setup(t_cub3d *cub3d, t_config *config, char *conf_path);
 int				parse_config(t_config *config, char const *conf_path);
@@ -128,52 +125,5 @@ void			drawRect(t_cub3d *cub3d, t_rectangle rectangle, uint32_t color);
 void			renderMapPlayer(t_cub3d *cub3d);
 void			renderMapGrid(t_cub3d *cub3d);
 void			renderMapSprites(t_cub3d *cub3d);
-/*
-
-bool			mapHasWallAt(t_config *config, float x, float y);
-bool			isInsideMap(t_config *config, float x, float y);
-void			renderMapGrid(t_cub3d *cub3d);
-int				getMapAt(t_config *config, int i, int j);
-void			movePlayer(t_cub3d *cub3d, float dTime);
-void			renderMapPlayer(t_cub3d *cub3d);
-bool			isRayFacingUp(float angle);
-bool			isRayFacingDown(float angle);
-bool			isRayFacingLeft(float angle);
-bool			isRayFacingRight(float angle);
-void			castRay(t_cub3d *cub3d, float rayAngle, int stripId);
-void			castAllRays(t_cub3d *cub3d);
-void			renderMapRays(t_cub3d *cub3d);
-void			hor_ray_grid_intersectiion(t_cub3d *cub3d,
-					float rayAngle, t_ray *ray);
-void			vert_ray_grid_intersection(t_cub3d *cub3d,
-					float rayAngle, t_ray *ray);
-void			calc_ray_params(float rayAngle, t_ray *ray,
-					float horzHitDistance, float vertHitDistance);
-void			freeTextures(t_cub3d *cub3d);
-void			normalizeAngle(float *angle);
-float			dist_btw_pts(float x1, float y1, float x2, float y2);
-int				get_delta(int x1, int x0);
-void			renderWallProjection(t_cub3d *cub3d);
-void			renderSpriteProjection(t_cub3d *cub3d, t_config *config);
-void			renderMapSprites(t_cub3d *cub3d);
-void			render_vsbl_sprites(t_cub3d *cub3d,
-					 t_sprite *vsbl_sprites, int i);
-void			draw_single_sprite(t_cub3d *cub3d, t_config  *config, t_sprite *sprite, int x);
-int				find_visible_sprites(t_cub3d *cub3d, t_sprite *vsblSprites);
-void			find_sprites(t_cub3d *cub3d, t_config *config);
-void			count_sprites(t_config *config);
-
-
-int				render(t_cub3d *cub3d);
-void			update(t_cub3d *cub3d);
-void			bmp_builder(t_cub3d *cub3d, char *file_name);
-
-
-int				deal_key(int key_code, t_cub3d *cub3d);
-int				key_release(int key_code, t_cub3d *cub3d);
-void			free_mmry(t_cub3d *cub3d);
-int				clear_config(t_config *config);
-int				clear_window(t_cub3d *cub3d);
-void			clear_textures(t_cub3d *cub3d);
-void			changeColorIntensity(uint32_t	*color, float factor);*/
+void			init_screen(t_cub3d *cub3d);
 #endif

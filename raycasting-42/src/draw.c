@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 15:25:01 by asydykna          #+#    #+#             */
-/*   Updated: 2021/06/04 15:21:52 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/05 16:13:52 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,5 @@ void
 			j++;
 		}
 		i++;
-	}
-}
-
-void
-	draw_line(t_cub3d *cub3d, int x, int y, int y1, uint32_t color)
-{
-	while (y < y1)
-	{
-		drawPixel(cub3d, x, y, color);
-		y++;
 	}
 }

@@ -17,11 +17,6 @@ SRC = src/main.c src/graphics.c src/errors.c src/draw.c src/inits.c \
 		src/key_management.c src/player.c src/wall.c src/wall_two.c src/map.c \
 		src/sprite_utils.c
 
-
-#   src/ray.c \
-      src/utils.c  src/draw_sprites.c \
-          src/window.c \
-      src/ray_utils.c src/ray_calculations.c src/memory_mngt.c
 OBJ = $(SRC:.c=.o)
 
 NAME = cub3D

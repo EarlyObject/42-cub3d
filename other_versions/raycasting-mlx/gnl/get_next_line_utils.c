@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.color                              :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 08:40:33 by asydykna          #+#    #+#             */
-/*   Updated: 2021/02/26 12:10:09 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/05 15:48:47 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ char
 
 	i = 0;
 	j = 0;
-	if (s1 == NULL || s2 == NULL || !(ptr = (char *)malloc(ft_strlen(s1)
-		+ ft_strlen(s2) + 1)))
+	ptr = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (s1 == NULL || s2 == NULL || !ptr)
 		return (NULL);
 	while (s1[i] != '\0')
 	{

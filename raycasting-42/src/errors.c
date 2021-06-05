@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 13:30:07 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/14 13:30:08 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/05 15:43:35 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 int
 	exit_game(t_cub3d *cub3d, int code)
 {
-	int n;
-	n = cub3d->config->height;
+	double n;
+	n = cub3d->plr.posX;
 	//clear_config(cub3d->config);
 	//clear_window(cub3d);
 	//clear_textures(cub3d);

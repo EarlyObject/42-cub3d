@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:01:08 by asydykna          #+#    #+#             */
-/*   Updated: 2021/06/04 18:25:24 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/05 15:27:12 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,31 +35,6 @@ typedef struct s_mlx
 	void			*img;
 }					t_mlx;
 
-typedef struct s_ray{
-	float		rayAngle;
-	float		wallHitX;
-	float		wallHitY;
-	float		distance;
-	bool		wasHitVertical;
-	int			texture;
-	float		xintercept;
-	float		yintercept;
-	float		xstep;
-	float		ystep;
-	bool		foundHorzWallHit;
-	float		horzWallHitX;
-	float		horzWallHitY;
-	int			horzWallTexture;
-	bool		foundVertWallHit;
-	float		vertWallHitX;
-	float		vertWallHitY;
-	int			vertWallTexture;
-	float		nextVertTouchX;
-	float		nextVertTouchY;
-	float		nextHorzTouchX;
-	float		nextHorzTouchY;
-}	t_ray;
-
 typedef struct s_sprite {
 	float		x;
 	float		y;
@@ -77,20 +52,8 @@ typedef struct s_sprite {
 	int			spr_w;
 	int			tex_x;
 	int			tex_y;
-	uint32_t	*txtr_buf;
 	uint32_t	color;
-/*
-	float		height;
-	float		width;
-	float		top_y;
-	float		bottom_y;
-	float		angle;
-	float		left_x;
-	float		right_x;
-	bool		visible;*/
-
-	/*int			texture_offset_y;
-	int			texture_offset_x;*/
+	uint32_t	*txtr_buf;
 }	t_sprite;
 
 typedef struct s_image
@@ -110,16 +73,6 @@ typedef struct s_player
 	double		dirY;
 	double		rotSpeed;
 	double		moveSpeed;
-	/*float		x;
-	float		y;
-	float		width;
-	float		height;
-	int			turnDrcn;
-	int			walkDrcn;
-	float		rotAngle;
-	float		walkSpeed;
-	float		turnSpeed;
-	int			moveSide;*/
 }	t_player;
 
 typedef struct s_wall
@@ -154,15 +107,6 @@ typedef struct s_rectangle
 	int			width;
 	int			height;
 }	t_rectangle;
-
-typedef struct s_line
-{
-	int			x0;
-	int			y0;
-	int			x1;
-	int			y1;
-	int			longestSideLength;
-}	t_line;
 
 typedef struct s_screenshot
 {
@@ -211,12 +155,7 @@ typedef struct s_config
 	int			num_sprites;
 	int			tile_width;
 	int			tile_height;
-	int			save_arg;
-	float		dist_proj_plane;
-	float		fov_angle;
-	float		frame_time_length;
 	char		direction;
-	t_sprite	*visibleSprites;
 	char		*tex_path[TEXTURES];
 	t_image		*wallTexture[TEXTURES];
 	uint32_t	color[TEXTURES];
@@ -232,10 +171,8 @@ typedef struct s_cub3d
 	t_mlx		mlx;
 	t_wall		wall;
 	t_rectangle	rectangle;
-	t_line		line;
 	t_screen	screen;
 	t_config	*config;
-	t_ray		*rays;
 	t_sprite	sprt_data;
 }	t_cub3d;
 

@@ -12,9 +12,6 @@
 
 #include "defs.h"
 
-
-
-
 int
 	main_loop(t_cub3d *cub3d)
 {
