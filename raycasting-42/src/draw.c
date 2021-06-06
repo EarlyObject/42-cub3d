@@ -13,7 +13,7 @@
 #include "defs.h"
 
 void
-	drawPixel(t_cub3d *cub3d, int x, int y, uint32_t color)
+	draw_pixel(t_cub3d *cub3d, int x, int y, uint32_t color)
 {
 	if (x >= 0 && x < cub3d->config->width
 		&& y >= 0 && y < cub3d->config->height)
@@ -21,7 +21,7 @@ void
 }
 
 void
-	drawRect(t_cub3d *cub3d, t_rectangle rectangle, uint32_t color)
+	draw_rect(t_cub3d *cub3d, t_rectangle rectangle, uint32_t color)
 {
 	int	i;
 	int	j;
@@ -32,7 +32,7 @@ void
 		j = rectangle.y;
 		while (j <= (rectangle.y + rectangle.height))
 		{
-			drawPixel(cub3d, i, j, color);
+			draw_pixel(cub3d, i, j, color);
 			j++;
 		}
 		i++;

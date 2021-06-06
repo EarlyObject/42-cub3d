@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:01:35 by asydykna          #+#    #+#             */
-/*   Updated: 2021/06/04 15:17:19 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/06 19:57:14 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ void
 	while (start < end)
 	{
 		if (!cub3d->config->wallTexture[cub3d->wall.texNum])
-			drawPixel(cub3d, x, start,
-				cub3d->config->color[cub3d->wall.texNum]);
+			draw_pixel(cub3d, x, start, cub3d->config
+				->color[cub3d->wall.texNum]);
 		else
 		{
 			texY = (int) cub3d->wall.texPos & (TEXTURE_HEIGHT - 1);
@@ -87,7 +87,7 @@ void
 					* texY + cub3d->wall.texX)];
 			if (cub3d->wall.side == 1)
 				cub3d->screen.color = (cub3d->screen.color >> 1) & 8355711;
-			drawPixel(cub3d, x, start, cub3d->screen.color);
+			draw_pixel(cub3d, x, start, cub3d->screen.color);
 		}
 		start++;
 	}

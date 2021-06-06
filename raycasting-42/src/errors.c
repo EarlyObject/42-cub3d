@@ -6,22 +6,47 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 13:30:07 by asydykna          #+#    #+#             */
-/*   Updated: 2021/06/05 15:43:35 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/06 19:50:29 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "defs.h"
 
 int
+	clear_window(t_cub3d *cub3d)
+{
+	if (cub3d->image.img_ptr)
+		mlx_destroy_image(cub3d->mlx.mlx, cub3d->image.img_ptr);
+	if (cub3d->mlx.mlx && cub3d->win)
+		mlx_destroy_window(cub3d->mlx.mlx, cub3d->win);
+	return (0);
+}
+
+void
+	clear_textures(t_cub3d *cub3d)
+{
+	int	i;
+
+	i = 0;
+	while (i < TEXTURES)
+	{
+		if (cub3d->config->wallTexture[i] != NULL)
+			mlx_destroy_image(cub3d->mlx.mlx, cub3d->config->wallTexture[i]);
+		cub3d->config->wallTexture[i]->img_ptr = NULL;
+		cub3d->config->wallTexture[i]->addr = NULL;
+		i++;
+	}
+}
+
+int
 	exit_game(t_cub3d *cub3d, int code)
 {
-	double n;
-	n = cub3d->plr.posX;
-	//clear_config(cub3d->config);
-	//clear_window(cub3d);
-	//clear_textures(cub3d);
-	//clear_sprites(&game->sprites);
-	//free_mmry(cub3d);
+	if (cub3d->config->sprites != NULL)
+		free(cub3d->config->sprites);
+	if (cub3d->wall.ZBuffer != NULL)
+		free (cub3d->wall.ZBuffer);
+	clear_textures(cub3d);
+	clear_window(cub3d);
 	exit(code);
 }
 

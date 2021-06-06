@@ -68,12 +68,12 @@ int
 	{
 		(rectangle) = (t_rectangle){.x = j * w * MINIMAP_SCALE_FACTOR,
 			.y = i * h * MINIMAP_SCALE_FACTOR, .width = 2, .height = 2};
-		drawRect(cub3d, rectangle, color);
+		draw_rect(cub3d, rectangle, color);
 	}
 }*/
 
 /*void
-	renderMapSprites(t_cub3d *cub3d)
+	render_ap_sprts(t_cub3d *cub3d)
 {
 	int	i;
 	int	j;

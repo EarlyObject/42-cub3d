@@ -21,9 +21,9 @@ int
 		cub3d, cub3d->config->height / 2 + 1, cub3d->config->height, TEX_FLOOR);
 	manage_walls(cub3d);
 	draw_sprites(cub3d);
-	renderMapGrid(cub3d);
-	renderMapPlayer(cub3d);
-	renderMapSprites(cub3d);
+	render_map_grid(cub3d);
+	render_map_plr(cub3d);
+	render_ap_sprts(cub3d);
 	mlx_put_image_to_window(
 		cub3d->mlx.mlx, cub3d->win, cub3d->image.img_ptr, 0, 0);
 	return (0);

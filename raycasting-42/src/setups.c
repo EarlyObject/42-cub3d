@@ -95,6 +95,6 @@ void
 	init_player(cub3d);
 	init_wall(cub3d);
 	initialize_window(cub3d);
-	loadTextures(cub3d);
+	load_textures(cub3d);
 	find_sprites(config);
 }

@@ -76,7 +76,7 @@ void
 			get_spr_txtr_color(cub3d, i, y);
 			if ((cub3d->sprt_data.color
 					 && cub3d->sprt_data.color != 0x00FF00FF))
-				drawPixel(cub3d, stripe, y, cub3d->sprt_data.color);
+				draw_pixel(cub3d, stripe, y, cub3d->sprt_data.color);
 			y++;
 		}
 		stripe++;

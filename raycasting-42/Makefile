@@ -21,16 +21,16 @@ OBJ = $(SRC:.c=.o)
 
 NAME = cub3D
 
-#LIBFT_LINUX_PATH = libft
-#LIBFT_LINUX_NAME = libft.a
+LIBFT_LINUX_PATH = libft_linux
+LIBFT_LINUX_NAME = libft.a
 MLX_PATH_LINUX = mlx_linux
-MLX_LINUX_LINK = -lSDL2 -Lmlx_linux -lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
+MLX_LINUX_LINK = -Lmlx_linux -lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
 
 LIBFT_PATH = libft
 LIBFT_NAME = libft.a
 MLX_PATH = mlx
 MLX_NAME = libmlx.a
-MLX_LINK = -lSDL2 -Lmlx -lmlx -framework OpenGL -framework AppKit $(MLX_PATH)/$(MLX_NAME)
+MLX_LINK = -Lmlx -lmlx -framework OpenGL -framework AppKit $(MLX_PATH)/$(MLX_NAME)
 
 CC = gcc
 CFLAGS = -Wall  -Werror -Wextra
@@ -38,10 +38,9 @@ RM = rm -f
 
 $(NAME): $(MLX_NAME) $(OBJ)
 	$(CC) -o $(NAME) $(OBJ)  $(MLX_LINK) $(MLX_PATH)/$(MLX_NAME) 
-# -lSDL2
 
-#$(LIBFT_LINUX_NAME):
-	#$(MAKE) -C $(LIBFT_LINUX_PATH)
+$(LIBFT_LINUX_NAME):
+	$(MAKE) -C $(LIBFT_LINUX_PATH)
 
 $(LIBFT_NAME):
 	$(MAKE) -C $(LIBFT_PATH)
@@ -59,7 +58,7 @@ debug: $(LIBFT_NAME) $(MLX_NAME) $(OBJ)
 	gcc -fsanitize=address -g3 $(CFLAGS) $(SRC) $(MLX_LINK) $(LIBFT_PATH)/$(LIBFT_NAME) -o $(NAME)
 
 linux: $(LIBFT_LINUX_NAME) $(MLX_NAME_LINUX) $(OBJ)
-	gcc -fsanitize=address -g3 $(CFLAGS) $(SRC) $(LIBFT_LINUX_PATH)/$(LIBFT_LINUX_NAME) $(MLX_LINUX_LINK)
+	gcc -fsanitize=address -g3 $(CFLAGS) $(SRC) $(MLX_LINUX_LINK) $(LIBFT_LINUX_PATH)/$(LIBFT_LINUX_NAME)
 
 norminette:
 	norminette $(SRC) $(LIBFT_PATH)

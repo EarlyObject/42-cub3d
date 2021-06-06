@@ -71,7 +71,7 @@ void
 		{
 			x = -1;
 			while (x++ < cub3d->config->width)
-				drawPixel(cub3d, x, start, cub3d->config->color[texnum]);
+				draw_pixel(cub3d, x, start, cub3d->config->color[texnum]);
 		}
 		else
 		{
@@ -79,7 +79,7 @@ void
 			while (x < cub3d->config->width)
 			{
 				color = get_texture_color(cub3d);
-				drawPixel(cub3d, x, start, color);
+				draw_pixel(cub3d, x, start, color);
 				x++;
 			}
 		}

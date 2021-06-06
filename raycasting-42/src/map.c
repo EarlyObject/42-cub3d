@@ -29,12 +29,12 @@ void
 	{
 		(rectangle) = (t_rectangle){.x = j * w * MINIMAP_SCALE_FACTOR,
 			.y = i * h * MINIMAP_SCALE_FACTOR, .width = 2, .height = 2};
-		drawRect(cub3d, rectangle, color);
+		draw_rect(cub3d, rectangle, color);
 	}
 }
 
 void
-	renderMapSprites(t_cub3d *cub3d)
+	render_ap_sprts(t_cub3d *cub3d)
 {
 	int	i;
 	int	j;
@@ -53,7 +53,7 @@ void
 }
 
 void
-	renderMapPlayer(t_cub3d *cub3d)
+	render_map_plr(t_cub3d *cub3d)
 {
 	t_rectangle	rectangle;
 
@@ -63,7 +63,7 @@ void
 			* MINIMAP_SCALE_FACTOR),
 		.width = (int)(5 * MINIMAP_SCALE_FACTOR),
 		.height = (int)(5 * MINIMAP_SCALE_FACTOR)};
-	drawRect(cub3d, rectangle, RED);
+	draw_rect(cub3d, rectangle, RED);
 }
 
 int
@@ -82,7 +82,7 @@ int
 }
 
 void
-	renderMapGrid(t_cub3d *cub3d)
+	render_map_grid(t_cub3d *cub3d)
 {
 	int			i;
 	int			j;
@@ -106,7 +106,7 @@ void
 				.y = tileY * MINIMAP_SCALE_FACTOR,
 				.width = cub3d->config->tile_width * MINIMAP_SCALE_FACTOR,
 				.height = cub3d->config->tile_height * MINIMAP_SCALE_FACTOR};
-			drawRect(cub3d, cub3d->rectangle, tileColor);
+			draw_rect(cub3d, cub3d->rectangle, tileColor);
 		}
 	}
 }

@@ -27,7 +27,6 @@
 # define TEXTURE_WIDTH  64
 # define TEXTURE_HEIGHT 64
 # define MINIMAP_SCALE_FACTOR 0.2
-# define FPS 30
 # define WHITE	0x00FFFFFF
 # define BLACK	0x00000000
 # define GREEN	0x0000FF00
@@ -75,8 +74,8 @@ void			ft_exit_error(t_cub3d *cub3d, char const *message);
 void			init_cub3d(t_cub3d *cub3d);
 void			init_config(t_config *config);
 void			init_player(t_cub3d *cub3d);
-void			loadTextures(t_cub3d *cub3d);
-void			drawPixel(t_cub3d *cub3d, int x, int y, uint32_t color);
+void			load_textures(t_cub3d *cub3d);
+void			draw_pixel(t_cub3d *cub3d, int x, int y, uint32_t color);
 void			draw_sprites(t_cub3d *cub3d);
 void			setup(t_cub3d *cub3d, t_config *config, char *conf_path);
 int				parse_config(t_config *config, char const *conf_path);
@@ -121,9 +120,9 @@ void			init_wall(t_cub3d *cub3d);
 void			sort_sprites(t_cub3d *cub3d, t_config *config);
 int				main_loop(t_cub3d *cub3d);
 void			bmp_builder(t_cub3d *cub3d, char *file_name);
-void			drawRect(t_cub3d *cub3d, t_rectangle rectangle, uint32_t color);
-void			renderMapPlayer(t_cub3d *cub3d);
-void			renderMapGrid(t_cub3d *cub3d);
-void			renderMapSprites(t_cub3d *cub3d);
+void			draw_rect(t_cub3d *cub3d, t_rectangle rectangle, uint32_t color);
+void			render_map_plr(t_cub3d *cub3d);
+void			render_map_grid(t_cub3d *cub3d);
+void			render_ap_sprts(t_cub3d *cub3d);
 void			init_screen(t_cub3d *cub3d);
 #endif
