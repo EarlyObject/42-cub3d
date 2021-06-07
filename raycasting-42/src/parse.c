@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 12:00:55 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/17 21:25:54 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/07 11:45:14 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,8 @@ int
 	str[0] = NULL;
 	str[1] = NULL;
 	str[0] = ft_split_new(line, ' ');
-	if (string_length(str[0]) != 2
-		|| !(str[1] = ft_split_new(str[0]->next->content, ','))
+	str[1] = ft_split_new(str[0]->next->content, ',');
+	if (string_length(str[0]) != 2 || !str[1]
 		|| string_length(str[1]) != 3)
 		return (string_clear(&str[0]) || string_clear(&str[1]));
 	color = str_to_color(str[1]);

@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 16:44:32 by asydykna          #+#    #+#             */
-/*   Updated: 2021/06/04 15:34:33 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/07 11:37:22 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 # include <stdbool.h>
 # include <stdint.h>
 # include <stdlib.h>
+# include <stdio.h>
 # include <fcntl.h>
-# include <SDL2/SDL.h>
 # include <limits.h>
 # include "structs.h"
 # include "../mlx/mlx.h"
@@ -121,8 +121,5 @@ void			sort_sprites(t_cub3d *cub3d, t_config *config);
 int				main_loop(t_cub3d *cub3d);
 void			bmp_builder(t_cub3d *cub3d, char *file_name);
 void			draw_rect(t_cub3d *cub3d, t_rectangle rectangle, uint32_t color);
-void			render_map_plr(t_cub3d *cub3d);
-void			render_map_grid(t_cub3d *cub3d);
-void			render_ap_sprts(t_cub3d *cub3d);
 void			init_screen(t_cub3d *cub3d);
 #endif

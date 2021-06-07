@@ -1,7 +1,7 @@
-R 848 480
-NO textures/redbrick.xpm
+R 1920 1280
+NO textures/graystone.xpm
 SO textures/wood.xpm
-WE textures/eagle.xpm
+WE textures/mossystone.xpm
 EA textures/purplestone.xpm
 S textures/guard.xpm
 F 184,113,39

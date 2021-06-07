@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 20:29:12 by asydykna          #+#    #+#             */
-/*   Updated: 2021/05/27 22:21:55 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/07 11:43:05 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ static char
 	end = ft_strlen(line);
 	while (line[end] == ' ')
 		end--;
+	path = ft_substr(line, start, end - start);
 	if (start == start_def || end - start <= 0
-		|| !(path = ft_substr(line, start, end - start)))
+		|| !path)
 		return (NULL);
 	return (path);
 }

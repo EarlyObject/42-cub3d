@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:01:08 by asydykna          #+#    #+#             */
-/*   Updated: 2021/06/05 15:27:12 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/07 10:17:42 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <stdint.h>
 # include <stdbool.h>
-# include <SDL2/SDL.h>
 # include "defs.h"
 # include "../mlx/mlx.h"
 

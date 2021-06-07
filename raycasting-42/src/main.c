@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 16:44:02 by asydykna          #+#    #+#             */
-/*   Updated: 2021/06/04 10:28:32 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/07 11:36:38 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,6 @@ int
 		cub3d, cub3d->config->height / 2 + 1, cub3d->config->height, TEX_FLOOR);
 	manage_walls(cub3d);
 	draw_sprites(cub3d);
-	render_map_grid(cub3d);
-	render_map_plr(cub3d);
-	render_ap_sprts(cub3d);
 	mlx_put_image_to_window(
 		cub3d->mlx.mlx, cub3d->win, cub3d->image.img_ptr, 0, 0);
 	return (0);

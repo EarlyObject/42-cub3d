@@ -6,7 +6,7 @@
 #    By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/04/27 16:44:54 by asydykna          #+#    #+#              #
-#    Updated: 2021/05/16 17:59:58 by asydykna         ###   ########.fr        #
+#    Updated: 2021/06/07 12:07:32 by asydykna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,11 +21,6 @@ OBJ = $(SRC:.c=.o)
 
 NAME = cub3D
 
-LIBFT_LINUX_PATH = libft_linux
-LIBFT_LINUX_NAME = libft.a
-MLX_PATH_LINUX = mlx_linux
-MLX_LINUX_LINK = -Lmlx_linux -lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
-
 LIBFT_PATH = libft
 LIBFT_NAME = libft.a
 MLX_PATH = mlx
@@ -36,44 +31,27 @@ CC = gcc
 CFLAGS = -Wall  -Werror -Wextra
 RM = rm -f
 
-$(NAME): $(MLX_NAME) $(OBJ)
-	$(CC) -o $(NAME) $(OBJ)  $(MLX_LINK) $(MLX_PATH)/$(MLX_NAME) 
-
-$(LIBFT_LINUX_NAME):
-	$(MAKE) -C $(LIBFT_LINUX_PATH)
-
-$(LIBFT_NAME):
-	$(MAKE) -C $(LIBFT_PATH)
-
-$(MLX_NAME):
+$(NAME): $(OBJ)
 	$(MAKE) -C $(MLX_PATH)
+	$(MAKE) -C $(LIBFT_PATH)
+	gcc $(CFLAGS) $(SRC) $(MLX_LINK) $(LIBFT_PATH)/$(LIBFT_NAME) -o $(NAME)
 
-$(MLX_NAME_LINUX):
-	$(MAKE) -C $(MLX_PATH_LINUX)
-
-all: $(LIBFT_NAME) $(MLX_NAME) $(OBJ)
-	gcc $(CFLAGS) $(SRC) $(MLX_LINK) $(LIBFT_PATH)/$(LIBFT_NAME) #-o $(NAME)
+all: $(NAME)
 
 debug: $(LIBFT_NAME) $(MLX_NAME) $(OBJ)
 	gcc -fsanitize=address -g3 $(CFLAGS) $(SRC) $(MLX_LINK) $(LIBFT_PATH)/$(LIBFT_NAME) -o $(NAME)
-
-linux: $(LIBFT_LINUX_NAME) $(MLX_NAME_LINUX) $(OBJ)
-	gcc -fsanitize=address -g3 $(CFLAGS) $(SRC) $(MLX_LINUX_LINK) $(LIBFT_LINUX_PATH)/$(LIBFT_LINUX_NAME)
 
 norminette:
 	norminette $(SRC) $(LIBFT_PATH)
 
 clean:
 	$(RM) $(OBJ)
-
-cleanMLX:
 	$(MAKE) clean -C $(MLX_PATH)
+	$(MAKE) clean -C $(LIBFT_PATH)
 
-cleanMLX_LINUX:
-	$(MAKE) clean -C $(MLX_LINUX_PATH)
-
-fclean: clean cleanMLX
-	$(RM) $(NAME)
+fclean: clean
+	$(RM) $(NAME) $(MLX_NAME)
+	$(MAKE) fclean -C $(LIBFT_PATH)
 
 re: fclean all
 

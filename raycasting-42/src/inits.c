@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/21 08:34:45 by asydykna          #+#    #+#             */
-/*   Updated: 2021/06/05 15:29:48 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/07 12:31:17 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ void
 		init_ew_direction(cub3d);
 	cub3d->plr.posX = 9;
 	cub3d->plr.posY = 9;
-	cub3d->plr.moveSpeed = 0.75;
-	cub3d->plr.rotSpeed = 0.5;
+	cub3d->plr.moveSpeed = 0.1;
+	cub3d->plr.rotSpeed = 0.05;
 }
 
 void
@@ -81,7 +81,7 @@ void
 {
 	config->num_sprites = count_sprites(config);
 	config->sprites = (t_sprite *)malloc(
-			sizeof(t_sprite)* config->num_sprites);
+			sizeof(t_sprite) * config->num_sprites);
 	config->tile_width = config->width / config->columns;
 	config->tile_height = config->height / config->rows;
 }

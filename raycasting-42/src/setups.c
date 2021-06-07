@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 21:58:51 by asydykna          #+#    #+#             */
-/*   Updated: 2021/06/05 16:12:52 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/07 13:10:23 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 void
 	set_window_size(t_config *config)
 {
-	if (config->width > 1920)
-		config->width = 1920;
-	if (config->height > 1080)
-		config->height = 1080;
+	if (config->width > 2560)
+		config->width = 2560;
+	if (config->height > 1440)
+		config->height = 1440;
 	if (config->width < 848)
 		config->width = 848;
 	if (config->height < 480)
