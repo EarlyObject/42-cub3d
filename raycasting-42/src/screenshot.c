@@ -19,7 +19,7 @@ static	int
 
 	fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
 	if (fd <= 0)
-		ft_exit_error(cub3d, "ERROR: ERROR CREATING BMP FILE");
+		ft_exit_error(cub3d, "ERROR CREATING BMP FILE");
 	return (fd);
 }
 
@@ -73,7 +73,7 @@ static void
 
 	pixel_array = malloc(sizeof(char) * imagesize * 4);
 	if (!pixel_array)
-		ft_exit_error(cub3d, "ERROR: ERROR WHILE WRITE TO BMP FILE.");
+		ft_exit_error(cub3d, "ERROR WHILE WRITE TO BMP FILE");
 	i = 0;
 	j = 0;
 	imagesize /= 4;

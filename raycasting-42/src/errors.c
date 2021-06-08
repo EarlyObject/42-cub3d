@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 13:30:07 by asydykna          #+#    #+#             */
-/*   Updated: 2021/06/07 13:04:53 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/13 21:45:10 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void
 	while (i < TEXTURES)
 	{
 		if (cub3d->config->wallTexture[i] != NULL)
-			mlx_destroy_image(cub3d->mlx.mlx, cub3d->config->wallTexture[i]);
+			mlx_destroy_image(cub3d->mlx.mlx,
+				cub3d->config->wallTexture[i]->img_ptr);
 		i++;
 	}
 }
@@ -52,6 +53,9 @@ void
 	ft_exit_error(t_cub3d *cub3d, char const *message)
 {
 	if (message)
+	{
+		printf("Error\n");
 		printf("%s\n", message);
+	}
 	exit_game(cub3d, EXIT_FAILURE);
 }

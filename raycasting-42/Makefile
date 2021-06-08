@@ -10,12 +10,13 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRC = src/main.c src/graphics.c src/errors.c src/draw.c src/inits.c \
-		src/textures.c src/ceiling.c src/sprite.c src/setups.c src/parse.c \
-		src/params_parse.c gnl/get_next_line.c gnl/get_next_line_utils.c \
-		src/screenshot.c src/map_parse.c src/utils_parse.c src/str_parse.c \
-		src/key_management.c src/player.c src/wall.c src/wall_two.c src/map.c \
-		src/sprite_utils.c
+SRC = src/main.c src/graphics.c src/errors.c src/inits.c src/textures.c \
+		src/ceiling.c src/setups.c src/screenshot.c gnl/get_next_line.c \
+		gnl/get_next_line_utils.c src/parse.c src/parse_two.c src/parse_three.c\
+		src/parse_four.c src/parse_five.c src/parse_six.c src/parse_seven.c \
+		src/parse_eight.c src/parse_nine.c src/parse_ten.c src/key_management.c\
+		src/player.c src/wall.c src/wall_two.c src/sprite_calc.c \
+		src/sprite_utils.c src/sprite.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -25,23 +26,21 @@ LIBFT_PATH = libft
 LIBFT_NAME = libft.a
 MLX_PATH = mlx
 MLX_NAME = libmlx.a
-MLX_LINK = -Lmlx -lmlx -framework OpenGL -framework AppKit $(MLX_PATH)/$(MLX_NAME)
+MLX_LINK = -L. -lmlx -framework OpenGL -framework AppKit
 
 CC = gcc
-CFLAGS = -Wall  -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra
 RM = rm -f
 
 $(NAME): $(OBJ)
-	$(MAKE) -C $(MLX_PATH)
-	$(MAKE) -C $(LIBFT_PATH)
-	gcc $(CFLAGS) $(SRC) $(MLX_LINK) $(LIBFT_PATH)/$(LIBFT_NAME) -o $(NAME)
+	@$(MAKE) -C $(MLX_PATH)
+	@cp mlx/libmlx.dylib ./
+	@$(MAKE) -C $(LIBFT_PATH)
+	gcc -fsanitize=address -g3 $(CFLAGS) $(SRC) $(MLX_LINK) $(LIBFT_PATH)/$(LIBFT_NAME) -o $(NAME)
 
 all: $(NAME)
 
-debug: $(LIBFT_NAME) $(MLX_NAME) $(OBJ)
-	gcc -fsanitize=address -g3 $(CFLAGS) $(SRC) $(MLX_LINK) $(LIBFT_PATH)/$(LIBFT_NAME) -o $(NAME)
-
-norminette:
+norm:
 	norminette $(SRC) $(LIBFT_PATH)
 
 clean:
@@ -55,4 +54,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re norm

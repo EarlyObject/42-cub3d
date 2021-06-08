@@ -115,9 +115,9 @@ void
 		cub3d->wall.wallX = cub3d->plr.posY + cub3d->wall.perpWallDist
 			* cub3d->wall.rayDirY;
 		if (cub3d->wall.rayDirX > 0)
-			cub3d->wall.texNum += 2;
-		else
 			cub3d->wall.texNum += 3;
+		else
+			cub3d->wall.texNum += 2;
 	}
 	else
 	{

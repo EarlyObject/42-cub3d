@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 19:59:20 by asydykna          #+#    #+#             */
-/*   Updated: 2021/06/04 14:51:29 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/13 19:46:30 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ void
 	int			x;
 	uint32_t	color;
 
+	calc_floor_ceiling_params(cub3d, start);
 	while (start < end)
 	{
-		calc_floor_ceiling_params(cub3d, start);
 		if (cub3d->config->wallTexture[texnum] == NULL)
 		{
 			x = -1;

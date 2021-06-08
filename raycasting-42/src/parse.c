@@ -6,136 +6,105 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 12:00:55 by asydykna          #+#    #+#             */
-/*   Updated: 2021/06/07 11:45:14 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/13 19:05:32 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "defs.h"
 
-static int
-	str_to_color(t_str *str)
+void
+	check_map_params(t_cub3d *cub3d)
+{
+	_Bool		map_started_flag;
+
+	map_started_flag = 0;
+	cub3d->lst = cub3d->head;
+	while (cub3d->lst->next != NULL && !map_started_flag)
+	{
+		check_line_content(cub3d->lst->content, cub3d, &map_started_flag);
+		if (!map_started_flag)
+			cub3d->lst = cub3d->lst->next;
+	}
+}
+
+void
+	read_map(const int fd, t_cub3d *cub3d)
+{
+	int				bytes;
+
+	cub3d->lst = ft_my_lstnew(NULL, NULL);
+	check_mem_alloc(cub3d->lst);
+	cub3d->head = cub3d->lst;
+	while (true)
+	{
+		bytes = get_next_line(fd, (char **)&cub3d->lst->content);
+		if (bytes == 1)
+		{
+			check_mem_alloc(cub3d->lst->content);
+			cub3d->lst->next = ft_my_lstnew(NULL, &cub3d->lst);
+			check_mem_alloc(cub3d->lst->next);
+			cub3d->lst->len = ft_strlen(cub3d->lst->content);
+			cub3d->lst = cub3d->lst->next;
+		}
+		else
+			break ;
+	}
+	cub3d->lst->len = ft_strlen(cub3d->lst->content);
+	if (bytes == -1)
+		ft_exit_error(cub3d, "ERROR READING MAP");
+	close(fd);
+}
+
+void
+	init_parts(t_cub3d *cub3d, char *conf_path)
 {
 	int	i;
-	int	color;
-	int	tmp;
 
 	i = 0;
-	color = 0;
-	while (str)
-	{
-		tmp = ft_atoi(str->content);
-		if (tmp < 0 || tmp > 255)
-			return (-1);
-		color = color | (tmp << (16 - (i++ *8)));
-		str = str->next;
-	}
-	return (color);
+	read_map(open(conf_path, O_RDONLY), cub3d);
+	check_map_params(cub3d);
+	cub3d->filename = conf_path;
+	cub3d->filename[ft_strlen(cub3d->filename) - 4] = '\0';
+	if (cub3d->checklist.m == 1)
+		create_map(cub3d, cub3d->config, i);
+	if (!(is_map_valid(&cub3d->checklist)))
+		ft_exit_error(cub3d, "MAP FILE HAS ERRORS");
+	ft_my_lstclear(&cub3d->head, free_lst_content);
+	cub3d->head = NULL;
+	check_mem_alloc((cub3d->mlx.mlx = mlx_init()));
 }
 
-static int
-	config_key(char const *line)
+void
+	parse_args(t_cub3d *cub3d, int ac, char *filename, char *save)
 {
-	if (line[0] == 'R' && line[1] == ' ')
-		return (C_R);
-	else if (line[0] == 'N' && line[1] == 'O')
-		return (C_NO);
-	else if (line[0] == 'S' && line[1] == 'O')
-		return (C_SO);
-	else if (line[0] == 'W' && line[1] == 'E')
-		return (C_WE);
-	else if (line[0] == 'E' && line[1] == 'A')
-		return (C_EA);
-	else if (line[0] == 'S' && line[1] == ' ')
-		return (C_S);
-	else if (line[0] == 'F' && line[1] == ' ')
-		return (C_F);
-	else if (line[0] == 'C' && line[1] == ' ')
-		return (C_C);
-	return (C_MAP);
+	_Bool		s_flag;
+	int			fd;
+
+	s_flag = 0;
+	fd = open(filename, O_RDONLY);
+	if (fd == -1)
+		ft_exit_error(cub3d, "MAP FILE IS BAD");
+	close(fd);
+	if (!ft_endwith(filename, ".cub"))
+		ft_exit_error(cub3d, "MAP EXTENSION IS WRONG");
+	if (ac == 2 && !save)
+		s_flag = 1;
+	else if (ac == 3 && save != NULL)
+		s_flag = (ft_endwith(save, "--save"));
+	if (!s_flag)
+		ft_exit_error(cub3d, "SAVE ARGUMENT IS INCORRECT");
 }
 
-int
-	parse_dimensions(t_config *config, char const *line)
+void
+	manage_color(t_cub3d *cub3d, const char *str, t_config *config)
 {
-	int		i;
-	int		tmp;
-	t_str	*str;
-	t_str	*param;
+	char			*tmp;
 
-	i = 0;
-	while (line[++i])
-		if (line[i] != ' ' && line[i] < '0' && line[i] > '9')
-			return (0);
-	str = ft_split_new(line, ' ');
-	if (!str || string_length(str) != 3)
-		return (string_clear(&str));
-	param = str->next;
-	tmp = ft_atoi(param->content);
-	if (tmp <= 1)
-		return (string_clear(&str));
-	config->width = tmp;
-	param = param->next;
-	tmp = ft_atoi(param->content);
-	if (tmp <= 1)
-		return (string_clear(&str));
-	config->height = tmp;
-	return (string_clear(&str) | 1);
-}
-
-int
-	parse_line(t_config *config, char const *line, t_str **map_buffer)
-{
-	static int	empty_in_map = 0;
-	static int	content_after = 0;
-	int			length;
-	int			key;
-
-	length = ft_strlen(line);
-	if (length == 0 && config->set[C_MAP])
-		empty_in_map = 1;
-	if (empty_in_map && content_after)
-		return (0);
-	if (length == 0)
-		return (1);
-	key = config_key(line);
-	if (key != C_MAP && (config->set[key] || config->set[C_MAP]))
-		return (0);
-	if (key == C_R)
-		return (parse_dimensions(config, line));
-	else if (key >= C_NO && key <= C_S)
-		return (parse_texture(config, key, line));
-	else if (key == C_F || key == C_C)
-		return (parse_color(config, key, line));
-	config->set[key] = 1;
-	if (empty_in_map)
-		content_after = 1;
-	return (!!string_add_back(map_buffer, ft_strdup(line)));
-}
-
-int
-	parse_color(t_config *config, int key, char const *line)
-{
-	int				i;
-	unsigned int	color;
-	t_str			*str[2];
-
-	i = 1;
-	while (line[i])
-		if (!ft_in_set(config, line[i++], " ,0123456789"))
-			return (0);
-	str[0] = NULL;
-	str[1] = NULL;
-	str[0] = ft_split_new(line, ' ');
-	str[1] = ft_split_new(str[0]->next->content, ',');
-	if (string_length(str[0]) != 2 || !str[1]
-		|| string_length(str[1]) != 3)
-		return (string_clear(&str[0]) || string_clear(&str[1]));
-	color = str_to_color(str[1]);
-	if ((int)color < 0)
-		return (string_clear(&str[0]) || string_clear(&str[1]));
-	if (key == C_F)
-		config->color[TEX_FLOOR] = color;
-	else
-		config->color[TEX_SKY] = color;
-	return ((string_clear(&str[0]) || string_clear(&str[1])) | 1);
+	if (!(is_all_print(str)))
+		ft_error_close(ERR_MAP_C);
+	tmp = ft_replace(str, " ", "");
+	check_mem_alloc(tmp);
+	parse_color(cub3d, tmp, config);
+	free(tmp);
+	tmp = NULL;
 }

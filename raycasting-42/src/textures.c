@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:01:17 by asydykna          #+#    #+#             */
-/*   Updated: 2021/06/04 18:25:47 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/10 23:16:57 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,15 @@ void
 	{
 		if (cub3d->config->tex_path[i])
 		{
-			img.img_ptr = mlx_xpm_file_to_image(cub3d->mlx.mlx,
+			cub3d->config->wallTexture[i] = (t_image *)malloc(sizeof(t_image));
+			cub3d->config->wallTexture[i]->img_ptr
+				= mlx_xpm_file_to_image(cub3d->mlx.mlx,
 					cub3d->config->tex_path[i], &img_width, &img_height);
-			if (img.img_ptr == NULL)
-				ft_exit_error(cub3d, "ERROR: ERROR CONVERTING TEXTURE");
-			img.addr = (uint32_t *)mlx_get_data_addr(img.img_ptr,
-					 &img.bits_per_pixel, &img.line_length, &img.endian);
-			if (img.addr != NULL )
-				cub3d->config->wallTexture[i] = img.img_ptr;
-			else
-				ft_exit_error(cub3d, "ERROR: ERROR LOADING TEXTURE");
+			check_mem_alloc(cub3d->image.img_ptr);
+			cub3d->config->wallTexture[i]->addr
+				= (uint32_t *)mlx_get_data_addr(
+					cub3d->config->wallTexture[i]->img_ptr,
+					&img.bits_per_pixel, &img.line_length, &img.endian);
 		}
 		i++;
 	}

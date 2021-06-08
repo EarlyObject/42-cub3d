@@ -6,8 +6,8 @@
     </sourceRoots>
     <libraryRoots>
       <file path="$PROJECT_DIR$/libft" />
-      <file path="$PROJECT_DIR$/mlx" />
       <file path="$PROJECT_DIR$/mlx_linux" />
+      <file path="$PROJECT_DIR$/mlx_old" />
     </libraryRoots>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
