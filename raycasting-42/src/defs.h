@@ -63,7 +63,7 @@ void			init_wall(t_cub3d *cub3d);
 void			init_parts(t_cub3d *cub3d, char *conf_path);
 void			ft_exit_error(t_cub3d *cub3d, char const *message);
 void			ft_error_close(int error_code);
-void			load_textures(t_cub3d *cub3d);
+void			load_textures(t_cub3d *cub3d, t_config *config);
 void			draw_pixel(t_cub3d *cub3d, int x, int y, uint32_t color);
 void			draw_sprites(t_cub3d *cub3d);
 void			draw_single_sprite(t_cub3d *cub3d);
@@ -129,4 +129,5 @@ void			set_color(t_cub3d *cub3d, const char *str,
 					t_config *config, char **rgb);
 void			calc_sprite(t_cub3d *cub3d, int i);
 void			set_player_vectors(t_cub3d *cub3d, int j, int i);
+void			ft_exit_nc(char const *message);
 #endif

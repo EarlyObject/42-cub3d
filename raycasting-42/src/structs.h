@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:01:08 by asydykna          #+#    #+#             */
-/*   Updated: 2021/06/13 19:33:48 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/15 14:54:18 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 # include "../mlx/mlx.h"
 
 # define TEXTURES	7
-# define C_LAST		9
-
 
 typedef struct s_mlx
 {
@@ -45,6 +43,8 @@ typedef struct s_image
 	int				bits_per_pixel;
 	int				line_length;
 	int				endian;
+	int				img_width;
+	int				img_height;
 }	t_image;
 
 typedef struct s_wall
@@ -56,7 +56,7 @@ typedef struct s_wall
 	int				stepY;
 	double			perpWallDist;
 	int				texNum;
-	int				texX;
+	uint32_t		texX;
 	double			step;
 	double			texPos;
 	double			wallX;
@@ -67,9 +67,10 @@ typedef struct s_wall
 	int				lineHeight;
 	int				drawStart;
 	int				drawEnd;
+	int				x;
 	uint32_t		color;
 	uint32_t		*walTextrBuf;
-	double			*ZBuffer;
+	double			*z_buffer;
 
 }	t_wall;
 
@@ -106,16 +107,9 @@ typedef struct s_screen
 	int				mapY;
 	double			planeX;
 	double			planeY;
-	float			rayDirX0;
-	float			rayDirY0;
-	float			rayDirX1;
-	float			rayDirY1;
-	float			floorX;
-	float			floorY;
-	float			floorStepX;
-	float			floorStepY;
+
+
 	uint32_t		color;
-	uint32_t		*walTextrBuf;
 }	t_screen;
 
 typedef struct s_d_list {
@@ -187,15 +181,10 @@ typedef struct s_config
 	char			*tex_path[TEXTURES];
 	t_image			*wallTexture[TEXTURES];
 	uint32_t		color[TEXTURES];
-	int				set[C_LAST];
-	char			*no_path;
-	char			*so_path;
-	char			*we_path;
-	char			*ea_path;
-	char			*s_path;
 	size_t			max_len;
 	char			player_direction;
 	t_sprite		*sprites;
+	int				hit;
 }	t_config;
 
 typedef struct s_cub3d

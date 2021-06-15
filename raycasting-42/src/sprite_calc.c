@@ -94,7 +94,7 @@ void
 				* TEXTURE_WIDTH / cub3d->spr_data.spr_w) / 256;
 		if (cub3d->spr_data.trnsf_y > 0 && stripe > 0
 			&& stripe < cub3d->config->width
-			&& cub3d->spr_data.trnsf_y < cub3d->wall.ZBuffer[stripe])
+			&& cub3d->spr_data.trnsf_y < cub3d->wall.z_buffer[stripe])
 		{
 			y = cub3d->spr_data.draw_start_y;
 			while (y < cub3d->spr_data.draw_end_y)

@@ -80,7 +80,7 @@ void
 void
 	check_vertical_borders(t_cub3d *cub3d)
 {
-	while (cub3d->tmp && cub3d->tmp->len != 0)
+	while (cub3d->tmp)
 	{
 		if (!(((char *)(cub3d->tmp->content))[0] == '1' || \
 			((char *)(cub3d->tmp->content))[0] == ' ') || \

@@ -71,7 +71,6 @@ void
 		ft_exit_error(cub3d, "MAP FILE HAS ERRORS");
 	ft_my_lstclear(&cub3d->head, free_lst_content);
 	cub3d->head = NULL;
-	check_mem_alloc((cub3d->mlx.mlx = mlx_init()));
 }
 
 void

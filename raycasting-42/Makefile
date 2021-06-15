@@ -26,7 +26,7 @@ LIBFT_PATH = libft
 LIBFT_NAME = libft.a
 MLX_PATH = mlx
 MLX_NAME = libmlx.a
-MLX_LINK = -L. -lmlx -framework OpenGL -framework AppKit
+MLX_LINK = -Lmlx -lmlx -framework OpenGL -framework AppKit
 
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra
@@ -34,9 +34,8 @@ RM = rm -f
 
 $(NAME): $(OBJ)
 	@$(MAKE) -C $(MLX_PATH)
-	@cp mlx/libmlx.dylib ./
 	@$(MAKE) -C $(LIBFT_PATH)
-	gcc -fsanitize=address -g3 $(CFLAGS) $(SRC) $(MLX_LINK) $(LIBFT_PATH)/$(LIBFT_NAME) -o $(NAME)
+	gcc $(CFLAGS) $(SRC) $(MLX_LINK) $(LIBFT_PATH)/$(LIBFT_NAME) -o $(NAME)
 
 all: $(NAME)
 

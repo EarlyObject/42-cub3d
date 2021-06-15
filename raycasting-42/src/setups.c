@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 21:58:51 by asydykna          #+#    #+#             */
-/*   Updated: 2021/06/13 19:37:11 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/15 14:53:39 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,6 @@ void
 	config->color[TEX_EAST] = 0x44FF44;
 	config->color[TEX_SKY] = 0x33C6E3;
 	config->color[TEX_FLOOR] = 0xA0764C;
-	i = 0;
-	while (i < C_LAST)
-		config->set[i++] = 0;
 	config->sprites = NULL;
 }
 
@@ -47,11 +44,6 @@ void
 	config->player_direction = 0;
 	config->c_color_parse = 0;
 	config->f_color_parse = 0;
-	config->no_path = NULL;
-	config->so_path = NULL;
-	config->we_path = NULL;
-	config->ea_path = NULL;
-	config->s_path = NULL;
 	init_config_arrays(config);
 }
 
@@ -94,6 +86,8 @@ void
 	cub3d->filename = NULL;
 	cub3d->get_res_h = 0;
 	cub3d->get_res_w = 0;
+	cub3d->image = (t_image){.img_ptr = NULL, .addr = NULL,
+		.bits_per_pixel = 0, .line_length = 0, .endian = 0};
 	init_checklist(&cub3d->checklist);
 }
 
@@ -109,6 +103,6 @@ void
 	resume_init_config(cub3d);
 	init_keys(cub3d);
 	init_window(cub3d);
-	load_textures(cub3d);
+	load_textures(cub3d, cub3d->config);
 	find_sprites(cub3d, config);
 }

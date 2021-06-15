@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/27 16:44:02 by asydykna          #+#    #+#             */
-/*   Updated: 2021/06/13 18:11:58 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/15 15:35:29 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,20 @@
 void
 	screenshot(t_cub3d *cub3d)
 {
-	main_loop(cub3d);
+	draw_floor_ceiling(cub3d, 0,
+		cub3d->config->height / 2 + 1, TEX_SKY);
+	draw_floor_ceiling(cub3d, cub3d->config->height / 2 + 1,
+		cub3d->config->height, TEX_FLOOR);
+	manage_walls(cub3d);
+	draw_sprites(cub3d);
 	bmp_builder(cub3d, "screenshot.bmp");
 	printf("SCREENSHOT MADE SUCCESSFULLY.\n");
 	exit_game(cub3d, EXIT_SUCCESS);
 }
 
-int
-	main_loop(t_cub3d *cub3d)
+void
+	build_frame(t_cub3d *cub3d)
 {
-	if (!cub3d->keys.w && !cub3d->keys.s && !cub3d->keys.a && \
-		!cub3d->keys.d && !cub3d->keys.right && !cub3d->keys.left)
-		return (0);
-	move_player(cub3d);
 	draw_floor_ceiling(cub3d, 0, cub3d->config->height / 2 + 1, TEX_SKY);
 	draw_floor_ceiling(
 		cub3d, cub3d->config->height / 2 + 1, cub3d->config->height, TEX_FLOOR);
@@ -36,6 +37,19 @@ int
 	mlx_put_image_to_window(
 		cub3d->mlx.mlx, cub3d->win, cub3d->image.img_ptr, 0, 0);
 	mlx_do_sync(cub3d->mlx.mlx);
+}
+
+int
+	main_loop(t_cub3d *cub3d)
+{
+	if (!cub3d->keys.w && !cub3d->keys.s && !cub3d->keys.a && \
+		!cub3d->keys.d && !cub3d->keys.right && !cub3d->keys.left)
+	{
+		build_frame(cub3d);
+		return (0);
+	}
+	move_player(cub3d);
+	build_frame(cub3d);
 	return (0);
 }
 
@@ -69,6 +83,6 @@ int
 		return (EXIT_SUCCESS);
 	}
 	else
-		ft_exit_error(&cub3d, "WRONG NUMBER OF ARGUMENTS.\n");
+		ft_exit_nc("WRONG NUMBER OF ARGUMENTS.\n");
 	return (EXIT_SUCCESS);
 }

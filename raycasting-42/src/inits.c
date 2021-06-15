@@ -6,7 +6,7 @@
 /*   By: asydykna <asydykna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/21 08:34:45 by asydykna          #+#    #+#             */
-/*   Updated: 2021/06/13 18:11:35 by asydykna         ###   ########.fr       */
+/*   Updated: 2021/06/15 18:22:33 by asydykna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ void
 {
 	int	i;
 
-	cub3d->wall.ZBuffer = (double *)malloc(sizeof(double)
+	cub3d->wall.z_buffer = (double *)malloc(sizeof(double)
 			* cub3d->config->width);
 	i = 0;
 	while (i < cub3d->config->width)
 	{
-		cub3d->wall.ZBuffer[i] = 0;
+		cub3d->wall.z_buffer[i] = 0;
 		i++;
 	}
 }
@@ -54,8 +54,6 @@ void
 	t_screen	screen;
 
 	screen = (t_screen){.mapX = 0, .mapY = 0, .planeX = 0, .planeY = 0,
-		.rayDirX0 = 0, .rayDirY0 = 0, .rayDirX1 = 0, .rayDirY1 = 0, .floorX = 0,
-		.floorY = 0, .floorStepX = 0, .floorStepY = 0, .color = 0,
-		.walTextrBuf = NULL};
+		.color = 0};
 	cub3d->screen = screen;
 }
