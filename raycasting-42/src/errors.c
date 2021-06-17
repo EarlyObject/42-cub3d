@@ -46,9 +46,6 @@ void
 int
 	exit_game(t_cub3d *cub3d, int code)
 {
-	if (cub3d->config->sprites != NULL)
-		free(cub3d->config->sprites);
-	clear_textures(cub3d);
 	clear_window(cub3d);
 	exit(code);
 }

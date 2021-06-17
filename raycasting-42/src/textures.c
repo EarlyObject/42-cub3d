@@ -22,6 +22,8 @@ void
 	{
 		if (config->tex_path[i])
 		{
+			if (fopen(config->tex_path[i], "r") == NULL)
+				ft_exit_error(cub3d, "ERROR OPENING TEXTURE FILE");
 			config->wallTexture[i] = (t_image *)malloc(sizeof(t_image));
 			config->wallTexture[i]->img_ptr
 				= mlx_xpm_file_to_image(cub3d->mlx.mlx, config->tex_path[i],
